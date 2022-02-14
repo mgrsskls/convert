@@ -1,0 +1,74 @@
+html {
+	--color-copy: hsl(208, var(--saturation-copy, 40%), var(--lightness-copy, 20%));
+	--color-copy-light: hsl(208, var(--saturation-copy, 30%), var(--lightness-copy-light, 40%));
+	--color-accent: hsl(312, var(--saturation-accent, 34%), var(--lightness-accent, 25%));
+	--color-box-bg: hsl(204, 18.5%, var(--lightness-box-bg, 90%));
+	--color-accent-light: hsl(312, 10%, var(--lightness-accent-light, 75%));
+
+	--color-bg: #fff;
+	--contrast-border: 1px solid var(--contrast-border-color, transparent);
+	--box-border-radius: 0.5rem;
+}
+
+@media (prefers-contrast: more) {
+	html {
+		--contrast-border-color: currentColor;
+		--lightness-copy-light: 20%;
+		--lightness-box-bg: 100%;
+		--lightness-accent-light: 0%;
+	}
+}
+
+@media (prefers-contrast: less) {
+	html {
+		--saturation-copy: 15%;
+		--lightness-copy: 50%;
+		--lightness-copy-light: 50%;
+		--saturation-accent: 10%;
+		--lightness-accent: 50%;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	html {
+		--lightness-copy: 80%;
+		--saturation-copy: 20%;
+		--lightness-copy-light: 60%;
+		--color-bg: #111;
+		--lightness-accent: 75%;
+		--lightness-box-bg: 10%;
+		--lightness-accent-light: 25%;
+	}
+
+	@media (prefers-contrast: more) {
+		html {
+			--lightness-copy: 90%;
+			--lightness-copy-light: 80%;
+			--lightness-accent: 90%;
+			--lightness-accent-light: 50%;
+		}
+	}
+
+	@media (prefers-contrast: less) {
+		html {
+			--lightness-copy: 50%;
+			--lightness-copy-light: 40%;
+			--lightness-accent: 50%;
+			--lightness-accent-light: 15%;
+		}
+	}
+}
+
+@media (max-width: 48em) {
+	html {
+		--spacing-y: 1rem;
+		--spacing-x: 2rem;
+	}
+}
+
+@media (min-width: 48.0625em) {
+	html {
+		--spacing-y: 1.5rem;
+		--spacing-x: 3rem;
+	}
+}
