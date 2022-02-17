@@ -1,4 +1,6 @@
 <script>
+	import { onDestroy } from "svelte";
+
 	import list from "./list.js";
 	import TimestampToTimeZone from "./timestamp-to-timezone.svelte";
 	import TimestampToUtc from "./timestamp-to-utc.svelte";
@@ -13,16 +15,23 @@
 	const userTimeZoneId = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 	let currentLocalTime;
+	let getCurrentTime = true;
 
 	useCurrentLocalTime();
 
 	function useCurrentLocalTime() {
+		if (!getCurrentTime) return;
+
 		currentLocalTime = getCurrentLocalTime();
 
 		if (typeof window !== "undefined") {
 			window.requestAnimationFrame(useCurrentLocalTime);
 		}
 	}
+
+	onDestroy(() => {
+		getCurrentTime = false;
+	});
 </script>
 
 <details>
