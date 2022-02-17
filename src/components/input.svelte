@@ -11,6 +11,7 @@
 	export let tabindex;
 	export let placeholder;
 	export let list;
+	export let step;
 	export let hasResetButton;
 	export let resetButtonIsVisible;
 	export let toggleLabel;
@@ -32,6 +33,7 @@
 			{value}
 			{tabindex}
 			{placeholder}
+			{step}
 			{list}
 			on:input={(e) => dispatch("input", e.target.value)}
 			on:focus

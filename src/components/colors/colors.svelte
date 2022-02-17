@@ -159,11 +159,7 @@
 		margin-block-start: 1rem;
 		cursor: pointer;
 		color: var(--color-copy);
-	}
-
-	.ColorPicker,
-	.ColorPicker::before {
-		transition: all 0.5s ease;
+		transition: text-shadow 0.5s ease;
 	}
 
 	.ColorPicker.matches-background {
@@ -176,6 +172,7 @@
 		height: 1em;
 		width: 1em;
 		background: currentColor;
+		transition: box-shadow 0.5s ease;
 	}
 
 	.ColorPicker.matches-background::before {

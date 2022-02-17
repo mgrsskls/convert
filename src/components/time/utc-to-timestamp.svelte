@@ -1,6 +1,6 @@
 <script>
 	import i18n from "../../i18n.js";
-	import Grid from "./grid.svelte";
+	import Grid from "../grid.svelte";
 	import FromTo from "../from-to.svelte";
 	import Input from "../input.svelte";
 	import { formatDateForInput, getDatetimeParts } from "./utils.js";

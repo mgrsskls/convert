@@ -10,6 +10,10 @@ export const en = {
 	currencies: {
 		title: "Currencies",
 		description: "Convert between <b>currencies</b> based on <b>real time data</b>.",
+		labels: {
+			amount: "Amount",
+			currency: "Currency",
+		},
 	},
 	units: {
 		title: "Units",
@@ -21,6 +25,7 @@ export const en = {
 	reset: "Reset",
 	createdBy: "Created by",
 	skipToContent: "Skip to content",
+	changeDirection: "Change direction",
 	time: {
 		title: "Time",
 		description: "Convert between <b>time zones</b>, <b>UTC</b> and <b>UNIX timestamps</b>.",
