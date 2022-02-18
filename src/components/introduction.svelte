@@ -1,11 +1,13 @@
 <script>
 	export let title;
-	export let copy;
+	export let description;
 </script>
 
 <div class="Introduction">
 	<h2>{title}</h2>
-	<p>{@html copy}</p>
+	{#if description}
+		<p>{@html description}</p>
+	{/if}
 </div>
 
 <style>

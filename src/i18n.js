@@ -1,6 +1,6 @@
 export const en = {
 	title: "Convert",
-	description: "Convert colors, currencies, time and units",
+	description: "Convert is a tool to convert colors, currencies, time and units.",
 	colors: {
 		title: "Colors",
 		description:
@@ -22,10 +22,20 @@ export const en = {
 		description:
 			"Convert <b>lengths</b>, <b>areas</b>, <b>volumes</b>, <b>temperatures</b> and <b>weights</b>.",
 	},
+	about: {
+		title: "About convert",
+		createdBy: "Created by",
+		repository: "Repository",
+		builtWith: "Built with",
+		hosting: "Hosting",
+		apis: "External APIs",
+		tracking: "Tracking",
+		apiCurrencies: "Real time currency conversions:",
+		apiTimeZones: "Getting the IANA time zone for a given location:",
+	},
 	from: "From",
 	to: "To",
 	reset: "Reset",
-	createdBy: "Created by",
 	skipToContent: "Skip to content",
 	changeDirection: "Change direction",
 	loadingSuggestions: "Loading suggestions …",

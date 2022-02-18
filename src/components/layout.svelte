@@ -1,4 +1,5 @@
 <script>
+	import i18n from "../i18n.js";
 	import Header from "../components/header.svelte";
 	import Introduction from "../components/introduction.svelte";
 	import Footer from "../components/footer.svelte";
@@ -6,18 +7,18 @@
 	export let alias;
 	export let title;
 	export let description;
+
+	const metaDescription = (description || i18n.description).replace(/<[^>]*>?/gm, "");
 </script>
 
 <svelte:head>
-	{#if description}
-		<meta name="description" content={description} />
-	{/if}
+	<meta name="description" content={metaDescription} />
 </svelte:head>
 
 <Header {title} current={alias} />
 <main id="main">
 	{#if title || description}
-		<Introduction {title} copy={description} />
+		<Introduction {title} {description} />
 	{/if}
 	<slot />
 </main>

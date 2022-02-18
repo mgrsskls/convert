@@ -3,9 +3,7 @@
 </script>
 
 <footer>
-	<small
-		>{i18n.createdBy} <a href="https://mgrossklaus.de" target="_blank">Michael Großklaus</a></small
-	>
+	<small><a href="/about-convert">About <b>convert</b></a></small>
 </footer>
 
 <style>
