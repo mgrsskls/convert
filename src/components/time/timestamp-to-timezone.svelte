@@ -4,6 +4,7 @@
 	import Grid from "../grid.svelte";
 	import FromTo from "../from-to.svelte";
 	import Input from "../input.svelte";
+	import Result from "./result.svelte";
 	import { formatDateForInput, getDatetimeObject } from "./utils.js";
 	import { getLocation } from "./api.js";
 
@@ -31,7 +32,7 @@
 		? getDatetimeObject(to.timeZone.value, fromValue)
 		: null;
 	$: toDatetimeFormattedForInput = toDateTimeZoneObject
-		? formatDateForInput(toDateTimeZoneObject)
+		? toDateTimeZoneObject.toLocaleString()
 		: "";
 
 	function setTimeZone(value) {
@@ -117,14 +118,7 @@
 				/>
 			</svelte:fragment>
 			<svelte:fragment slot="2">
-				<Input
-					label={i18n.time.labels.dateTime}
-					id="timestamp-to-time-zone_datetime"
-					type="datetime-local"
-					readonly="true"
-					tabindex="-1"
-					value={toDatetimeFormattedForInput}
-				/>
+				<Result label={i18n.time.labels.dateTime} result={toDatetimeFormattedForInput} />
 			</svelte:fragment>
 		</Grid>
 	</svelte:fragment>

@@ -73,10 +73,6 @@
 </div>
 
 <style>
-	.Input {
-		flex: 1 1 20rem;
-	}
-
 	.Input-label {
 		display: block;
 		margin-block-end: 1rem;

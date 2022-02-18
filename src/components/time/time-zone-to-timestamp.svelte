@@ -4,6 +4,7 @@
 	import Grid from "../grid.svelte";
 	import FromTo from "../from-to.svelte";
 	import Input from "../input.svelte";
+	import Result from "./result.svelte";
 	import { formatDateForInput, getDateObjectForGivenDatetimeAndTimeZone } from "./utils.js";
 	import { getLocation } from "./api.js";
 
@@ -116,13 +117,6 @@
 		</Grid>
 	</svelte:fragment>
 	<svelte:fragment slot="to">
-		<Input
-			label={i18n.time.labels.unixTimestamp}
-			id="time-zone-to-timestamp_to-timestamp"
-			type="number"
-			readonly="true"
-			tabindex="-1"
-			value={result}
-		/>
+		<Result label={i18n.time.labels.unixTimestamp} {result} />
 	</svelte:fragment>
 </FromTo>

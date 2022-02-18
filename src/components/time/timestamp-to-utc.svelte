@@ -3,7 +3,7 @@
 	import Grid from "../grid.svelte";
 	import FromTo from "../from-to.svelte";
 	import Input from "../input.svelte";
-	import { standardizeDate } from "./utils.js";
+	import Result from "./result.svelte";
 
 	export let currentLocalTime;
 
@@ -25,7 +25,7 @@
 					hour: "numeric",
 					minute: "numeric",
 			  }).format(date);
-	$: formattedResult = standardizeDate(to);
+	$: formattedResult = to.toLocaleString();
 
 	function convertToDateObject(from) {
 		if (!from) return "";
@@ -76,14 +76,7 @@
 				/>
 			</svelte:fragment>
 			<svelte:fragment slot="2">
-				<Input
-					label={i18n.time.labels.dateTime}
-					id="timestamp-to-utc_to-datetime"
-					type="datetime-local"
-					readonly="true"
-					tabindex="-1"
-					value={formattedResult}
-				/>
+				<Result label={i18n.time.labels.dateTime} result={formattedResult} />
 			</svelte:fragment>
 		</Grid>
 	</svelte:fragment>

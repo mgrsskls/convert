@@ -4,6 +4,7 @@
 	import Grid from "../grid.svelte";
 	import FromTo from "../from-to.svelte";
 	import Input from "../input.svelte";
+	import Result from "./result.svelte";
 	import {
 		formatDateForInput,
 		getDatetimeObject,
@@ -41,7 +42,7 @@
 	$: toDatetimeObject = to.timeZone.value
 		? getDatetimeObject(to.timeZone.value, fromDatetimeTimeZoneObject)
 		: null;
-	$: toDatetimeFormattedForInput = toDatetimeObject ? formatDateForInput(toDatetimeObject) : "";
+	$: toDatetimeFormattedForInput = toDatetimeObject ? toDatetimeObject.toLocaleString() : "";
 	$: differenceInHours =
 		fromDatetimeObject && toDatetimeObject
 			? getTimeZonesDifference(fromDatetimeObject, toDatetimeObject)
@@ -131,14 +132,7 @@
 					}}
 				/>
 			</svelte:fragment><svelte:fragment slot="2">
-				<Input
-					label={i18n.time.labels.dateTime}
-					id="utc-to-time-zone_to-datetime"
-					type="datetime-local"
-					readonly="true"
-					tabindex="-1"
-					value={toDatetimeFormattedForInput}
-				/>
+				<Result label={i18n.time.labels.dateTime} result={toDatetimeFormattedForInput} />
 			</svelte:fragment>
 		</Grid>
 	</svelte:fragment>

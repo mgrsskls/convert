@@ -3,6 +3,7 @@
 	import Grid from "../grid.svelte";
 	import FromTo from "../from-to.svelte";
 	import Input from "../input.svelte";
+	import Result from "./result.svelte";
 	import { formatDateForInput, getDatetimeParts } from "./utils.js";
 
 	export let currentLocalTime;
@@ -51,13 +52,6 @@
 		</Grid>
 	</svelte:fragment>
 	<svelte:fragment slot="to">
-		<Input
-			label={i18n.time.labels.unixTimestamp}
-			id="utc-to-timestamp_to"
-			type="number"
-			readonly="true"
-			tabindex="-1"
-			value={to}
-		/>
+		<Result label={i18n.time.labels.unixTimestamp} result={to} />
 	</svelte:fragment>
 </FromTo>
