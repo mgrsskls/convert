@@ -33,7 +33,7 @@
 		: null;
 	$: toDatetimeFormattedForInput = toDateTimeZoneObject
 		? toDateTimeZoneObject.toLocaleString()
-		: "";
+		: "-";
 
 	function setTimeZone(value) {
 		const lowercaseValue = value.toLowerCase();

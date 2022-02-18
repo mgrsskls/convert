@@ -46,7 +46,7 @@
 		? getDatetimeObject(from.timeZone.value, fromDatetimeTimeZoneObject)
 		: null;
 	$: toDatetimeObject = getDatetimeObject(to, fromDatetimeTimeZoneObject);
-	$: toDatetimeFormattedForInput = toDatetimeObject ? toDatetimeObject.toLocaleString() : "";
+	$: toDatetimeFormattedForInput = toDatetimeObject ? toDatetimeObject.toLocaleString() : "-";
 	$: differenceInHours =
 		fromDatetimeObject && toDatetimeObject
 			? getTimeZonesDifference(fromDatetimeObject, toDatetimeObject)

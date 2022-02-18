@@ -35,7 +35,7 @@
 		fromDatetimeFormatted,
 		from.timeZone.value
 	);
-	$: result = fromDatetimeTimeZoneObject.getTime();
+	$: result = fromDatetimeTimeZoneObject ? fromDatetimeTimeZoneObject.getTime() : "-";
 
 	function setFromTimeZone(value) {
 		const lowercaseValue = value.toLowerCase();

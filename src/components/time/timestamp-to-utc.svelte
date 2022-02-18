@@ -25,7 +25,7 @@
 					hour: "numeric",
 					minute: "numeric",
 			  }).format(date);
-	$: formattedResult = to.toLocaleString();
+	$: formattedResult = to ? to.toLocaleString() : "-";
 
 	function convertToDateObject(from) {
 		if (!from) return "";

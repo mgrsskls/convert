@@ -14,7 +14,7 @@
 	};
 
 	$: fromValue = from.changed ? from.value : formatDateForInput(currentLocalTime);
-	$: to = Date.UTC(...getDatetimeParts(fromValue));
+	$: to = fromValue ? Date.UTC(...getDatetimeParts(fromValue)) : "-";
 </script>
 
 <FromTo>
