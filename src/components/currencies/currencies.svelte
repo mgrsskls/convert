@@ -7,9 +7,14 @@
 	import FromTo from "../from-to.svelte";
 	import Grid from "../grid.svelte";
 
-	const supportedCurrencies = list.filter((currency) => currency.api);
+	const sortedCurrencies = list.sort((a, b) => {
+		if (a.id > b.id) return 1;
+		if (a.id < b.id) return -1;
+		return 0;
+	});
+	const supportedCurrencies = sortedCurrencies.filter((currency) => currency.api);
 	const supportedCurrencyIds = supportedCurrencies.map((currency) => currency.id);
-	const unsupportedCurrencies = list.filter((currency) => !currency.api);
+	const unsupportedCurrencies = sortedCurrencies.filter((currency) => !currency.api);
 	const unsupportedCurrencyIds = unsupportedCurrencies.map((currency) => currency.id);
 
 	let fromPlaceholder = "";
