@@ -28,11 +28,11 @@
 	@import "../css/index.css";
 
 	:global(html) {
-		height: 100%;
+		block-size: 100%;
 	}
 
 	:global(body) {
-		min-height: 100%;
+		min-block-size: 100%;
 	}
 
 	:global(body) {

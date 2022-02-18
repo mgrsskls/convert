@@ -99,7 +99,7 @@
 
 	.Input-element {
 		padding-block-end: 0.4rem;
-		width: 100%;
+		inline-size: 100%;
 		box-sizing: border-box;
 		background: var(--color-box-bg);
 	}
@@ -134,13 +134,13 @@
 	.Input-suggestion,
 	.Input-loading {
 		position: absolute;
-		top: 100%;
-		left: 0;
+		inset-block-start: 100%;
+		inset-inline-start: 0;
 		background: var(--color-bg);
 		padding: 0.5em;
 		display: block;
-		width: 100%;
-		text-align: left;
+		inline-size: 100%;
+		text-align: start;
 		font-size: 1.4rem;
 		box-sizing: border-box;
 		z-index: 1;

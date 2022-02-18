@@ -1,6 +1,6 @@
 html {
 	font-size: 62.5%;
-	height: 100%;
+	block-size: 100%;
 	color-scheme: dark light;
 	accent-color: var(--color-accent);
 }
@@ -11,8 +11,7 @@ body {
 	font-size: 1.6rem;
 	font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Roboto, Helvetica, Arial, sans-serif;
 	line-height: 1.5;
-	min-height: 100%;
-	max-width: 144rem;
+	max-inline-size: 144rem;
 	margin-inline: auto;
 }
 

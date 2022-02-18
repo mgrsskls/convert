@@ -21,7 +21,7 @@
 <style>
 	header {
 		position: sticky;
-		top: 0;
+		inset-block-start: 0;
 		background: var(--color-bg);
 		z-index: 1;
 		display: flex;
@@ -49,8 +49,8 @@
 
 	.SkipLink {
 		position: absolute;
-		top: 0;
-		left: 50%;
+		inset-block-start: 0;
+		inset-inline-start: 50%;
 		transform: translateX(-50%);
 	}
 

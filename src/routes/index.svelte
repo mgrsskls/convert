@@ -24,7 +24,7 @@
 	ul {
 		display: grid;
 		grid-gap: var(--spacing-x);
-		width: 100%;
+		inline-size: 100%;
 		margin: auto;
 	}
 
