@@ -1,4 +1,8 @@
-<div class="Grid">
+<script>
+	export let wrap = true;
+</script>
+
+<div class="Grid" class:Grid--wrap={wrap}>
 	<slot name="1" />
 	<slot name="2" />
 </div>
@@ -6,7 +10,14 @@
 <style>
 	.Grid {
 		display: flex;
-		flex-wrap: wrap;
 		gap: calc(2 * var(--spacing-y));
+	}
+
+	.Grid--wrap {
+		flex-wrap: wrap;
+	}
+
+	:global(.Grid > *) {
+		flex: 1 1 20rem;
 	}
 </style>
