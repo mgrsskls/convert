@@ -14,6 +14,11 @@
 
 	const userTimeZoneId = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+	const formattedList = list.flatMap((entry) => [
+		entry.toLowerCase(),
+		entry.toLowerCase().replace(/_/g, " "),
+	]);
+
 	let currentLocalTime;
 	let getCurrentTime = true;
 
@@ -38,25 +43,25 @@
 	<summary
 		>Time Zone <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> Time Zone</summary
 	>
-	<TimeZoneToTimeZone {userTimeZoneId} {currentLocalTime} />
+	<TimeZoneToTimeZone {userTimeZoneId} {currentLocalTime} {formattedList} />
 </details>
 <details>
 	<summary
 		>Time Zone <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> UTC</summary
 	>
-	<TimeZoneToUtc {userTimeZoneId} {currentLocalTime} />
+	<TimeZoneToUtc {userTimeZoneId} {currentLocalTime} {formattedList} />
 </details>
 <details>
 	<summary
 		>Time Zone <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> UNIX Timestamp</summary
 	>
-	<TimeZoneToTimestamp {userTimeZoneId} {currentLocalTime} />
+	<TimeZoneToTimestamp {userTimeZoneId} {currentLocalTime} {formattedList} />
 </details>
 <details>
 	<summary
 		>UTC <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> Time Zone</summary
 	>
-	<UtcToTimeZone {currentLocalTime} />
+	<UtcToTimeZone {currentLocalTime} {formattedList} />
 </details>
 <details>
 	<summary
@@ -68,7 +73,7 @@
 	<summary
 		>UNIX Timestamp <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> Time Zone</summary
 	>
-	<TimestampToTimeZone {userTimeZoneId} {currentLocalTime} />
+	<TimestampToTimeZone {userTimeZoneId} {currentLocalTime} {formattedList} />
 </details>
 <details>
 	<summary
@@ -79,7 +84,13 @@
 
 <datalist id="time-zones">
 	{#each list as timeZone}
-		<option value={timeZone}>{timeZone}</option>
+		<option value={timeZone}>
+			{timeZone
+				.split("/")
+				.reverse()
+				.map((entry) => entry.replace(/_/g, " "))
+				.join(", ")}
+		</option>
 	{/each}
 </datalist>
 

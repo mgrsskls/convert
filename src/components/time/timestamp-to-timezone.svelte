@@ -1,21 +1,17 @@
 <script>
+	import { tick } from "svelte";
 	import i18n from "../../i18n.js";
 	import Grid from "../grid.svelte";
 	import FromTo from "../from-to.svelte";
 	import Input from "../input.svelte";
-	import list from "./list.js";
 	import { formatDateForInput, getDatetimeObject } from "./utils.js";
 	import { getLocation } from "./api.js";
 
 	export let userTimeZoneId;
 	export let currentLocalTime;
+	export let formattedList;
 
-	const user = {
-		timeZone: {
-			id: userTimeZoneId,
-			formatted: userTimeZoneId,
-		},
-	};
+	let timeout;
 
 	const from = {
 		value: 0,
@@ -24,45 +20,45 @@
 
 	const to = {
 		timeZone: {
-			id: user.timeZone.id,
-			formatted: user.timeZone.formatted,
+			value: userTimeZoneId,
 		},
 	};
 
-	getLocation(user.timeZone.id.replace("/", " ").replace(/_/g, " ")).then((result) => {
-		const location = result?.length > 0 ? result[0].formatted_address : user.timeZone.id;
-		console.lo;
-		to.timeZone.formatted = location;
-		user.timeZone.formatted = location;
-	});
-
 	$: fromValue = from.changed ? from.value : currentLocalTime.getTime();
 	$: userChangedTimeZone =
-		to.timeZone.id && user.timeZone.id ? to.timeZone.id !== user.timeZone.id : false;
-	$: toDateTimeZoneObject = getDatetimeObject(to.timeZone.id, fromValue);
+		to.timeZone.value && userTimeZoneId ? to.timeZone.value !== userTimeZoneId : false;
+	$: toDateTimeZoneObject = to.timeZone.value
+		? getDatetimeObject(to.timeZone.value, fromValue)
+		: null;
 	$: toDatetimeFormattedForInput = toDateTimeZoneObject
 		? formatDateForInput(toDateTimeZoneObject)
 		: "";
 
-	async function setTimeZone(value) {
+	function setTimeZone(value) {
+		const lowercaseValue = value.toLowerCase();
+
+		to.timeZone.suggestion = null;
+
 		if (!value?.length === 0) return;
 
-		const addresses = getLocation(value);
-
-		if (addresses?.length > 0) {
-			to.timeZone.formatted = addresses[0].formatted_address;
-			to.timeZone.id = addresses[0].timeZone.id;
-		} else {
-			if (list.includes(value)) {
-				to.timeZone.formatted = value;
-				to.timeZone.id = value;
+		if (formattedList.filter((entry) => entry.includes(lowercaseValue)).length > 0) {
+			if (formattedList.includes(lowercaseValue)) {
+				to.timeZone.value = value;
 			}
+		} else {
+			clearTimeout(timeout);
+
+			timeout = setTimeout(async () => {
+				to.timeZone.suggestionLoading = true;
+				const suggestion = await getLocation(value);
+				to.timeZone.suggestion = suggestion.timezone;
+				to.timeZone.suggestionLoading = false;
+			}, 500);
 		}
 	}
 
 	function resetToTimeZone() {
-		to.timeZone.id = user.timeZone.id;
-		to.timeZone.formatted = user.timeZone.formatted;
+		to.timeZone.value = userTimeZoneId;
 	}
 </script>
 
@@ -102,16 +98,23 @@
 					hasResetButton="true"
 					resetButtonIsVisible={userChangedTimeZone}
 					placeholder={i18n.time.placeholders.timeZone.to}
-					value={to.timeZone.formatted}
+					value={to.timeZone.value}
 					toggleLabel={i18n.time.toggle.timeZone}
+					suggestion={to.timeZone.suggestion}
+					loading={to.timeZone.suggestionLoading}
 					on:change={(e) => {
 						if (e.target.checked) resetToTimeZone();
 					}}
 					on:input={({ detail }) => {
 						setTimeZone(detail);
 					}}
+					on:suggestionAccepted={async () => {
+						to.timeZone.value = null;
+						await tick();
+						to.timeZone.value = to.timeZone.suggestion;
+						to.timeZone.suggestion = null;
+					}}
 				/>
-				<input type="hidden" value={to.timeZone.id} />
 			</svelte:fragment>
 			<svelte:fragment slot="2">
 				<Input

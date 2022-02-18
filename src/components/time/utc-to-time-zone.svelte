@@ -1,9 +1,9 @@
 <script>
+	import { tick } from "svelte";
 	import i18n from "../../i18n.js";
 	import Grid from "../grid.svelte";
 	import FromTo from "../from-to.svelte";
 	import Input from "../input.svelte";
-	import list from "./list.js";
 	import {
 		formatDateForInput,
 		getDatetimeObject,
@@ -13,6 +13,9 @@
 	import { getLocation } from "./api.js";
 
 	export let currentLocalTime;
+	export let formattedList;
+
+	let timeout;
 
 	const from = {
 		timeZone: "UTC",
@@ -24,8 +27,9 @@
 
 	const to = {
 		timeZone: {
-			id: "",
-			formatted: "",
+			value: "",
+			suggestion: null,
+			suggestionLoading: false,
 		},
 	};
 
@@ -34,23 +38,35 @@
 		: formatDateForInput(currentLocalTime);
 	$: fromDatetimeTimeZoneObject = new Date(Date.UTC(...getDatetimeParts(fromDatetimeFormatted)));
 	$: fromDatetimeObject = getDatetimeObject(from.timeZone, fromDatetimeTimeZoneObject);
-	$: toDatetimeObject = getDatetimeObject(to.timeZone.id, fromDatetimeTimeZoneObject);
+	$: toDatetimeObject = to.timeZone.value
+		? getDatetimeObject(to.timeZone.value, fromDatetimeTimeZoneObject)
+		: null;
 	$: toDatetimeFormattedForInput = toDatetimeObject ? formatDateForInput(toDatetimeObject) : "";
-	$: differenceInHours = getTimeZonesDifference(fromDatetimeObject, toDatetimeObject);
+	$: differenceInHours =
+		fromDatetimeObject && toDatetimeObject
+			? getTimeZonesDifference(fromDatetimeObject, toDatetimeObject)
+			: null;
 
-	async function setToTimeZone(value) {
+	function setToTimeZone(value) {
+		const lowercaseValue = value.toLowerCase();
+
+		to.timeZone.suggestion = null;
+
 		if (!value?.length === 0) return;
 
-		const addresses = getLocation(value);
-
-		if (addresses?.length > 0) {
-			to.timeZone.formatted = addresses[0].formatted_address;
-			to.timeZone.id = addresses[0].timeZone.id;
-		} else {
-			if (list.includes(value)) {
-				to.timeZone.formatted = value;
-				to.timeZone.id = value;
+		if (formattedList.filter((entry) => entry.includes(lowercaseValue)).length > 0) {
+			if (formattedList.includes(lowercaseValue)) {
+				to.timeZone.value = value;
 			}
+		} else {
+			clearTimeout(timeout);
+
+			timeout = setTimeout(async () => {
+				to.timeZone.suggestionLoading = true;
+				const suggestion = await getLocation(value);
+				to.timeZone.suggestion = suggestion.timezone;
+				to.timeZone.suggestionLoading = false;
+			}, 500);
 		}
 	}
 </script>
@@ -103,10 +119,17 @@
 					type="text"
 					list="time-zones"
 					placeholder={i18n.time.placeholders.timeZone.to}
-					value={to.timeZone.formatted}
+					value={to.timeZone.value}
+					suggestion={to.timeZone.suggestion}
+					loading={to.timeZone.suggestionLoading}
 					on:input={({ detail }) => setToTimeZone(detail)}
+					on:suggestionAccepted={async () => {
+						to.timeZone.value = null;
+						await tick();
+						to.timeZone.value = to.timeZone.suggestion;
+						to.timeZone.suggestion = null;
+					}}
 				/>
-				<input type="hidden" value={to.timeZone.id} />
 			</svelte:fragment><svelte:fragment slot="2">
 				<Input
 					label={i18n.time.labels.dateTime}

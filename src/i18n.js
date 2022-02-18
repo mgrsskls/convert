@@ -26,6 +26,7 @@ export const en = {
 	createdBy: "Created by",
 	skipToContent: "Skip to content",
 	changeDirection: "Change direction",
+	loadingSuggestions: "Loading suggestions …",
 	time: {
 		title: "Time",
 		description: "Convert between <b>time zones</b>, <b>UTC</b> and <b>UNIX timestamps</b>.",
@@ -36,8 +37,8 @@ export const en = {
 		},
 		placeholders: {
 			timeZone: {
-				from: "e.g. Hamburg, Germany",
-				to: "e.g. Seoul, South Korea",
+				from: "e.g. Hamburg or Europe/Berlin",
+				to: "e.g. Seoul or Asia/Bangkok",
 			},
 			unixTimestamp: "e.g. 1644962040000",
 		},

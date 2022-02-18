@@ -1,9 +1,9 @@
 <script>
+	import { tick } from "svelte";
 	import i18n from "../../i18n.js";
 	import Grid from "../grid.svelte";
 	import FromTo from "../from-to.svelte";
 	import Input from "../input.svelte";
-	import list from "./list.js";
 	import {
 		formatDateForInput,
 		getDateObjectForGivenDatetimeAndTimeZone,
@@ -14,18 +14,15 @@
 
 	export let userTimeZoneId;
 	export let currentLocalTime;
+	export let formattedList;
 
-	const user = {
-		timeZone: {
-			id: userTimeZoneId,
-			formatted: userTimeZoneId,
-		},
-	};
+	let timeout;
 
 	const from = {
 		timeZone: {
-			id: user.timeZone.id,
-			formatted: user.timeZone.formatted,
+			value: userTimeZoneId,
+			suggestion: null,
+			suggestionLoading: false,
 		},
 		datetime: {
 			formatted: formatDateForInput(currentLocalTime),
@@ -35,46 +32,50 @@
 
 	const to = "UTC";
 
-	getLocation(user.timeZone.id.replace("/", " ").replace(/_/g, " ")).then((result) => {
-		const location = result?.length > 0 ? result[0].formatted_address : user.timeZone.id;
-
-		from.timeZone.formatted = location;
-		user.timeZone.formatted = location;
-	});
-
 	$: fromDatetimeFormatted = from.datetime.changed
 		? from.datetime.formatted
 		: formatDateForInput(currentLocalTime);
 	$: userChangedTimeZone =
-		from.timeZone.id && user.timeZone.id ? from.timeZone.id !== user.timeZone.id : false;
+		from.timeZone.value && userTimeZoneId ? from.timeZone.value !== userTimeZoneId : false;
 	$: fromDatetimeTimeZoneObject = getDateObjectForGivenDatetimeAndTimeZone(
 		fromDatetimeFormatted,
-		from.timeZone.id
+		from.timeZone.value
 	);
-	$: fromDatetimeObject = getDatetimeObject(from.timeZone.id, fromDatetimeTimeZoneObject);
+	$: fromDatetimeObject = from.timeZone.value
+		? getDatetimeObject(from.timeZone.value, fromDatetimeTimeZoneObject)
+		: null;
 	$: toDatetimeObject = getDatetimeObject(to, fromDatetimeTimeZoneObject);
 	$: toDatetimeFormattedForInput = toDatetimeObject ? formatDateForInput(toDatetimeObject) : "";
-	$: differenceInHours = getTimeZonesDifference(fromDatetimeObject, toDatetimeObject);
+	$: differenceInHours =
+		fromDatetimeObject && toDatetimeObject
+			? getTimeZonesDifference(fromDatetimeObject, toDatetimeObject)
+			: null;
 
-	async function setFromTimeZone(value) {
+	function setFromTimeZone(value) {
+		const lowercaseValue = value.toLowerCase();
+
+		from.timeZone.suggestion = null;
+
 		if (!value?.length === 0) return;
 
-		const addresses = getLocation(value);
-
-		if (addresses?.length > 0) {
-			from.timeZone.formatted = addresses[0].formatted_address;
-			from.timeZone.id = addresses[0].timeZone.id;
-		} else {
-			if (list.includes(value)) {
-				from.timeZone.formatted = value;
-				from.timeZone.id = value;
+		if (formattedList.filter((entry) => entry.includes(lowercaseValue)).length > 0) {
+			if (formattedList.includes(lowercaseValue)) {
+				from.timeZone.value = value;
 			}
+		} else {
+			clearTimeout(timeout);
+
+			timeout = setTimeout(async () => {
+				from.timeZone.suggestionLoading = true;
+				const suggestion = await getLocation(value);
+				from.timeZone.suggestion = suggestion.timezone;
+				from.timeZone.suggestionLoading = false;
+			}, 500);
 		}
 	}
 
 	function resetFromTimeZone() {
-		from.timeZone.id = user.timeZone.id;
-		from.timeZone.formatted = user.timeZone.formatted;
+		from.timeZone.value = userTimeZoneId;
 	}
 </script>
 
@@ -90,16 +91,23 @@
 					placeholder={i18n.time.placeholders.timeZone.from}
 					list="time-zones"
 					resetButtonIsVisible={userChangedTimeZone}
-					value={from.timeZone.formatted}
+					value={from.timeZone.value}
 					toggleLabel={i18n.time.toggle.timeZone}
+					suggestion={from.timeZone.suggestion}
+					loading={from.timeZone.suggestionLoading}
 					on:change={(e) => {
 						if (e.target.checked) resetFromTimeZone();
 					}}
 					on:input={({ detail }) => {
 						setFromTimeZone(detail);
 					}}
+					on:suggestionAccepted={async () => {
+						from.timeZone.value = null;
+						await tick();
+						from.timeZone.value = from.timeZone.suggestion;
+						from.timeZone.suggestion = null;
+					}}
 				/>
-				<input type="hidden" value={from.timeZone.id} />
 			</svelte:fragment>
 			<svelte:fragment slot="2">
 				<Input
@@ -138,7 +146,6 @@
 					readonly
 					tabindex="-1"
 				/>
-				<input type="hidden" value={to} />
 			</svelte:fragment>
 			<svelte:fragment slot="2">
 				<Input
