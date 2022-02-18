@@ -4,6 +4,7 @@ html {
 	--color-accent: hsl(312, var(--saturation-accent, 34%), var(--lightness-accent, 25%));
 	--color-box-bg: hsl(204, 18.5%, var(--lightness-box-bg, 90%));
 	--color-accent-light: hsl(312, 10%, var(--lightness-accent-light, 75%));
+	--color-invalid: rgb(255, 0, 120);
 
 	--color-bg: #fff;
 	--contrast-border: 1px solid var(--contrast-border-color, transparent);

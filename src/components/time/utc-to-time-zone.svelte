@@ -94,8 +94,8 @@
 					resetButtonIsVisible={from.datetime.changed}
 					value={fromDatetimeFormatted}
 					toggleLabel={i18n.time.toggle.datetime}
-					on:change={(e) => {
-						from.datetime.changed = !e.target.checked;
+					on:toggleReset={({ detail: checked }) => {
+						from.datetime.changed = !checked;
 						from.datetime.formatted = fromDatetimeFormatted;
 					}}
 					on:input={({ detail }) => {

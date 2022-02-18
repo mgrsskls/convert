@@ -74,8 +74,8 @@
 			placeholder={i18n.time.placeholders.unixTimestamp}
 			value={fromValue}
 			toggleLabel={i18n.time.toggle.timestamp}
-			on:change={(e) => {
-				from.changed = !e.target.checked;
+			on:toggleReset={({ detail: checked }) => {
+				from.changed = !checked;
 				from.value = fromValue;
 			}}
 			on:input={({ detail }) => {
@@ -103,8 +103,8 @@
 					toggleLabel={i18n.time.toggle.timeZone}
 					suggestion={to.timeZone.suggestion}
 					loading={to.timeZone.suggestionLoading}
-					on:change={(e) => {
-						if (e.target.checked) resetToTimeZone();
+					on:toggleReset={({ detail: checked }) => {
+						if (checked) resetToTimeZone();
 					}}
 					on:input={({ detail }) => {
 						setTimeZone(detail);

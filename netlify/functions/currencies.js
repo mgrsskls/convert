@@ -26,7 +26,7 @@ exports.handler = async function (event) {
 		};
 	} catch (e) {
 		return {
-			statusCode: 500,
+			statusCode: 404,
 			body: e.toString(),
 		};
 	}

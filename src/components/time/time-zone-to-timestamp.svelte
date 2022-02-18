@@ -81,8 +81,8 @@
 					toggleLabel={i18n.time.toggle.timeZone}
 					suggestion={from.timeZone.suggestion}
 					loading={from.timeZone.suggestionLoading}
-					on:change={(e) => {
-						if (e.target.checked) resetFromTimeZone();
+					on:toggleReset={({ detail: checked }) => {
+						if (checked) resetFromTimeZone();
 					}}
 					on:input={({ detail }) => {
 						setFromTimeZone(detail);
@@ -104,8 +104,8 @@
 					resetButtonIsVisible={from.datetime.changed}
 					value={fromDatetimeFormatted}
 					toggleLabel={i18n.time.toggle.datetime}
-					on:change={(e) => {
-						from.datetime.changed = !e.target.checked;
+					on:toggleReset={({ detail: checked }) => {
+						from.datetime.changed = !checked;
 						from.datetime.formatted = fromDatetimeFormatted;
 					}}
 					on:input={({ detail }) => {

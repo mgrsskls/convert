@@ -19,6 +19,7 @@
 	export let viaSlot;
 	export let suggestion;
 	export let loading;
+	export let invalid = false;
 </script>
 
 <div class="Input">
@@ -38,7 +39,9 @@
 				{placeholder}
 				{step}
 				{list}
+				aria-invalid={invalid}
 				on:input={(e) => dispatch("input", e.target.value)}
+				on:change={(e) => dispatch("change", e.target.value)}
 				on:focus
 				on:keydown={(e) => {
 					if (e.key === "ArrowDown" && suggestion) {
@@ -62,11 +65,21 @@
 		{#if loading}
 			<span class="Input-loading">{i18n.loadingSuggestions}</span>
 		{/if}
+
+		{#if invalid}
+			<span class="Input-error">{i18n.invalid}</span>
+		{/if}
 	</div>
 
 	{#if hasResetButton}
 		<label class="Input-toggle">
-			<input type="checkbox" checked={!resetButtonIsVisible} on:change />
+			<input
+				type="checkbox"
+				checked={!resetButtonIsVisible}
+				on:change={(e) => {
+					dispatch("toggleReset", e.target.checked);
+				}}
+			/>
 			{toggleLabel}
 		</label>
 	{/if}
@@ -91,7 +104,11 @@
 		background: var(--color-box-bg);
 	}
 
-	.Input-element:not([readonly]) {
+	.Input-element[aria-invalid="true"] {
+		border-block-end-color: var(--color-invalid);
+	}
+
+	:where(.Input-element:not([readonly])) {
 		border-block-end: 0.2rem solid currentColor;
 	}
 
@@ -132,10 +149,23 @@
 	.Input-suggestion {
 		cursor: pointer;
 	}
+
 	.Input-toggle {
 		display: block;
 		margin-block-start: 1rem;
 		font-size: 0.875em;
+	}
+
+	.Input-error {
+		position: absolute;
+		inset-block-start: 0;
+		inset-inline-end: 0;
+		font-size: 0.75em;
+		background: var(--color-invalid);
+		color: var(--color-bg);
+		padding: 0.2em 0.4em;
+		font-weight: 800;
+		border-radius: var(--box-border-radius);
 	}
 
 	input[type="checkbox"] {

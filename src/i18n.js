@@ -14,6 +14,8 @@ export const en = {
 			amount: "Amount",
 			currency: "Currency",
 		},
+		supported: "Supported currencies",
+		unsupported: "Unsupported currencies",
 	},
 	units: {
 		title: "Units",
@@ -27,6 +29,7 @@ export const en = {
 	skipToContent: "Skip to content",
 	changeDirection: "Change direction",
 	loadingSuggestions: "Loading suggestions …",
+	invalid: "invalid",
 	time: {
 		title: "Time",
 		description: "Convert between <b>time zones</b>, <b>UTC</b> and <b>UNIX timestamps</b>.",

@@ -57,8 +57,8 @@
 				from.changed = true;
 				from.value = fromValue;
 			}}
-			on:change={(e) => {
-				from.changed = !e.target.checked;
+			on:toggleReset={({ detail: checked }) => {
+				from.changed = !checked;
 				from.value = fromValue;
 			}}
 		/>
