@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from "svelte";
 	import { page } from "$app/stores";
+
 	import i18n from "$lib/i18n.js";
 	import { areas, lengths, masses, speeds, temperatures, volumes } from "./lookup/index.js";
 
