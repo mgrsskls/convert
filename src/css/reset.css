@@ -43,15 +43,6 @@
 	appearance: none;
 }
 
-/* It is important to keep the outlines when elements are focused because
- * a user uses the keyboard to navigate. We can use the pseudo class
- * :focus-visible for that. Only if this does not apply, we can safely
- * remove outlines when an element is focused (by using the mouse e.g.)
- */
-:where(a, button, input, select, summary, textarea):focus:not(:focus-visible) {
-	outline: none;
-}
-
 /* When setting list-style to "none" for lists, it is also semantically removed.
  * By adding role=list, it will keep its semantic meaning, so in that case
  * we can set list-style to "none".

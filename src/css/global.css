@@ -26,11 +26,11 @@ small {
 	font-size: 0.875em;
 }
 
-:where(a, input, summary, button):focus {
+:where(a, input, summary, button, select):focus:not(:focus-visible) {
 	outline: none;
 }
 
-:where(a, input, summary, button):focus-visible {
+:where(a, input, summary, button, select):focus-visible {
 	outline: 0.2rem solid currentColor;
 	outline-offset: 0.4rem;
 }
