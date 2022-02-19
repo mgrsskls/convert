@@ -36,11 +36,11 @@
 			gap: 2rem;
 		}
 
-		:global(.FromTo > :nth-child(1)) {
+		.FromTo > :global(:nth-child(1)) {
 			flex: var(--flex-1, 1 1 20rem);
 		}
 
-		:global(.FromTo > :nth-child(3)) {
+		.FromTo > :global(:nth-child(3)) {
 			flex: var(--flex-2, 1 1 20rem);
 		}
 	}

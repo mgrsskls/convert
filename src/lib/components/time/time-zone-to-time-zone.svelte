@@ -5,6 +5,7 @@
 	import FromTo from "$lib/components/from-to.svelte";
 	import Input from "$lib/components/input.svelte";
 	import Result from "$lib/components/result.svelte";
+	import Difference from "./difference.svelte";
 	import {
 		formatDateForInput,
 		getDateObjectForGivenDatetimeAndTimeZone,
@@ -164,7 +165,7 @@
 	</svelte:fragment>
 	<svelte:fragment slot="divider">
 		{#if differenceInHours}
-			<span class="Difference"><span>{differenceInHours}</span> hours</span>
+			<Difference diff={differenceInHours} />
 		{/if}
 	</svelte:fragment>
 	<svelte:fragment slot="to">

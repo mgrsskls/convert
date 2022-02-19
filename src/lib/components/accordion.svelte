@@ -33,7 +33,7 @@
 		color: var(--color-accent);
 	}
 
-	:global(details[open] summary + *) {
+	details[open] summary + :global(*) {
 		padding-block: 2rem 4rem;
 	}
 </style>

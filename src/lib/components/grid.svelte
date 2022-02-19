@@ -17,7 +17,7 @@
 		flex-wrap: wrap;
 	}
 
-	:global(.Grid > *) {
+	.Grid > :global(*) {
 		flex: 1 1 20rem;
 	}
 </style>

@@ -27,7 +27,7 @@
 		word-wrap: anywhere;
 	}
 
-	:global(.Result small) {
+	.Result :global(small) {
 		font-weight: normal;
 	}
 </style>
