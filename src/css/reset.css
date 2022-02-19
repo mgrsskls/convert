@@ -29,8 +29,6 @@
 /* CUSTOM */
 
 :where(button, input:not([type="checkbox"]), select, textarea) {
-	-webkit-appearance: none;
-	appearance: none;
 	background: none;
 	border-radius: 0;
 	border: none;
@@ -38,6 +36,11 @@
 	font: inherit;
 	margin: 0;
 	padding: 0;
+}
+
+:where(button, input:not([type="checkbox"]), textarea) {
+	-webkit-appearance: none;
+	appearance: none;
 }
 
 /* It is important to keep the outlines when elements are focused because

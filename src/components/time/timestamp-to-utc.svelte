@@ -3,7 +3,7 @@
 	import Grid from "../grid.svelte";
 	import FromTo from "../from-to.svelte";
 	import Input from "../input.svelte";
-	import Result from "./result.svelte";
+	import Result from "../result.svelte";
 
 	export let currentLocalTime;
 

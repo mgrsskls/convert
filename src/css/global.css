@@ -1,6 +1,5 @@
 html {
 	font-size: 62.5%;
-	block-size: 100%;
 	color-scheme: dark light;
 	accent-color: var(--color-accent);
 }

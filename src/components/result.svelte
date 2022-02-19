@@ -1,11 +1,12 @@
 <script>
 	export let label;
 	export let result = "";
+	export let wrap = false;
 </script>
 
 <dl>
 	<dt>{label}</dt>
-	<dd>{result}</dd>
+	<dd class="Result" class:can-wrap={wrap}>{@html result}</dd>
 </dl>
 
 <style>
@@ -15,7 +16,15 @@
 		color: var(--color-accent);
 	}
 
-	dd {
+	.Result {
 		font-weight: 700;
+	}
+
+	.Result.can-wrap {
+		word-wrap: anywhere;
+	}
+
+	:global(.Result small) {
+		font-weight: normal;
 	}
 </style>

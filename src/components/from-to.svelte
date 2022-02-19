@@ -33,7 +33,7 @@
 
 	@media (min-width: 56.0625em) {
 		.FromTo {
-			gap: 6rem;
+			gap: 2rem;
 		}
 
 		:global(.FromTo > :nth-child(1)) {

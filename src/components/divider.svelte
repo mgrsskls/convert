@@ -35,7 +35,7 @@
 
 	@media (min-width: 56.0625em) {
 		.Divider {
-			inline-size: 12em;
+			inline-size: 16em;
 			flex-direction: column-reverse;
 		}
 

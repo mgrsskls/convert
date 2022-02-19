@@ -9,6 +9,7 @@
 	import TimeZoneToUtc from "./time-zone-to-utc.svelte";
 	import UtcToTimestamp from "./utc-to-timestamp.svelte";
 	import UtcToTimeZone from "./utc-to-time-zone.svelte";
+	import Accordion from "../accordion.svelte";
 
 	import { getCurrentLocalTime } from "./utils.js";
 
@@ -39,48 +40,63 @@
 	});
 </script>
 
-<details>
-	<summary
-		>Time Zone <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> Time Zone</summary
-	>
-	<TimeZoneToTimeZone {userTimeZoneId} {currentLocalTime} {formattedList} />
-</details>
-<details>
-	<summary
-		>Time Zone <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> UTC</summary
-	>
-	<TimeZoneToUtc {userTimeZoneId} {currentLocalTime} {formattedList} />
-</details>
-<details>
-	<summary
-		>Time Zone <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> UNIX Timestamp</summary
-	>
-	<TimeZoneToTimestamp {userTimeZoneId} {currentLocalTime} {formattedList} />
-</details>
-<details>
-	<summary
-		>UTC <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> Time Zone</summary
-	>
-	<UtcToTimeZone {currentLocalTime} {formattedList} />
-</details>
-<details>
-	<summary
-		>UTC <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> UNIX Timestamp</summary
-	>
-	<UtcToTimestamp {currentLocalTime} />
-</details>
-<details>
-	<summary
-		>UNIX Timestamp <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> Time Zone</summary
-	>
-	<TimestampToTimeZone {userTimeZoneId} {currentLocalTime} {formattedList} />
-</details>
-<details>
-	<summary
-		>UNIX Timestamp <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> UTC</summary
-	>
-	<TimestampToUtc {currentLocalTime} />
-</details>
+<Accordion>
+	<svelte:fragment slot="title">
+		Time Zone <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span
+		> Time Zone
+	</svelte:fragment>
+	<svelte:fragment slot="content">
+		<TimeZoneToTimeZone {userTimeZoneId} {currentLocalTime} {formattedList} />
+	</svelte:fragment>
+</Accordion>
+<Accordion>
+	<svelte:fragment slot="title">
+		Time Zone <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> UTC
+	</svelte:fragment>
+	<svelte:fragment slot="content">
+		<TimeZoneToUtc {userTimeZoneId} {currentLocalTime} {formattedList} />
+	</svelte:fragment>
+</Accordion>
+<Accordion>
+	<svelte:fragment slot="title">
+		Time Zone <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> UNIX Timestamp
+	</svelte:fragment>
+	<svelte:fragment slot="content">
+		<TimeZoneToTimestamp {userTimeZoneId} {currentLocalTime} {formattedList} />
+	</svelte:fragment>
+</Accordion>
+<Accordion>
+	<svelte:fragment slot="title">
+		UTC <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> Time Zone
+	</svelte:fragment>
+	<svelte:fragment slot="content">
+		<UtcToTimeZone {currentLocalTime} {formattedList} />
+	</svelte:fragment>
+</Accordion>
+<Accordion>
+	<svelte:fragment slot="title">
+		UTC <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> UNIX Timestamp
+	</svelte:fragment>
+	<svelte:fragment slot="content">
+		<UtcToTimestamp {currentLocalTime} />
+	</svelte:fragment>
+</Accordion>
+<Accordion>
+	<svelte:fragment slot="title">
+		UNIX Timestamp <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> Time Zone
+	</svelte:fragment>
+	<svelte:fragment slot="content">
+		<TimestampToTimeZone {userTimeZoneId} {currentLocalTime} {formattedList} />
+	</svelte:fragment>
+</Accordion>
+<Accordion>
+	<svelte:fragment slot="title">
+		UNIX Timestamp <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> UTC
+	</svelte:fragment>
+	<svelte:fragment slot="content">
+		<TimestampToUtc {currentLocalTime} />
+	</svelte:fragment>
+</Accordion>
 
 <datalist id="time-zones">
 	{#each list as timeZone}
@@ -95,37 +111,9 @@
 </datalist>
 
 <style>
-	details {
-		--border: 0.1rem solid var(--color-accent-light);
-
-		border-block-start: var(--border);
-	}
-
-	details:last-of-type {
-		border-block-end: var(--border);
-	}
-
-	summary {
-		--font-size: clamp(1.6rem, 2vw, 2.2rem);
-
-		cursor: default;
-		font-size: var(--font-size);
-		font-weight: 800;
-		line-height: 1;
-		padding-block: 2rem;
-	}
-
-	summary::marker {
-		color: var(--color-accent);
-	}
-
-	summary span {
+	.Arrow {
 		font-weight: 300;
 		padding-inline: 1rem;
-	}
-
-	:global(details[open] summary + *) {
-		padding-block: 2rem 4rem;
 	}
 
 	@keyframes moveIn {

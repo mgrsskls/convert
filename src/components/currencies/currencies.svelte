@@ -6,6 +6,9 @@
 	import Input from "../input.svelte";
 	import FromTo from "../from-to.svelte";
 	import Grid from "../grid.svelte";
+	import Result from "../result.svelte";
+	import Multiplier from "../multiplier.svelte";
+	import DirectionToggle from "../direction-toggle.svelte";
 
 	const sortedCurrencies = list.sort((a, b) => {
 		if (a.id > b.id) return 1;
@@ -133,19 +136,8 @@
 	<svelte:fragment slot="divider">
 		{#if !from.invalid && !to.invalid}
 			{#if from.currency && to.currency && data[from.currency] && [to.currency]}
-				<button type="button" class="ToggleDirection" on:click={toggleDirection}
-					>{i18n.changeDirection}
-					<span class="ToggleDirection-arrow ToggleDirection-arrow--horizontal" aria-hidden="true"
-						>⇄</span
-					>
-					<span class="ToggleDirection-arrow ToggleDirection-arrow--vertical" aria-hidden="true"
-						>⇅</span
-					>
-				</button>
-
-				<div class="Multiplier">
-					&times; {data[from.currency][to.currency].toFixed(4)}
-				</div>
+				<DirectionToggle on:click={toggleDirection} />
+				<Multiplier value={data[from.currency][to.currency].toFixed(4)} />
 			{/if}
 		{/if}
 	</svelte:fragment>
@@ -164,14 +156,7 @@
 				/>
 			</svelte:fragment>
 			<svelte:fragment slot="2">
-				<Input
-					type="text"
-					id="currencies-to_amount"
-					label={i18n.currencies.labels.amount}
-					readonly
-					tabindex="-1"
-					value={convertedAmount}
-				/>
+				<Result label={i18n.currencies.labels.amount} result={convertedAmount} />
 			</svelte:fragment>
 		</Grid>
 	</svelte:fragment>
@@ -199,20 +184,6 @@
 </datalist>
 
 <style>
-	.Multiplier {
-		font-weight: 800;
-	}
-
-	.ToggleDirection {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-	}
-
-	.ToggleDirection:hover {
-		cursor: pointer;
-	}
-
 	.CurrencySupport {
 		color: var(--color-copy-light);
 		font-size: 0.75em;
@@ -242,30 +213,5 @@
 
 	.CurrencySupport-currency:not(:last-child)::after {
 		content: ",";
-	}
-
-	@media (max-width: 56em) {
-		.Multiplier {
-			font-size: 2.4rem;
-		}
-
-		.ToggleDirection-arrow--horizontal {
-			display: none;
-		}
-	}
-
-	@media (min-width: 56.0625em) {
-		.Multiplier {
-			font-size: 3.2rem;
-			white-space: nowrap;
-		}
-
-		.ToggleDirection {
-			margin-block-start: 2rem;
-		}
-
-		.ToggleDirection-arrow--vertical {
-			display: none;
-		}
 	}
 </style>

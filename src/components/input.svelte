@@ -19,6 +19,7 @@
 	export let viaSlot;
 	export let suggestion;
 	export let loading;
+	export let options;
 	export let invalid = false;
 </script>
 
@@ -29,41 +30,58 @@
 			<slot />
 		</label>
 		{#if !viaSlot}
-			<input
-				class="Input-element"
-				{type}
-				{readonly}
-				{id}
-				{value}
-				{tabindex}
-				{placeholder}
-				{step}
-				{list}
-				aria-invalid={invalid}
-				on:input={(e) => dispatch("input", e.target.value)}
-				on:change={(e) => dispatch("change", e.target.value)}
-				on:focus
-				on:keydown={(e) => {
-					if (e.key === "ArrowDown" && suggestion) {
-						e.target.closest(".Input").querySelector(".Input-suggestion").focus();
-					}
-				}}
-			/>
-		{/if}
+			{#if options}
+				<select
+					class="Input-element"
+					{id}
+					{value}
+					aria-invalid={invalid}
+					on:change={(e) => dispatch("change", e.target.value)}
+				>
+					<option value="">Please choose</option>
+					{#each options as option}
+						<option value={option.value}>{option.label}</option>
+					{/each}
+				</select>
+			{:else}
+				<input
+					class="Input-element"
+					{type}
+					{readonly}
+					{id}
+					{value}
+					{tabindex}
+					{placeholder}
+					{step}
+					{list}
+					aria-invalid={invalid}
+					on:input={(e) =>
+						dispatch("input", type === "number" ? parseFloat(e.target.value) : e.target.value)}
+					on:change={(e) =>
+						dispatch("change", type === "number" ? parseFloat(e.target.value) : e.target.value)}
+					on:focus
+					on:keydown={(e) => {
+						if (e.key === "ArrowDown" && suggestion) {
+							e.target.closest(".Input").querySelector(".Input-suggestion").focus();
+						}
+					}}
+				/>
+			{/if}
 
-		{#if suggestion}
-			<button
-				class="Input-suggestion"
-				on:click={() => {
-					value = suggestion;
-					dispatch("suggestionAccepted", suggestion);
-				}}
-				type="button">{@html suggestion}</button
-			>
-		{/if}
+			{#if suggestion}
+				<button
+					class="Input-suggestion"
+					on:click={() => {
+						value = suggestion;
+						dispatch("suggestionAccepted", suggestion);
+					}}
+					type="button">{@html suggestion}</button
+				>
+			{/if}
 
-		{#if loading}
-			<span class="Input-loading">{i18n.loadingSuggestions}</span>
+			{#if loading}
+				<span class="Input-loading">{i18n.loadingSuggestions}</span>
+			{/if}
 		{/if}
 
 		{#if invalid}
