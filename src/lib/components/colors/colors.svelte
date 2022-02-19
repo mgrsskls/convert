@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { onMount } from "svelte";
 
 	import htmlNames from "./html-names.js";
@@ -62,7 +62,7 @@
 		bgColor = window.getComputedStyle(document.documentElement).getPropertyValue("--color-box-bg");
 	});
 
-	function isValidColor(color) {
+	function isValidColor(color: string) {
 		const result = w3color(color);
 
 		if (color == "" || !result.valid) {
@@ -72,7 +72,7 @@
 		return true;
 	}
 
-	function colorMatchesBackground(selectedColor, backgroundColor) {
+	function colorMatchesBackground(selectedColor: object, backgroundColor: object) {
 		if (!selectedColor || !backgroundColor) return;
 
 		const matches = ["red", "green", "blue"].map((color) => {
@@ -83,12 +83,18 @@
 
 		return matches.every((entry) => entry === true);
 	}
+
+	function onInput(e: Event) {
+		const target = e.target as HTMLInputElement;
+		color = target.value;
+	}
 </script>
 
 <FromTo flex1="0 0 25rem">
 	<svelte:fragment slot="from">
 		<div class="ColorInput">
 			<Input
+				id="color-from-string"
 				placeholder={i18n.colors.placeholder}
 				label="Color string"
 				list="htmlNames"
@@ -98,14 +104,14 @@
 		</div>
 		<p class="ColorInputDivider">or</p>
 		<div class="ColorInput">
-			<Input label="Color picker" viaSlot="true">
+			<Input id="color-from-picker" label="Color picker" viaSlot={true}>
 				<span class="ColorPicker" class:matches-background={matchesBackground} style:color={rgba}>
 					<input
 						class="u-hiddenVisually"
-						id="colorInput"
+						id="color-from-picker"
 						type="color"
 						bind:value={colorAsHex}
-						on:input={({ target }) => (color = target.value)}
+						on:input={onInput}
 					/>
 					AaBbCc
 				</span>

@@ -1,18 +1,21 @@
-<script>
+<script lang="ts">
 	import i18n from "$lib/i18n.js";
 	import Grid from "$lib/components/grid.svelte";
 	import FromTo from "$lib/components/from-to.svelte";
 	import Input from "$lib/components/input.svelte";
 	import Result from "$lib/components/result.svelte";
 
-	export let currentLocalTime;
+	export let currentLocalTime: Date;
 
-	const from = {
-		value: 0,
+	const from: {
+		value: string;
+		changed: boolean;
+	} = {
+		value: "0",
 		changed: false,
 	};
 
-	$: fromValue = from.changed ? from.value : currentLocalTime.getTime();
+	$: fromValue = from.changed ? from.value : currentLocalTime.getTime().toString();
 	$: date = convertToDateObject(fromValue);
 	$: to =
 		typeof date === "string"
@@ -27,7 +30,7 @@
 			  }).format(date);
 	$: formattedResult = to ? to.toLocaleString() : "-";
 
-	function convertToDateObject(from) {
+	function convertToDateObject(from: string) {
 		if (!from) return "";
 
 		try {
@@ -44,7 +47,7 @@
 			label={i18n.time.labels.unixTimestamp}
 			id="timestamp-to-utc_from"
 			type="number"
-			hasResetButton="true"
+			hasResetButton={true}
 			resetButtonIsVisible={from.changed}
 			value={fromValue}
 			placeholder={i18n.time.placeholders.unixTimestamp}

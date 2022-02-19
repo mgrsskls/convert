@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { tick } from "svelte";
 	import i18n from "$lib/i18n.js";
 	import Grid from "$lib/components/grid.svelte";
@@ -8,11 +8,11 @@
 	import { formatDateForInput, getDateObjectForGivenDatetimeAndTimeZone } from "./utils.js";
 	import { getLocation } from "./api.js";
 
-	export let userTimeZoneId;
-	export let currentLocalTime;
-	export let formattedList;
+	export let userTimeZoneId: string;
+	export let currentLocalTime: Date;
+	export let formattedList: Array<string>;
 
-	let timeout;
+	let timeout: number;
 
 	const from = {
 		timeZone: {
@@ -37,12 +37,12 @@
 	);
 	$: result = fromDatetimeTimeZoneObject ? fromDatetimeTimeZoneObject.getTime() : "-";
 
-	function setFromTimeZone(value) {
+	function setFromTimeZone(value: string) {
 		const lowercaseValue = value.toLowerCase();
 
 		from.timeZone.suggestion = null;
 
-		if (!value?.length === 0) return;
+		if (value.length === 0) return;
 
 		if (formattedList.filter((entry) => entry.includes(lowercaseValue)).length > 0) {
 			if (formattedList.includes(lowercaseValue)) {
@@ -51,7 +51,7 @@
 		} else {
 			clearTimeout(timeout);
 
-			timeout = setTimeout(async () => {
+			timeout = window.setTimeout(async () => {
 				from.timeZone.suggestionLoading = true;
 				const suggestion = await getLocation(value);
 				from.timeZone.suggestion = suggestion.timezone;
@@ -73,7 +73,7 @@
 					label={i18n.time.labels.timeZone}
 					id="time-zone-to-timestamp_from-time-zone"
 					type="text"
-					hasResetButton="true"
+					hasResetButton={true}
 					placeholder={i18n.time.placeholders.timeZone.from}
 					list="time-zones"
 					resetButtonIsVisible={userChangedTimeZone}
@@ -100,7 +100,7 @@
 					label={i18n.time.labels.dateTime}
 					id="time-zone-to-timestamp_from-datetime"
 					type="datetime-local"
-					hasResetButton="true"
+					hasResetButton={true}
 					resetButtonIsVisible={from.datetime.changed}
 					value={fromDatetimeFormatted}
 					toggleLabel={i18n.time.toggle.datetime}

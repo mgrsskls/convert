@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import i18n from "$lib/i18n.js";
 	import Grid from "$lib/components/grid.svelte";
 	import FromTo from "$lib/components/from-to.svelte";
@@ -6,15 +6,32 @@
 	import Result from "$lib/components/result.svelte";
 	import { formatDateForInput, getDatetimeParts } from "./utils.js";
 
-	export let currentLocalTime;
+	export let currentLocalTime: Date;
 
-	const from = {
+	const from: {
+		value: string;
+		changed: boolean;
+	} = {
 		value: formatDateForInput(currentLocalTime),
 		changed: false,
 	};
 
 	$: fromValue = from.changed ? from.value : formatDateForInput(currentLocalTime);
-	$: to = fromValue ? Date.UTC(...getDatetimeParts(fromValue)) : "-";
+	$: to = getResult(fromValue);
+
+	function getResult(fromValue: string) {
+		if (!fromValue) return "-";
+
+		const datetimeParts = getDatetimeParts(fromValue);
+
+		return Date.UTC(
+			datetimeParts[0],
+			datetimeParts[1],
+			datetimeParts[2],
+			datetimeParts[3],
+			datetimeParts[4]
+		);
+	}
 </script>
 
 <FromTo>
@@ -28,7 +45,7 @@
 					label={i18n.time.labels.dateTime}
 					id="utc-to-timestamp_from-datetime"
 					type="datetime-local"
-					hasResetButton="true"
+					hasResetButton={true}
 					resetButtonIsVisible={from.changed}
 					value={fromValue}
 					toggleLabel={i18n.time.toggle.datetime}

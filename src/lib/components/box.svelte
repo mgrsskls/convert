@@ -1,6 +1,6 @@
-<script>
-	export let tag;
-	export let title;
+<script lang="ts">
+	export let tag: string;
+	export let title: string;
 </script>
 
 {#if tag === "fieldset"}

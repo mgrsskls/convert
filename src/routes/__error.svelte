@@ -2,20 +2,17 @@
 	export function load({ error, status }) {
 		return {
 			props: {
-				title: status,
 				description: error.message,
+			},
+			stuff: {
+				title: status,
 			},
 		};
 	}
 </script>
 
-<script>
-	import Layout from "$lib/components/layout.svelte";
-
-	export let title;
-	export let description;
+<script lang="ts">
+	export let description: string;
 </script>
 
-<Layout {title}>
-	<p>{description}</p>
-</Layout>
+<p>{description}</p>

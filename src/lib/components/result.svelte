@@ -1,6 +1,6 @@
 <script>
 	export let label;
-	export let result = "";
+	export let result;
 	export let wrap = false;
 	export let highlight = false;
 </script>

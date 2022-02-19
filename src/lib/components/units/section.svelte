@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import BigNumber from "bignumber.js";
 
 	import i18n from "$lib/i18n.js";
@@ -9,11 +9,11 @@
 	import Multiplier from "$lib/components/multiplier.svelte";
 	import DirectionToggle from "$lib/components/direction-toggle.svelte";
 
-	export let alias;
-	export let names = {};
-	export let abbr;
-	export let conversions = {};
-	export let roundResults = false;
+	export let alias: string;
+	export let names: object = {};
+	export let abbr: object | null = null;
+	export let conversions: object = {};
+	export let roundResults: boolean | number = false;
 
 	const from = {
 		unit: "",
@@ -40,10 +40,10 @@
 		to.unit = oldFrom;
 	}
 
-	function calcResult(fromUnit, fromValue, toUnit) {
+	function calcResult(fromUnit: string, fromValue: number, toUnit: string) {
 		if (!fromUnit || !fromValue || !toUnit) return null;
 
-		let value;
+		let value: number;
 
 		if (fromUnit === toUnit) {
 			value = fromValue;
@@ -58,12 +58,13 @@
 		return value;
 	}
 
-	function formatResult(result) {
+	function formatResult(result: number) {
 		if (!result) return "-";
 
-		const formatted = roundResults
-			? new BigNumber(result).toFormat(roundResults)
-			: new BigNumber(result).toFormat();
+		const formatted =
+			roundResults && typeof roundResults === "number"
+				? new BigNumber(result).toFormat(roundResults)
+				: new BigNumber(result).toFormat();
 
 		if (shouldUseExponential(result, roundResults, formatted)) {
 			return `${result.toExponential()}<br><small>${formatted}</small>`;
@@ -72,7 +73,7 @@
 		return formatted;
 	}
 
-	function shouldUseExponential(result, roundResults, formatted) {
+	function shouldUseExponential(result: number, roundResults: boolean | number, formatted: string) {
 		if (result >= 1000000000000000000000) return true;
 
 		if (!roundResults) {

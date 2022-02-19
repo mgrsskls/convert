@@ -1,9 +1,14 @@
-<script>
+<script lang="ts">
 	export let open = false;
+
+	function onSummaryClick(e: Event) {
+		const target = e.target as HTMLElement;
+		target.scrollIntoView();
+	}
 </script>
 
 <details {open}>
-	<summary on:click={(e) => e.target.scrollIntoView()}><slot name="title" /></summary>
+	<summary on:click={onSummaryClick}><slot name="title" /></summary>
 	<slot name="content" />
 </details>
 

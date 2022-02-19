@@ -1,25 +1,54 @@
-<script>
+<script lang="ts">
 	import { createEventDispatcher } from "svelte";
 	import i18n from "$lib/i18n.js";
 
 	const dispatch = createEventDispatcher();
 
-	export let id;
-	export let label;
+	interface Option {
+		label: string;
+		value: string;
+	}
+
+	export let id: string;
+	export let label: string;
 	export let type = "text";
-	export let value = "";
-	export let readonly;
-	export let placeholder;
-	export let list;
-	export let step;
-	export let hasResetButton;
-	export let resetButtonIsVisible;
-	export let toggleLabel;
-	export let viaSlot;
-	export let suggestion;
-	export let loading;
-	export let options;
+	export let value: string | number = "";
+	export let placeholder: string | null = null;
+	export let list: string | null = null;
+	export let step: number | null = null;
+	export let hasResetButton = false;
+	export let resetButtonIsVisible = false;
+	export let toggleLabel: string | null = null;
+	export let viaSlot = false;
+	export let suggestion: string | null = null;
+	export let loading = false;
+	export let options: Array<Option> | null = null;
 	export let invalid = false;
+
+	function onInput(e: Event) {
+		const target = e.target as HTMLInputElement;
+		dispatch("input", type === "number" ? parseFloat(target.value) : target.value);
+	}
+
+	function onChange(e: Event) {
+		const target = e.target as HTMLInputElement;
+		dispatch("change", type === "number" ? parseFloat(target.value) : target.value);
+	}
+
+	function onReset(e: Event) {
+		const target = e.target as HTMLInputElement;
+		dispatch("toggleReset", target.checked);
+	}
+
+	function onKeydown(e: KeyboardEvent) {
+		const target = e.target as HTMLInputElement;
+		if (e.key === "ArrowDown" && suggestion) {
+			const suggestionInput = target
+				.closest(".Input")
+				.querySelector(".Input-suggestion") as HTMLInputElement;
+			suggestionInput.focus();
+		}
+	}
 </script>
 
 <div class="Input">
@@ -30,12 +59,7 @@
 		</label>
 		{#if !viaSlot}
 			{#if options}
-				<select
-					class="Input-element"
-					{id}
-					aria-invalid={invalid}
-					on:change={(e) => dispatch("change", e.target.value)}
-				>
+				<select class="Input-element" {id} aria-invalid={invalid} on:change={onChange}>
 					<option value="">Please choose</option>
 					{#each options as option}
 						<option value={option.value} selected={value === option.value}>{option.label}</option>
@@ -45,23 +69,16 @@
 				<input
 					class="Input-element"
 					{type}
-					{readonly}
 					{id}
 					{value}
 					{placeholder}
 					{step}
 					{list}
 					aria-invalid={invalid}
-					on:input={(e) =>
-						dispatch("input", type === "number" ? parseFloat(e.target.value) : e.target.value)}
-					on:change={(e) =>
-						dispatch("change", type === "number" ? parseFloat(e.target.value) : e.target.value)}
+					on:input={onInput}
+					on:change={onChange}
 					on:focus
-					on:keydown={(e) => {
-						if (e.key === "ArrowDown" && suggestion) {
-							e.target.closest(".Input").querySelector(".Input-suggestion").focus();
-						}
-					}}
+					on:keydown={onKeydown}
 				/>
 			{/if}
 
@@ -88,13 +105,7 @@
 
 	{#if hasResetButton}
 		<label class="Input-toggle">
-			<input
-				type="checkbox"
-				checked={!resetButtonIsVisible}
-				on:change={(e) => {
-					dispatch("toggleReset", e.target.checked);
-				}}
-			/>
+			<input type="checkbox" checked={!resetButtonIsVisible} on:change={onReset} />
 			{toggleLabel}
 		</label>
 	{/if}
@@ -117,29 +128,15 @@
 		inline-size: 100%;
 		box-sizing: border-box;
 		background: var(--color-box-bg);
+		border-block-end: 0.2rem solid currentColor;
 	}
 
 	.Input-element[aria-invalid="true"] {
 		border-block-end-color: var(--color-invalid);
 	}
 
-	:where(.Input-element:not([readonly])) {
-		border-block-end: 0.2rem solid currentColor;
-	}
-
 	.Input-element[type="datetime-local"] {
 		cursor: text;
-	}
-
-	.Input-element[readonly]::-webkit-outer-spin-button,
-	.Input-element[readonly]::-webkit-inner-spin-button {
-		-webkit-appearance: none;
-		margin: 0;
-	}
-
-	.Input-element[readonly][type="number"],
-	.Input-element[readonly][type="datetime-local"] {
-		-moz-appearance: textfield;
 	}
 
 	.Input-suggestion,

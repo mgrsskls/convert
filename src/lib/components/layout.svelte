@@ -1,12 +1,12 @@
-<script>
+<script lang="ts">
 	import i18n from "$lib/i18n.js";
 	import Header from "./header.svelte";
 	import Introduction from "./introduction.svelte";
 	import Footer from "./footer.svelte";
 
-	export let alias;
-	export let title;
-	export let description;
+	export let alias: string | null;
+	export let title: string;
+	export let description: string | null;
 
 	const metaDescription = (description || i18n.description).replace(/<[^>]*>?/gm, "");
 </script>

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { tick } from "svelte";
 	import i18n from "$lib/i18n.js";
 	import Grid from "$lib/components/grid.svelte";
@@ -14,10 +14,10 @@
 	} from "./utils.js";
 	import { getLocation } from "./api.js";
 
-	export let currentLocalTime;
-	export let formattedList;
+	export let currentLocalTime: Date;
+	export let formattedList: Array<string>;
 
-	let timeout;
+	let timeout: number;
 
 	const from = {
 		timeZone: "UTC",
@@ -38,7 +38,7 @@
 	$: fromDatetimeFormatted = from.datetime.changed
 		? from.datetime.formatted
 		: formatDateForInput(currentLocalTime);
-	$: fromDatetimeTimeZoneObject = new Date(Date.UTC(...getDatetimeParts(fromDatetimeFormatted)));
+	$: fromDatetimeTimeZoneObject = getDatetimeTimeZoneObject(fromDatetimeFormatted);
 	$: fromDatetimeObject = getDatetimeObject(from.timeZone, fromDatetimeTimeZoneObject);
 	$: toDatetimeObject = to.timeZone.value
 		? getDatetimeObject(to.timeZone.value, fromDatetimeTimeZoneObject)
@@ -49,12 +49,29 @@
 			? getTimeZonesDifference(fromDatetimeObject, toDatetimeObject)
 			: null;
 
-	function setToTimeZone(value) {
+	function getDatetimeTimeZoneObject(string: string) {
+		const datetimeParts = getDatetimeParts(string);
+
+		return new Date(
+			Date.UTC(
+				datetimeParts[0],
+				datetimeParts[1],
+				datetimeParts[2],
+				datetimeParts[3],
+				datetimeParts[4]
+			)
+		);
+	}
+
+	function setToTimeZone(value: string) {
 		const lowercaseValue = value.toLowerCase();
 
 		to.timeZone.suggestion = null;
 
-		if (!value?.length === 0) return;
+		if (value.length === 0) {
+			to.timeZone.value = "";
+			return;
+		}
 
 		if (formattedList.filter((entry) => entry.includes(lowercaseValue)).length > 0) {
 			if (formattedList.includes(lowercaseValue)) {
@@ -63,7 +80,7 @@
 		} else {
 			clearTimeout(timeout);
 
-			timeout = setTimeout(async () => {
+			timeout = window.setTimeout(async () => {
 				to.timeZone.suggestionLoading = true;
 				const suggestion = await getLocation(value);
 				to.timeZone.suggestion = suggestion.timezone;
@@ -84,7 +101,7 @@
 					label={i18n.time.labels.dateTime}
 					id="utc-to-time-zone_from-datetime"
 					type="datetime-local"
-					hasResetButton="true"
+					hasResetButton={true}
 					resetButtonIsVisible={from.datetime.changed}
 					value={fromDatetimeFormatted}
 					toggleLabel={i18n.time.toggle.datetime}

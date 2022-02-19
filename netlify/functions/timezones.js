@@ -1,8 +1,8 @@
-const fetch = require("node-fetch");
+import fetch from "node-fetch";
 
 const cache = {};
 
-exports.handler = async function (event) {
+export const handler = async function (event) {
 	const { location } = event.queryStringParameters;
 
 	if (!event.headers.referer || !event.headers.referer.startsWith(process.env.FRONTEND_HOST)) {

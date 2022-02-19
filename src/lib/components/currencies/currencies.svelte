@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { onMount } from "svelte";
 
 	import i18n from "$lib/i18n.js";
@@ -23,9 +23,13 @@
 	let fromPlaceholder = "";
 	let toPlaceholder = "";
 
-	const from = {
+	const from: {
+		currency: string | null;
+		amount: number;
+		invalid: boolean;
+	} = {
 		currency: null,
-		amount: "1.00",
+		amount: 1.0,
 		invalid: false,
 	};
 
@@ -82,7 +86,7 @@
 		to.invalid = !supportedCurrencyIds.includes(detail);
 	}
 
-	async function fetchCurrencies(currency) {
+	async function fetchCurrencies(currency: string) {
 		try {
 			if (!data[currency]) {
 				const response = await fetch(
@@ -123,7 +127,7 @@
 			<svelte:fragment slot="2">
 				<Input
 					type="number"
-					step="0.01"
+					step={0.01}
 					id="currencies-from_amount"
 					placeholder="e.g. 12.99"
 					label={i18n.currencies.labels.amount}

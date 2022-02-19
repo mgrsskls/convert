@@ -1,6 +1,6 @@
-const fetch = require("node-fetch");
+import fetch from "node-fetch";
 
-exports.handler = async function (event) {
+export const handler = async function (event) {
 	const { currency } = event.queryStringParameters;
 
 	if (!event.headers.referer || !event.headers.referer.startsWith(process.env.FRONTEND_HOST)) {
