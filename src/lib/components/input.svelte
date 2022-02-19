@@ -34,13 +34,12 @@
 				<select
 					class="Input-element"
 					{id}
-					{value}
 					aria-invalid={invalid}
 					on:change={(e) => dispatch("change", e.target.value)}
 				>
 					<option value="">Please choose</option>
 					{#each options as option}
-						<option value={option.value}>{option.label}</option>
+						<option value={option.value} selected={value === option.value}>{option.label}</option>
 					{/each}
 				</select>
 			{:else}

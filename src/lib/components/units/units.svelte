@@ -12,28 +12,38 @@
 <Accordion open={open === "areas"}>
 	<svelte:fragment slot="title">{i18n.units.areas.title}</svelte:fragment>
 	<svelte:fragment slot="content">
-		<Section names={areas.names} abbr={i18n.units.areas.abbr} conversions={areas.conversions} />
+		<Section
+			names={areas.names}
+			abbr={i18n.units.areas.abbr}
+			conversions={areas.conversions}
+			alias="areas"
+		/>
 	</svelte:fragment>
 </Accordion>
 
 <Accordion open={open === "lengths"}>
 	<svelte:fragment slot="title">{i18n.units.lengths.title}</svelte:fragment>
 	<svelte:fragment slot="content">
-		<Section names={lengths.names} conversions={lengths.conversions} />
+		<Section names={lengths.names} conversions={lengths.conversions} alias="lengths" />
 	</svelte:fragment>
 </Accordion>
 
 <Accordion open={open === "masses"}>
 	<svelte:fragment slot="title">{i18n.units.masses.title}</svelte:fragment>
 	<svelte:fragment slot="content">
-		<Section names={masses.names} conversions={masses.conversions} />
+		<Section names={masses.names} conversions={masses.conversions} alias="masses" />
 	</svelte:fragment>
 </Accordion>
 
 <Accordion open={open === "speeds"}>
 	<svelte:fragment slot="title">{i18n.units.speeds.title}</svelte:fragment>
 	<svelte:fragment slot="content">
-		<Section names={speeds.names} abbr={i18n.units.speeds.abbr} conversions={speeds.conversions} />
+		<Section
+			names={speeds.names}
+			abbr={i18n.units.speeds.abbr}
+			conversions={speeds.conversions}
+			alias="speeds"
+		/>
 	</svelte:fragment>
 </Accordion>
 
@@ -45,6 +55,7 @@
 			abbr={i18n.units.temperatures.abbr}
 			conversions={temperatures.conversions}
 			roundResults={1}
+			alias="temperatures"
 		/>
 	</svelte:fragment>
 </Accordion>
@@ -56,6 +67,7 @@
 			names={volumes.names}
 			abbr={i18n.units.volumes.abbr}
 			conversions={volumes.conversions}
+			alias="volumes"
 		/>
 	</svelte:fragment>
 </Accordion>

@@ -9,6 +9,7 @@
 	import Multiplier from "$lib/components/multiplier.svelte";
 	import DirectionToggle from "$lib/components/direction-toggle.svelte";
 
+	export let alias;
 	export let names = {};
 	export let abbr;
 	export let conversions = {};
@@ -89,7 +90,7 @@
 			<svelte:fragment slot="1">
 				<Input
 					label={i18n.units.labels.unit}
-					id="lengths-from-value"
+					id={`${alias}-from-value`}
 					options={units}
 					bind:value={from.unit}
 					on:change={({ detail }) => (from.unit = detail)}
@@ -98,6 +99,7 @@
 			<svelte:fragment slot="2">
 				<Input
 					type="number"
+					id={`${alias}-from-unit`}
 					placeholder={i18n.units.placeholders.lengths}
 					label={i18n.units.labels.value}
 					value={from.value}
@@ -119,7 +121,7 @@
 			<svelte:fragment slot="1">
 				<Input
 					label={i18n.units.labels.unit}
-					id="lengths-from-value"
+					id={`${alias}-to-value`}
 					options={units}
 					bind:value={to.unit}
 					on:change={({ detail }) => (to.unit = detail)}
