@@ -2,11 +2,18 @@
 	export let label;
 	export let result = "";
 	export let wrap = false;
+	export let highlight = false;
 </script>
 
 <dl>
 	<dt>{label}</dt>
-	<dd class="Result" class:can-wrap={wrap}>{@html result}</dd>
+	<dd class="Result" class:can-wrap={wrap}>
+		{#if highlight}
+			<b>{@html result}</b>
+		{:else}
+			{@html result}
+		{/if}
+	</dd>
 </dl>
 
 <style>
@@ -16,11 +23,7 @@
 		color: var(--color-accent);
 	}
 
-	.Result {
-		font-weight: 700;
-	}
-
-	.Result.can-wrap {
+	.can-wrap {
 		word-wrap: anywhere;
 	}
 

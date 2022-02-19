@@ -9,7 +9,6 @@
 	export let type = "text";
 	export let value = "";
 	export let readonly;
-	export let tabindex;
 	export let placeholder;
 	export let list;
 	export let step;
@@ -49,7 +48,6 @@
 					{readonly}
 					{id}
 					{value}
-					{tabindex}
 					{placeholder}
 					{step}
 					{list}
@@ -142,10 +140,6 @@
 	.Input-element[readonly][type="number"],
 	.Input-element[readonly][type="datetime-local"] {
 		-moz-appearance: textfield;
-	}
-
-	.Input-element[readonly][tabindex="-1"] {
-		outline: none;
 	}
 
 	.Input-suggestion,

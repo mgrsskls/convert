@@ -117,6 +117,6 @@
 		</Grid>
 	</svelte:fragment>
 	<svelte:fragment slot="to">
-		<Result label={i18n.time.labels.unixTimestamp} {result} />
+		<Result label={i18n.time.labels.unixTimestamp} {result} highlight={true} />
 	</svelte:fragment>
 </FromTo>

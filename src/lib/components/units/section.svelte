@@ -128,7 +128,12 @@
 				/>
 			</svelte:fragment>
 			<svelte:fragment slot="2">
-				<Result wrap={true} label={i18n.units.labels.value} result={formattedResult} />
+				<Result
+					wrap={true}
+					label={i18n.units.labels.value}
+					result={formattedResult}
+					highlight={true}
+				/>
 			</svelte:fragment>
 		</Grid>
 	</svelte:fragment>

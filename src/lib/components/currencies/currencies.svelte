@@ -156,7 +156,7 @@
 				/>
 			</svelte:fragment>
 			<svelte:fragment slot="2">
-				<Result label={i18n.currencies.labels.amount} result={convertedAmount} />
+				<Result label={i18n.currencies.labels.amount} result={convertedAmount} highlight={true} />
 			</svelte:fragment>
 		</Grid>
 	</svelte:fragment>

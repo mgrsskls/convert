@@ -66,17 +66,10 @@
 	<svelte:fragment slot="to">
 		<Grid>
 			<svelte:fragment slot="1">
-				<Input
-					label={i18n.time.labels.timeZone}
-					id="timestamp-to-utc_to-time-zone"
-					type="text"
-					readonly="true"
-					tabindex="-1"
-					value="UTC"
-				/>
+				<Result label={i18n.time.labels.timeZone} result="UTC" />
 			</svelte:fragment>
 			<svelte:fragment slot="2">
-				<Result label={i18n.time.labels.dateTime} result={formattedResult} />
+				<Result label={i18n.time.labels.dateTime} result={formattedResult} highlight={true} />
 			</svelte:fragment>
 		</Grid>
 	</svelte:fragment>

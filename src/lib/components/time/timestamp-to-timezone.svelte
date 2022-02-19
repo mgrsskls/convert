@@ -118,7 +118,11 @@
 				/>
 			</svelte:fragment>
 			<svelte:fragment slot="2">
-				<Result label={i18n.time.labels.dateTime} result={toDatetimeFormattedForInput} />
+				<Result
+					label={i18n.time.labels.dateTime}
+					result={toDatetimeFormattedForInput}
+					highlight={true}
+				/>
 			</svelte:fragment>
 		</Grid>
 	</svelte:fragment>
