@@ -1,9 +1,10 @@
-<script>
-	import Layout from "../components/layout.svelte";
-	import TimeZones from "../components/time/time.svelte";
-	import i18n from "../i18n.js";
+<script context="module">
+	export const load = meta;
 </script>
 
-<Layout alias="time" title={i18n.time.title} description={i18n.time.description}>
-	<TimeZones />
-</Layout>
+<script>
+	import TimeZones from "$lib/components/time/time.svelte";
+	import meta from "./meta.js";
+</script>
+
+<TimeZones />

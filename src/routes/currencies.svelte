@@ -1,9 +1,10 @@
-<script>
-	import Layout from "../components/layout.svelte";
-	import Currencies from "../components/currencies/currencies.svelte";
-	import i18n from "../i18n.js";
+<script context="module">
+	export const load = meta;
 </script>
 
-<Layout alias="currencies" title={i18n.currencies.title} description={i18n.currencies.description}
-	><Currencies /></Layout
->
+<script>
+	import Currencies from "$lib/components/currencies/currencies.svelte";
+	import meta from "./meta.js";
+</script>
+
+<Currencies />

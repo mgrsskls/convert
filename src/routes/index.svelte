@@ -1,24 +1,20 @@
 <script>
-	import i18n from "../i18n.js";
-	import menu from "../menu.js";
-
-	import Layout from "../components/layout.svelte";
+	import i18n from "$lib/i18n.js";
+	import menu from "$lib/menu.js";
 </script>
 
 <svelte:head>
 	<meta name="description" content={i18n.description} />
 </svelte:head>
 
-<Layout>
-	<ul>
-		{#each menu as item}
-			<li>
-				<a href={item.path}><span>{item.label}</span></a>
-				<p>{@html item.description}</p>
-			</li>
-		{/each}
-	</ul>
-</Layout>
+<ul>
+	{#each menu as item}
+		<li>
+			<a href={item.path}><span>{item.label}</span></a>
+			<p>{@html item.description}</p>
+		</li>
+	{/each}
+</ul>
 
 <style>
 	ul {
