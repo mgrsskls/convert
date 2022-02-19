@@ -3,7 +3,7 @@
 </script>
 
 <details {open}>
-	<summary><slot name="title" /></summary>
+	<summary on:click={(e) => e.target.scrollIntoView()}><slot name="title" /></summary>
 	<slot name="content" />
 </details>
 
@@ -26,6 +26,7 @@
 		font-weight: 800;
 		line-height: 1;
 		padding-block: 2rem;
+		scroll-margin-block-start: 9rem;
 	}
 
 	summary::marker {
