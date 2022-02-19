@@ -1,10 +1,5 @@
-<script context="module">
-	export const load = meta;
-</script>
-
 <script>
 	import i18n from "$lib/i18n.js";
-	import meta from "./meta.js";
 
 	const copy = i18n["about-convert"];
 </script>
