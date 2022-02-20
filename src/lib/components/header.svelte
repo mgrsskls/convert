@@ -48,10 +48,12 @@
 	}
 
 	.SkipLink {
+		background: var(--color-bg);
 		position: absolute;
 		inset-block-start: 0;
 		inset-inline-start: 50%;
 		transform: translateX(-50%);
+		z-index: 2;
 	}
 
 	.SkipLink:not(:focus) {
