@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { createEventDispatcher } from "svelte";
+	import { onMount, createEventDispatcher } from "svelte";
 	import i18n from "$lib/i18n.js";
 
 	const dispatch = createEventDispatcher();
+
+	let renderReset = false;
 
 	interface Option {
 		label: string;
@@ -50,6 +52,10 @@
 			suggestionInput.focus();
 		}
 	}
+
+	onMount(() => {
+		renderReset = true;
+	});
 </script>
 
 <div class="Input">
@@ -113,21 +119,13 @@
 		{/if}
 	</div>
 
-	{#if hasResetButton}
+	{#if hasResetButton && renderReset}
 		<label class="Input-toggle">
 			<input type="checkbox" checked={!resetButtonIsVisible} on:change={onReset} />
 			{toggleLabel}
 		</label>
 	{/if}
 </div>
-
-<noscript>
-	<style>
-		.Input-toggle {
-			display: none !important;
-		}
-	</style>
-</noscript>
 
 <style>
 	.Input-label {
