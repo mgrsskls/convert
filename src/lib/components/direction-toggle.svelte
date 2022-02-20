@@ -1,20 +1,22 @@
 <script>
+	import { onMount } from "svelte";
 	import i18n from "$lib/i18n.js";
+
+	let render = false;
+
+	onMount(() => {
+		render = true;
+	});
 </script>
 
-<button type="button" class="ToggleDirection" on:click
-	>{i18n.changeDirection}
-	<span class="ToggleDirection-arrow ToggleDirection-arrow--horizontal" aria-hidden="true">⇄</span>
-	<span class="ToggleDirection-arrow ToggleDirection-arrow--vertical" aria-hidden="true">⇅</span>
-</button>
-
-<noscript>
-	<style>
-		.ToggleDirection {
-			display: none !important;
-		}
-	</style>
-</noscript>
+{#if render}
+	<button type="button" class="ToggleDirection" on:click
+		>{i18n.changeDirection}
+		<span class="ToggleDirection-arrow ToggleDirection-arrow--horizontal" aria-hidden="true">⇄</span
+		>
+		<span class="ToggleDirection-arrow ToggleDirection-arrow--vertical" aria-hidden="true">⇅</span>
+	</button>
+{/if}
 
 <style>
 	.ToggleDirection {

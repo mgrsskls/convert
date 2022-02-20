@@ -121,10 +121,10 @@
 		</Grid>
 	</svelte:fragment>
 	<svelte:fragment slot="divider">
-		{#if from.unit && from.value && to.unit}
+		{#if from.unit && to.unit}
 			<DirectionToggle on:click={toggleDirection} />
 			{#if conversions[from.unit] && conversions[from.unit][to.unit] && typeof conversions[from.unit][to.unit] !== "function"}
-				<Multiplier value={conversions[from.unit][to.unit].toLocaleString()} />
+				<Multiplier value={conversions[from.unit][to.unit]} />
 			{/if}
 		{/if}
 	</svelte:fragment><svelte:fragment />
