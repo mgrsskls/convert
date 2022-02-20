@@ -24,6 +24,7 @@
 	export let loading = false;
 	export let options: Array<Option> | null = null;
 	export let invalid = false;
+	export let name = "";
 
 	function onInput(e: Event) {
 		const target = e.target as HTMLInputElement;
@@ -59,7 +60,14 @@
 		</label>
 		{#if !viaSlot}
 			{#if options}
-				<select class="Input-element" {id} aria-invalid={invalid} on:change={onChange}>
+				<select
+					{name}
+					required
+					class="Input-element"
+					{id}
+					aria-invalid={invalid}
+					on:change={onChange}
+				>
 					<option value="">Please choose</option>
 					{#each options as option}
 						<option value={option.value} selected={value === option.value}>{option.label}</option>
@@ -74,6 +82,8 @@
 					{placeholder}
 					{step}
 					{list}
+					{name}
+					required
 					aria-invalid={invalid}
 					on:input={onInput}
 					on:change={onChange}
@@ -110,6 +120,14 @@
 		</label>
 	{/if}
 </div>
+
+<noscript>
+	<style>
+		.Input-toggle {
+			display: none !important;
+		}
+	</style>
+</noscript>
 
 <style>
 	.Input-label {

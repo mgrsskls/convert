@@ -3,8 +3,12 @@
 </script>
 
 <div class="Grid" class:Grid--wrap={wrap}>
-	<slot name="1" />
-	<slot name="2" />
+	<div class="Grid-item">
+		<slot name="1" />
+	</div>
+	<div class="Grid-item">
+		<slot name="2" />
+	</div>
 </div>
 
 <style>
@@ -17,7 +21,7 @@
 		flex-wrap: wrap;
 	}
 
-	.Grid > :global(*) {
+	.Grid-item {
 		flex: 1 1 20rem;
 	}
 </style>

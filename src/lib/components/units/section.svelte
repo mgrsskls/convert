@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from "$app/stores";
 	import BigNumber from "bignumber.js";
 
 	import i18n from "$lib/i18n.js";
@@ -8,6 +9,7 @@
 	import Result from "$lib/components/result.svelte";
 	import Multiplier from "$lib/components/multiplier.svelte";
 	import DirectionToggle from "$lib/components/direction-toggle.svelte";
+	import Button from "$lib/components/button.svelte";
 
 	export let alias: string;
 	export let names: object = {};
@@ -16,12 +18,18 @@
 	export let roundResults: boolean | number = false;
 
 	const from = {
-		unit: "",
-		value: null,
+		unit: $page.url.searchParams.get("from[unit]")
+			? decodeURIComponent($page.url.searchParams.get("from[unit]"))
+			: "",
+		value: $page.url.searchParams.get("from[value]")
+			? parseInt(decodeURIComponent($page.url.searchParams.get("from[value]")), 10)
+			: null,
 	};
 
 	const to = {
-		unit: "",
+		unit: $page.url.searchParams.get("to[unit]")
+			? decodeURIComponent($page.url.searchParams.get("to[unit]"))
+			: "",
 	};
 
 	const units = Object.entries(names).map((entry) => ({
@@ -47,7 +55,7 @@
 
 		if (fromUnit === toUnit) {
 			value = fromValue;
-		} else {
+		} else if (conversions[fromUnit]) {
 			if (typeof conversions[fromUnit][toUnit] === "function") {
 				value = conversions[fromUnit][toUnit](fromValue);
 			} else {
@@ -85,11 +93,13 @@
 	}
 </script>
 
-<FromTo>
+<FromTo action={`#${alias}`}>
 	<svelte:fragment slot="from">
+		<input type="hidden" name="type" value={alias} />
 		<Grid wrap={false}>
 			<svelte:fragment slot="1">
 				<Input
+					name="from[unit]"
 					label={i18n.units.labels.unit}
 					id={`${alias}-from-value`}
 					options={units}
@@ -99,6 +109,7 @@
 			</svelte:fragment>
 			<svelte:fragment slot="2">
 				<Input
+					name="from[value]"
 					type="number"
 					id={`${alias}-from-unit`}
 					placeholder={i18n.units.placeholders.lengths}
@@ -112,8 +123,8 @@
 	<svelte:fragment slot="divider">
 		{#if from.unit && from.value && to.unit}
 			<DirectionToggle on:click={toggleDirection} />
-			{#if conversions[from.unit][to.unit] && typeof conversions[from.unit][to.unit] !== "function"}
-				<Multiplier value={conversions[from.unit][to.unit]} />
+			{#if conversions[from.unit] && conversions[from.unit][to.unit] && typeof conversions[from.unit][to.unit] !== "function"}
+				<Multiplier value={conversions[from.unit][to.unit].toLocaleString()} />
 			{/if}
 		{/if}
 	</svelte:fragment><svelte:fragment />
@@ -121,12 +132,14 @@
 		<Grid wrap={false}>
 			<svelte:fragment slot="1">
 				<Input
+					name="to[unit]"
 					label={i18n.units.labels.unit}
 					id={`${alias}-to-value`}
 					options={units}
 					bind:value={to.unit}
 					on:change={({ detail }) => (to.unit = detail)}
 				/>
+				<Button />
 			</svelte:fragment>
 			<svelte:fragment slot="2">
 				<Result

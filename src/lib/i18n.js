@@ -179,8 +179,8 @@ export const en = {
 		},
 		placeholders: {
 			timeZone: {
-				from: "e.g. Hamburg or Europe/Berlin",
-				to: "e.g. Seoul or Asia/Bangkok",
+				from: "e.g. Hamburg",
+				to: "e.g. Seoul",
 			},
 			unixTimestamp: "e.g. 1644962040000",
 		},

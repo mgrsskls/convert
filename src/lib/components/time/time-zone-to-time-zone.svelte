@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from "$app/stores";
 	import { tick } from "svelte";
 	import i18n from "$lib/i18n.js";
 	import Grid from "$lib/components/grid.svelte";
@@ -6,6 +7,7 @@
 	import Input from "$lib/components/input.svelte";
 	import Result from "$lib/components/result.svelte";
 	import Difference from "./difference.svelte";
+	import Button from "$lib/components/button.svelte";
 	import {
 		formatDateForInput,
 		getDateObjectForGivenDatetimeAndTimeZone,
@@ -14,6 +16,7 @@
 	} from "./utils.js";
 	import { getLocation } from "./api.js";
 
+	export let alias = "";
 	export let userTimeZoneId: string;
 	export let currentLocalTime: Date;
 	export let formattedList: Array<string>;
@@ -22,19 +25,25 @@
 
 	const from = {
 		timeZone: {
-			value: userTimeZoneId,
+			value: $page.url.searchParams.get("from[time_zone]")
+				? decodeURIComponent($page.url.searchParams.get("from[time_zone]"))
+				: userTimeZoneId,
 			suggestion: null,
 			suggestionLoading: false,
 		},
 		datetime: {
-			formatted: formatDateForInput(currentLocalTime),
-			changed: false,
+			formatted: $page.url.searchParams.get("from[date_time]")
+				? decodeURIComponent($page.url.searchParams.get("from[date_time]"))
+				: formatDateForInput(currentLocalTime),
+			changed: $page.url.searchParams.get("from[date_time]") ? true : false,
 		},
 	};
 
 	const to = {
 		timeZone: {
-			value: "",
+			value: $page.url.searchParams.get("to[time_zone]")
+				? decodeURIComponent($page.url.searchParams.get("to[time_zone]"))
+				: "",
 			suggestion: null,
 			suggestionLoading: false,
 		},
@@ -112,13 +121,15 @@
 	}
 </script>
 
-<FromTo>
+<FromTo action={`#${alias}`}>
 	<svelte:fragment slot="from">
+		<input type="hidden" name="type" value={alias} />
 		<Grid>
 			<svelte:fragment slot="1">
 				<Input
 					label={i18n.time.labels.timeZone}
 					id="from-time-zone_from-time-zone"
+					name="from[time_zone]"
 					type="text"
 					hasResetButton={true}
 					placeholder={i18n.time.placeholders.timeZone.from}
@@ -145,6 +156,7 @@
 			<svelte:fragment slot="2">
 				<Input
 					label={i18n.time.labels.dateTime}
+					name="from[date_time]"
 					id="from-time-zone_from-datetime"
 					type="datetime-local"
 					hasResetButton={true}
@@ -173,6 +185,7 @@
 			<svelte:fragment slot="1">
 				<Input
 					label={i18n.time.labels.timeZone}
+					name="to[time_zone]"
 					id="time-zone-to-time-zone_time-zone"
 					type="text"
 					list="time-zones"
@@ -188,6 +201,7 @@
 						to.timeZone.suggestion = null;
 					}}
 				/>
+				<Button />
 			</svelte:fragment>
 			<svelte:fragment slot="2">
 				<Result

@@ -1,13 +1,20 @@
-<script>
+<script lang="ts">
 	import i18n from "$lib/i18n.js";
 	import Box from "./box.svelte";
 	import Divider from "./divider.svelte";
 
+	export let action = "";
 	export let flex1 = "";
 	export let flex2 = "";
 </script>
 
-<form class="FromTo" style:--flex-1={flex1} style:--flex-2={flex2} on:submit|preventDefault>
+<form
+	{action}
+	class="FromTo"
+	style:--flex-1={flex1}
+	style:--flex-2={flex2}
+	on:submit|preventDefault
+>
 	<Box tag="fieldset" title={i18n.from}>
 		<slot name="from" />
 	</Box>

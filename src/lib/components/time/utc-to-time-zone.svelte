@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from "$app/stores";
 	import { tick } from "svelte";
 	import i18n from "$lib/i18n.js";
 	import Grid from "$lib/components/grid.svelte";
@@ -6,6 +7,7 @@
 	import Input from "$lib/components/input.svelte";
 	import Result from "$lib/components/result.svelte";
 	import Difference from "./difference.svelte";
+	import Button from "$lib/components/button.svelte";
 	import {
 		formatDateForInput,
 		getDatetimeObject,
@@ -14,6 +16,7 @@
 	} from "./utils.js";
 	import { getLocation } from "./api.js";
 
+	export let alias = "";
 	export let currentLocalTime: Date;
 	export let formattedList: Array<string>;
 
@@ -22,14 +25,18 @@
 	const from = {
 		timeZone: "UTC",
 		datetime: {
-			formatted: formatDateForInput(currentLocalTime),
-			changed: false,
+			formatted: $page.url.searchParams.get("from[date_time]")
+				? decodeURIComponent($page.url.searchParams.get("from[date_time]"))
+				: formatDateForInput(currentLocalTime),
+			changed: $page.url.searchParams.get("from[date_time]") ? true : false,
 		},
 	};
 
 	const to = {
 		timeZone: {
-			value: "",
+			value: $page.url.searchParams.get("to[time_zone]")
+				? decodeURIComponent($page.url.searchParams.get("to[time_zone]"))
+				: "",
 			suggestion: null,
 			suggestionLoading: false,
 		},
@@ -90,8 +97,9 @@
 	}
 </script>
 
-<FromTo>
+<FromTo action={`#${alias}`}>
 	<svelte:fragment slot="from">
+		<input type="hidden" name="type" value={alias} />
 		<Grid>
 			<svelte:fragment slot="1">
 				<Result label={i18n.time.labels.timeZone} result="UTC" />
@@ -100,6 +108,7 @@
 				<Input
 					label={i18n.time.labels.dateTime}
 					id="utc-to-time-zone_from-datetime"
+					name="from[date_time]"
 					type="datetime-local"
 					hasResetButton={true}
 					resetButtonIsVisible={from.datetime.changed}
@@ -128,6 +137,7 @@
 				<Input
 					label={i18n.time.labels.timeZone}
 					id="utc-to-time-zone_to-time-zone"
+					name="to[time_zone]"
 					type="text"
 					list="time-zones"
 					placeholder={i18n.time.placeholders.timeZone.to}
@@ -142,7 +152,9 @@
 						to.timeZone.suggestion = null;
 					}}
 				/>
-			</svelte:fragment><svelte:fragment slot="2">
+				<Button />
+			</svelte:fragment>
+			<svelte:fragment slot="2">
 				<Result
 					label={i18n.time.labels.dateTime}
 					result={toDatetimeFormattedForInput}

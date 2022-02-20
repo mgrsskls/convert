@@ -34,3 +34,11 @@ small {
 	outline: 0.2rem solid currentColor;
 	outline-offset: 0.4rem;
 }
+
+:where(a, input, summary, select):focus-visible {
+	outline-color: currentColor;
+}
+
+button:focus-visible {
+	outline-color: var(--color-copy);
+}

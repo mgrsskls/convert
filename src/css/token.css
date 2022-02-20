@@ -9,6 +9,8 @@ html {
 	--color-bg: #fff;
 	--contrast-border: 1px solid var(--contrast-border-color, transparent);
 	--box-border-radius: 0.5rem;
+	--button-color-bg: var(--color-copy);
+	--button-color-copy: var(--color-bg);
 }
 
 @media (prefers-contrast: more) {

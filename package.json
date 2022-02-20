@@ -9,22 +9,19 @@
 		"lint:svelte": "svelte-check",
 		"lint:prettier": "prettier --check --plugin-search-dir=. .",
 		"lint:eslint": "eslint --ignore-path .gitignore .",
-		"lint:html": "html-validate build/*.html",
 		"lint:a11y": "node_modules/.bin/axe http://localhost:3000, http://localhost:3000/colors, http://localhost:3000/currencies, http://localhost:3000/time, http://localhost:3000/units, http://localhost:3000/about-convert --exit",
-		"lint": "npm run lint:svelte && npm run lint:prettier && npm run lint:eslint && npm run lint:html && npm run lint:a11y",
+		"lint": "npm run lint:svelte && npm run lint:prettier && npm run lint:eslint && npm run lint:a11y",
 		"format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
 	},
 	"pre-commit": [
 		"lint:svelte",
 		"lint:prettier",
 		"lint:eslint",
-		"lint:html",
 		"lint:a11y"
 	],
 	"devDependencies": {
 		"@axe-core/cli": "^4.4.1-alpha.247",
 		"@sveltejs/adapter-auto": "next",
-		"@sveltejs/adapter-static": "^1.0.0-next.28",
 		"@sveltejs/kit": "next",
 		"@tsconfig/svelte": "^3.0.0",
 		"@typescript-eslint/eslint-plugin": "^5.12.0",
@@ -32,7 +29,6 @@
 		"eslint": "^7.32.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^3.2.1",
-		"html-validate": "^6.4.0",
 		"pre-commit": "^1.2.2",
 		"prettier": "^2.5.1",
 		"prettier-plugin-svelte": "^2.5.0",

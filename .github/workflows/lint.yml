@@ -22,10 +22,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: |
-          npm run build
-          npm run preview &
+          npm run dev &
           npm run lint:svelte
           npm run lint:prettier
           npm run lint:eslint
-          npm run lint:html
           npm run lint:a11y

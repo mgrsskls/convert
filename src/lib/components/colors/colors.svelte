@@ -1,13 +1,15 @@
 <script lang="ts">
+	import { page } from "$app/stores";
 	import { onMount } from "svelte";
 
 	import htmlNames from "./html-names.js";
 	import i18n from "$lib/i18n.js";
 	import FromTo from "$lib/components/from-to.svelte";
 	import Input from "$lib/components/input.svelte";
+	import Button from "$lib/components/button.svelte";
 	import w3color from "./w3color.js";
 
-	let color = "";
+	let color = getColorFromSearchParam() || "";
 	let bgColor = "";
 
 	$: types = [
@@ -62,6 +64,18 @@
 		bgColor = window.getComputedStyle(document.documentElement).getPropertyValue("--color-box-bg");
 	});
 
+	function getColorFromSearchParam() {
+		if ($page.url.searchParams.get("string")) {
+			return decodeURIComponent($page.url.searchParams.get("string"));
+		}
+
+		if ($page.url.searchParams.get("picker")) {
+			return decodeURIComponent($page.url.searchParams.get("picker"));
+		}
+
+		return null;
+	}
+
 	function isValidColor(color: string) {
 		const result = w3color(color);
 
@@ -98,6 +112,7 @@
 				placeholder={i18n.colors.placeholder}
 				label="Color string"
 				list="htmlNames"
+				name="string"
 				bind:value={color}
 				on:input={({ detail }) => (color = detail)}
 			/>
@@ -107,6 +122,7 @@
 			<Input id="color-from-picker" label="Color picker" viaSlot={true}>
 				<span class="ColorPicker" class:matches-background={matchesBackground} style:color={rgba}>
 					<input
+						name="picker"
 						class="u-hiddenVisually"
 						id="color-from-picker"
 						type="color"
@@ -117,6 +133,7 @@
 				</span>
 			</Input>
 		</div>
+		<Button />
 	</svelte:fragment>
 	<svelte:fragment slot="to">
 		<dl class="Values">

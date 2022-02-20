@@ -7,5 +7,6 @@ declare namespace App {
 		alias: string;
 		title: string;
 		description: string;
+		data: object;
 	}
 }

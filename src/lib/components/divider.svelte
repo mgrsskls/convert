@@ -1,9 +1,7 @@
 <div class="Divider">
 	<slot />
-	<button type="submit" aria-label="Convert">
-		<span class="Divider-arrow Divider-arrow--right" aria-hidden="true">→</span>
-		<span class="Divider-arrow Divider-arrow--down" aria-hidden="true">↓</span>
-	</button>
+	<span class="Divider-arrow Divider-arrow--right" aria-hidden="true">→</span>
+	<span class="Divider-arrow Divider-arrow--down" aria-hidden="true">↓</span>
 </div>
 
 <style>

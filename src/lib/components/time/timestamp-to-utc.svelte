@@ -1,18 +1,23 @@
 <script lang="ts">
+	import { page } from "$app/stores";
 	import i18n from "$lib/i18n.js";
 	import Grid from "$lib/components/grid.svelte";
 	import FromTo from "$lib/components/from-to.svelte";
 	import Input from "$lib/components/input.svelte";
 	import Result from "$lib/components/result.svelte";
+	import Button from "$lib/components/button.svelte";
 
+	export let alias = "";
 	export let currentLocalTime: Date;
 
 	const from: {
 		value: string;
 		changed: boolean;
 	} = {
-		value: "0",
-		changed: false,
+		value: $page.url.searchParams.get("from[timestamp]")
+			? decodeURIComponent($page.url.searchParams.get("from[timestamp]"))
+			: "0",
+		changed: $page.url.searchParams.get("from[timestamp]") ? true : false,
 	};
 
 	$: fromValue = from.changed ? from.value : currentLocalTime.getTime().toString();
@@ -41,10 +46,12 @@
 	}
 </script>
 
-<FromTo>
+<FromTo action={`#${alias}`}>
 	<svelte:fragment slot="from">
+		<input type="hidden" name="type" value={alias} />
 		<Input
 			label={i18n.time.labels.unixTimestamp}
+			name="from[timestamp]"
 			id="timestamp-to-utc_from"
 			type="number"
 			hasResetButton={true}
@@ -70,6 +77,7 @@
 		<Grid>
 			<svelte:fragment slot="1">
 				<Result label={i18n.time.labels.timeZone} result="UTC" />
+				<Button />
 			</svelte:fragment>
 			<svelte:fragment slot="2">
 				<Result label={i18n.time.labels.dateTime} result={formattedResult} highlight={true} />

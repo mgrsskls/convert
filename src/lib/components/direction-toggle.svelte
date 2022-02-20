@@ -8,6 +8,14 @@
 	<span class="ToggleDirection-arrow ToggleDirection-arrow--vertical" aria-hidden="true">⇅</span>
 </button>
 
+<noscript>
+	<style>
+		.ToggleDirection {
+			display: none !important;
+		}
+	</style>
+</noscript>
+
 <style>
 	.ToggleDirection {
 		display: flex;

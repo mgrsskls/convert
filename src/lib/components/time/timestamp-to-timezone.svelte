@@ -1,13 +1,16 @@
 <script lang="ts">
+	import { page } from "$app/stores";
 	import { tick } from "svelte";
 	import i18n from "$lib/i18n.js";
 	import Grid from "$lib/components/grid.svelte";
 	import FromTo from "$lib/components/from-to.svelte";
 	import Input from "$lib/components/input.svelte";
 	import Result from "$lib/components/result.svelte";
+	import Button from "$lib/components/button.svelte";
 	import { getDatetimeObject } from "./utils.js";
 	import { getLocation } from "./api.js";
 
+	export let alias = "";
 	export let userTimeZoneId: string;
 	export let currentLocalTime: Date;
 	export let formattedList: Array<string>;
@@ -15,11 +18,13 @@
 	let timeout: number;
 
 	const from: {
-		value: number;
+		value: string;
 		changed: boolean;
 	} = {
-		value: 0,
-		changed: false,
+		value: $page.url.searchParams.get("from[timestamp]")
+			? decodeURIComponent($page.url.searchParams.get("from[timestamp]"))
+			: "0",
+		changed: $page.url.searchParams.get("from[timestamp]") ? true : false,
 	};
 
 	const to: {
@@ -27,12 +32,14 @@
 		suggestion: string | null;
 		suggestionLoading: boolean;
 	} = {
-		value: userTimeZoneId,
+		value: $page.url.searchParams.get("to[time_zone]")
+			? decodeURIComponent($page.url.searchParams.get("to[time_zone]"))
+			: userTimeZoneId,
 		suggestion: null,
 		suggestionLoading: false,
 	};
 
-	$: fromValue = from.changed ? from.value : currentLocalTime.getTime();
+	$: fromValue = from.changed ? from.value : currentLocalTime.getTime().toString();
 	$: userChangedTimeZone = to.value && userTimeZoneId ? to.value !== userTimeZoneId : false;
 	$: toDateTimeZoneObject = to.value ? getDatetimeObject(to.value, fromValue) : null;
 	$: toDatetimeFormattedForInput = toDateTimeZoneObject
@@ -67,11 +74,13 @@
 	}
 </script>
 
-<FromTo>
+<FromTo action={`#${alias}`}>
 	<svelte:fragment slot="from">
+		<input type="hidden" name="type" value={alias} />
 		<Input
-			label={i18n.time.labels.timeZone}
-			id="timestamp-to-time-zone_from-time-zone"
+			label={i18n.time.labels.unixTimestamp}
+			id="timestamp-to-time-zone_from-timestamp"
+			name="from[timestamp]"
 			type="number"
 			hasResetButton={true}
 			resetButtonIsVisible={from.changed}
@@ -98,6 +107,7 @@
 				<Input
 					label={i18n.time.labels.timeZone}
 					id="timestamp-to-time-zone_time-zone"
+					name="to[time_zone]"
 					type="text"
 					list="time-zones"
 					hasResetButton={true}
@@ -120,6 +130,7 @@
 						to.suggestion = null;
 					}}
 				/>
+				<Button />
 			</svelte:fragment>
 			<svelte:fragment slot="2">
 				<Result

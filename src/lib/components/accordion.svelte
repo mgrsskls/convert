@@ -1,4 +1,5 @@
 <script lang="ts">
+	export let id = "";
 	export let open = false;
 
 	function onSummaryClick(e: Event) {
@@ -7,7 +8,7 @@
 	}
 </script>
 
-<details {open}>
+<details {id} {open}>
 	<summary on:click={onSummaryClick}><slot name="title" /></summary>
 	<slot name="content" />
 </details>
@@ -17,6 +18,7 @@
 		--border: 0.1rem solid var(--color-accent-light);
 
 		border-block-start: var(--border);
+		scroll-margin-block-start: 9rem;
 	}
 
 	details:last-of-type {

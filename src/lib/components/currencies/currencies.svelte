@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+	import { page } from "$app/stores";
 
 	import i18n from "$lib/i18n.js";
 	import list from "./list.js";
@@ -9,6 +9,7 @@
 	import Result from "$lib/components/result.svelte";
 	import Multiplier from "$lib/components/multiplier.svelte";
 	import DirectionToggle from "$lib/components/direction-toggle.svelte";
+	import Button from "$lib/components/button.svelte";
 
 	const sortedCurrencies = list.sort((a, b) => {
 		if (a.id > b.id) return 1;
@@ -20,25 +21,35 @@
 	const unsupportedCurrencies = sortedCurrencies.filter((currency) => !currency.api);
 	const unsupportedCurrencyIds = unsupportedCurrencies.map((currency) => currency.id);
 
-	let fromPlaceholder = "";
-	let toPlaceholder = "";
+	let fromPlaceholder = "e.g. EUR";
+	let toPlaceholder = "e.g. USD";
 
 	const from: {
 		currency: string | null;
 		amount: number;
 		invalid: boolean;
 	} = {
-		currency: null,
-		amount: 1.0,
+		currency: $page.url.searchParams.get("from[currency]")
+			? decodeURIComponent($page.url.searchParams.get("from[currency]"))
+			: null,
+		amount: $page.url.searchParams.get("from[amount]")
+			? parseFloat(decodeURIComponent($page.url.searchParams.get("from[amount]")))
+			: 1.0,
 		invalid: false,
 	};
 
 	const to = {
-		currency: null,
+		currency: $page.url.searchParams.get("to[currency]")
+			? decodeURIComponent($page.url.searchParams.get("to[currency]"))
+			: null,
 		invalid: false,
 	};
 
-	const data = {};
+	const data = $page.stuff.data
+		? {
+				[from.currency]: $page.stuff.data,
+		  }
+		: {};
 
 	$: convertedAmount =
 		from.amount && data[from.currency] && data[from.currency][to.currency]
@@ -50,10 +61,6 @@
 
 		from.currency = to.currency;
 		to.currency = oldFrom;
-	}
-
-	function getRandomCurrency() {
-		return supportedCurrencyIds[Math.round(Math.random() * supportedCurrencyIds.length)];
 	}
 
 	async function onFromCurrencySelect({ detail }) {
@@ -102,11 +109,6 @@
 			console.error(e);
 		}
 	}
-
-	onMount(() => {
-		fromPlaceholder = `e.g. ${getRandomCurrency()}`;
-		toPlaceholder = `e.g. ${getRandomCurrency()}`;
-	});
 </script>
 
 <FromTo>
@@ -116,6 +118,7 @@
 				<Input
 					list="currencyList"
 					id="currencies-from_currency"
+					name="from[currency]"
 					placeholder={fromPlaceholder}
 					label={i18n.currencies.labels.currency}
 					invalid={from.invalid}
@@ -126,6 +129,7 @@
 			</svelte:fragment>
 			<svelte:fragment slot="2">
 				<Input
+					name="from[amount]"
 					type="number"
 					step={0.01}
 					id="currencies-from_amount"
@@ -149,6 +153,7 @@
 		<Grid wrap={false}>
 			<svelte:fragment slot="1">
 				<Input
+					name="to[currency]"
 					list="currencyList"
 					id="currencies-to_currency"
 					placeholder={toPlaceholder}
@@ -158,6 +163,7 @@
 					on:input={onToCurrencySelect}
 					on:change={onToCurrencyChange}
 				/>
+				<Button />
 			</svelte:fragment>
 			<svelte:fragment slot="2">
 				<Result label={i18n.currencies.labels.amount} result={convertedAmount} highlight={true} />
