@@ -1,7 +1,9 @@
 <div class="Divider">
-	<slot />
 	<span class="Divider-arrow Divider-arrow--right" aria-hidden="true">→</span>
 	<span class="Divider-arrow Divider-arrow--down" aria-hidden="true">↓</span>
+	<div class="Divider-content">
+		<slot />
+	</div>
 </div>
 
 <style>
@@ -18,9 +20,12 @@
 		line-height: 1;
 	}
 
+	.Divider-content {
+		display: flex;
+	}
+
 	@media (max-width: 56em) {
 		.Divider {
-			flex-direction: row-reverse;
 			gap: 2rem;
 		}
 
@@ -31,12 +36,19 @@
 		.Divider-arrow--right {
 			display: none;
 		}
+
+		.Divider-content {
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 1rem;
+			justify-content: center;
+		}
 	}
 
 	@media (min-width: 56.0625em) {
 		.Divider {
+			flex-direction: column;
 			inline-size: 16em;
-			flex-direction: column-reverse;
 		}
 
 		.Divider-arrow {
@@ -45,6 +57,11 @@
 
 		.Divider-arrow--down {
 			display: none;
+		}
+
+		.Divider-content {
+			align-items: center;
+			flex-direction: column;
 		}
 	}
 </style>

@@ -144,8 +144,8 @@
 	<svelte:fragment slot="divider">
 		{#if !from.invalid && !to.invalid}
 			{#if from.currency && to.currency && data[from.currency] && [to.currency]}
-				<DirectionToggle on:click={toggleDirection} />
 				<Multiplier value={data[from.currency][to.currency].toFixed(4)} />
+				<DirectionToggle on:click={toggleDirection} />
 			{/if}
 		{/if}
 	</svelte:fragment>
