@@ -7,7 +7,7 @@
 	export let flex2 = "";
 </script>
 
-<form class="FromTo" style:--flex-1={flex1} style:--flex-2={flex2}>
+<form class="FromTo" style:--flex-1={flex1} style:--flex-2={flex2} on:submit|preventDefault>
 	<Box tag="fieldset" title={i18n.from}>
 		<slot name="from" />
 	</Box>

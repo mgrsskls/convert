@@ -53,7 +53,7 @@
 
 <div class="Input">
 	<div class="Input-container">
-		<label class="Input-label" for={id}>
+		<label class="Input-label" for={!viaSlot ? id : null}>
 			{label}
 			<slot />
 		</label>
