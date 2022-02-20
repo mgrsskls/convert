@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from "$app/env";
 	import { page } from "$app/stores";
 	import { onMount } from "svelte";
 
@@ -11,6 +12,7 @@
 
 	let color = getColorFromSearchParam() || "";
 	let bgColor = "";
+	let shouldValidate = color ? true : false;
 
 	$: types = [
 		{
@@ -46,6 +48,12 @@
 			value: cmyk,
 		},
 	];
+
+	$: {
+		if (browser) {
+			history.replaceState(null, null, `?string=${color}`);
+		}
+	}
 
 	$: colorAsHex = color && isValid ? w3color(color).toHexString() : "";
 	$: isValid = isValidColor(color);
@@ -113,8 +121,15 @@
 				label="Color string"
 				list="htmlNames"
 				name="string"
+				invalid={shouldValidate && color.length > 0 && !isValid}
 				bind:value={color}
-				on:input={({ detail }) => (color = detail)}
+				on:input={({ detail }) => {
+					shouldValidate = false;
+					color = detail;
+				}}
+				on:change={() => {
+					shouldValidate = true;
+				}}
 			/>
 		</div>
 		<p class="ColorInputDivider">or</p>

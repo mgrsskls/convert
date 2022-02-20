@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from "$app/env";
 	import { page } from "$app/stores";
 
 	import i18n from "$lib/i18n.js";
@@ -23,26 +24,32 @@
 
 	let fromPlaceholder = "e.g. EUR";
 	let toPlaceholder = "e.g. USD";
+	let shouldUpdateHistory = false;
 
+	const initialFromCurrency = $page.url.searchParams.get("from[currency]")
+		? decodeURIComponent($page.url.searchParams.get("from[currency]"))
+		: null;
+	const initialFromAmount = $page.url.searchParams.get("from[amount]")
+		? decodeURIComponent($page.url.searchParams.get("from[amount]"))
+		: "1.0";
 	const from: {
 		currency: string | null;
-		amount: number;
-		invalid: boolean;
+		amount: string;
+		shouldValidateCurrency: boolean;
+		shouldValidateAmount: boolean;
 	} = {
-		currency: $page.url.searchParams.get("from[currency]")
-			? decodeURIComponent($page.url.searchParams.get("from[currency]"))
-			: null,
-		amount: $page.url.searchParams.get("from[amount]")
-			? parseFloat(decodeURIComponent($page.url.searchParams.get("from[amount]")))
-			: 1.0,
-		invalid: false,
+		currency: initialFromCurrency,
+		amount: initialFromAmount,
+		shouldValidateCurrency: initialFromCurrency ? true : false,
+		shouldValidateAmount: initialFromAmount ? true : false,
 	};
 
+	const initialToCurrency = $page.url.searchParams.get("to[currency]")
+		? decodeURIComponent($page.url.searchParams.get("to[currency]"))
+		: null;
 	const to = {
-		currency: $page.url.searchParams.get("to[currency]")
-			? decodeURIComponent($page.url.searchParams.get("to[currency]"))
-			: null,
-		invalid: false,
+		currency: initialToCurrency,
+		shouldValidateCurrency: initialToCurrency ? true : false,
 	};
 
 	const data = $page.stuff.data
@@ -51,9 +58,30 @@
 		  }
 		: {};
 
+	$: {
+		if (browser && shouldUpdateHistory) {
+			history.replaceState(
+				null,
+				null,
+				`?from[currency]=${from.currency || ""}&from[amount]=${from.amount || ""}&to[currency]=${
+					to.currency || ""
+				}`
+			);
+		}
+
+		shouldUpdateHistory = true;
+	}
+
+	$: fromCurrencyIsValid = supportedCurrencyIds.includes(from.currency);
+	$: fromAmountIsValid = !Number.isNaN(parseFloat(from.amount));
+	$: toCurrencyIsValid = supportedCurrencyIds.includes(to.currency);
 	$: convertedAmount =
-		from.amount && data[from.currency] && data[from.currency][to.currency]
-			? (from.amount * data[from.currency][to.currency]).toFixed(2)
+		fromCurrencyIsValid &&
+		fromAmountIsValid &&
+		toCurrencyIsValid &&
+		data[from.currency] &&
+		data[from.currency][to.currency]
+			? (parseFloat(from.amount) * data[from.currency][to.currency]).toFixed(2)
 			: "-";
 
 	function toggleDirection() {
@@ -64,33 +92,26 @@
 	}
 
 	async function onFromCurrencySelect({ detail }) {
-		const currency = detail.toUpperCase();
+		from.currency = detail.toUpperCase();
 
-		from.invalid = false;
-
-		if (supportedCurrencyIds.includes(currency)) {
-			from.currency = currency;
-			fetchCurrencies(currency);
+		if (supportedCurrencyIds.includes(from.currency)) {
+			fetchCurrencies(from.currency);
 		}
+
+		from.shouldValidateCurrency = false;
 	}
 
-	function onFromCurrencyChange({ detail }) {
-		from.invalid = !supportedCurrencyIds.includes(detail);
+	function onFromCurrencyChange() {
+		from.shouldValidateCurrency = true;
 	}
 
 	function onToCurrencySelect({ detail }) {
-		const currency = detail.toUpperCase();
-
-		to.invalid = false;
-
-		if (supportedCurrencyIds.includes(currency)) {
-			to.currency = currency;
-			fetchCurrencies(currency);
-		}
+		to.currency = detail.toUpperCase();
+		to.shouldValidateCurrency = false;
 	}
 
-	function onToCurrencyChange({ detail }) {
-		to.invalid = !supportedCurrencyIds.includes(detail);
+	function onToCurrencyChange() {
+		to.shouldValidateCurrency = true;
 	}
 
 	async function fetchCurrencies(currency: string) {
@@ -121,7 +142,7 @@
 					name="from[currency]"
 					placeholder={fromPlaceholder}
 					label={i18n.currencies.labels.currency}
-					invalid={from.invalid}
+					invalid={from.shouldValidateCurrency && !fromCurrencyIsValid}
 					bind:value={from.currency}
 					on:input={onFromCurrencySelect}
 					on:change={onFromCurrencyChange}
@@ -130,20 +151,25 @@
 			<svelte:fragment slot="2">
 				<Input
 					name="from[amount]"
-					type="number"
-					step={0.01}
+					type="text"
+					inputmode="decimal"
 					id="currencies-from_amount"
 					placeholder="e.g. 12.99"
 					label={i18n.currencies.labels.amount}
+					invalid={from.shouldValidateAmount && !fromAmountIsValid}
 					bind:value={from.amount}
-					on:input={({ detail }) => (from.amount = detail)}
+					on:input={({ detail }) => {
+						from.amount = detail;
+						from.shouldValidateAmount = false;
+					}}
+					on:change={() => (from.shouldValidateAmount = true)}
 				/>
 			</svelte:fragment>
 		</Grid>
 	</svelte:fragment>
 	<svelte:fragment slot="divider">
-		{#if !from.invalid && !to.invalid}
-			{#if from.currency && to.currency && data[from.currency] && [to.currency]}
+		{#if fromCurrencyIsValid && toCurrencyIsValid}
+			{#if data[from.currency] && data[from.currency][to.currency]}
 				<Multiplier value={data[from.currency][to.currency].toFixed(4)} />
 				<DirectionToggle on:click={toggleDirection} />
 			{/if}
@@ -158,7 +184,7 @@
 					id="currencies-to_currency"
 					placeholder={toPlaceholder}
 					label={i18n.currencies.labels.currency}
-					invalid={to.invalid}
+					invalid={to.shouldValidateCurrency && !toCurrencyIsValid}
 					bind:value={to.currency}
 					on:input={onToCurrencySelect}
 					on:change={onToCurrencyChange}

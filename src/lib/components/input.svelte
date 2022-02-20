@@ -27,6 +27,7 @@
 	export let options: Array<Option> | null = null;
 	export let invalid = false;
 	export let name = "";
+	export let inputmode = "";
 
 	function onInput(e: Event) {
 		const target = e.target as HTMLInputElement;
@@ -89,6 +90,7 @@
 					{step}
 					{list}
 					{name}
+					{inputmode}
 					required
 					aria-invalid={invalid}
 					on:input={onInput}
@@ -181,15 +183,14 @@
 	}
 
 	.Input-error {
-		position: absolute;
-		inset-block-start: 0;
-		inset-inline-end: 0;
+		display: block;
+		width: fit-content;
 		font-size: 0.75em;
 		background: var(--color-invalid);
 		color: var(--color-bg);
 		padding: 0.2em 0.4em;
 		font-weight: 800;
-		border-radius: var(--box-border-radius);
+		border-radius: 0 0 var(--box-border-radius) var(--box-border-radius);
 	}
 
 	input[type="checkbox"] {

@@ -2,18 +2,22 @@
 	/** @type {import('@sveltejs/kit').Load} */
 	export async function load({ fetch, url }) {
 		if (url.searchParams.get("from[currency]")) {
-			const response = await fetch(
-				`${
-					import.meta.env.VITE_BACKEND_HOST || ""
-				}/.netlify/functions/currencies?currency=${url.searchParams.get("from[currency]")}`
-			);
+			try {
+				const response = await fetch(
+					`${
+						import.meta.env.VITE_BACKEND_HOST || ""
+					}/.netlify/functions/currencies?currency=${url.searchParams.get("from[currency]")}`
+				);
 
-			return {
-				status: 200,
-				stuff: {
-					data: response.ok && (await response.json()),
-				},
-			};
+				return {
+					status: 200,
+					stuff: {
+						data: response.ok && (await response.json()),
+					},
+				};
+			} catch (e) {
+				return {};
+			}
 		}
 
 		return {};
