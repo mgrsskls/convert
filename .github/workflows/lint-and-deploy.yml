@@ -21,9 +21,15 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: |
+      - name: Lint
+        run: |
           npm run dev &
           npm run lint:svelte
           npm run lint:prettier
           npm run lint:eslint
           npm run lint:a11y
+      - name: Deploy
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: netlify deploy --build --prod --message "${{ github.event.commits[0].message }}"

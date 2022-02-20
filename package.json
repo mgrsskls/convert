@@ -21,7 +21,7 @@
 	],
 	"devDependencies": {
 		"@axe-core/cli": "^4.4.1-alpha.247",
-		"@sveltejs/adapter-auto": "next",
+		"@sveltejs/adapter-netlify": "^1.0.0-next.45",
 		"@sveltejs/kit": "next",
 		"@tsconfig/svelte": "^3.0.0",
 		"@typescript-eslint/eslint-plugin": "^5.12.0",
