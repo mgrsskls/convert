@@ -14,6 +14,13 @@
 		"lint": "npm run lint:svelte && npm run lint:prettier && npm run lint:eslint && npm run lint:html && npm run lint:a11y",
 		"format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
 	},
+	"pre-commit": [
+		"lint:svelte",
+		"lint:prettier",
+		"lint:eslint",
+		"lint:html",
+		"lint:a11y"
+	],
 	"devDependencies": {
 		"@axe-core/cli": "^4.4.1-alpha.247",
 		"@sveltejs/adapter-auto": "next",
@@ -26,6 +33,7 @@
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^3.2.1",
 		"html-validate": "^6.4.0",
+		"pre-commit": "^1.2.2",
 		"prettier": "^2.5.1",
 		"prettier-plugin-svelte": "^2.5.0",
 		"svelte": "^3.44.0",
