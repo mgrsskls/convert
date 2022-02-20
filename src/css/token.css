@@ -4,7 +4,8 @@ html {
 	--color-accent: hsl(312, var(--saturation-accent, 34%), var(--lightness-accent, 25%));
 	--color-box-bg: hsl(204, 18.5%, var(--lightness-box-bg, 90%));
 	--color-accent-light: hsl(312, 10%, var(--lightness-accent-light, 75%));
-	--color-invalid: rgb(255, 0, 120);
+	--color-invalid-bg: rgb(255, 0, 120);
+	--color-invalid-copy: #fff;
 
 	--color-bg: #fff;
 	--contrast-border: 1px solid var(--contrast-border-color, transparent);
@@ -29,6 +30,7 @@ html {
 		--lightness-copy-light: 50%;
 		--saturation-accent: 10%;
 		--lightness-accent: 50%;
+		--color-invalid-bg: rgb(255, 78, 160);
 	}
 }
 
@@ -41,6 +43,7 @@ html {
 		--lightness-accent: 75%;
 		--lightness-box-bg: 10%;
 		--lightness-accent-light: 25%;
+		--color-invalid-bg: rgb(150, 0, 70);
 	}
 
 	@media (prefers-contrast: more) {

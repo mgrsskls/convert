@@ -150,7 +150,7 @@
 	}
 
 	.Input-element[aria-invalid="true"] {
-		border-block-end-color: var(--color-invalid);
+		border-block-end-color: var(--color-invalid-bg);
 	}
 
 	.Input-element[type="datetime-local"] {
@@ -186,8 +186,8 @@
 		display: block;
 		width: fit-content;
 		font-size: 0.75em;
-		background: var(--color-invalid);
-		color: var(--color-bg);
+		background: var(--color-invalid-bg);
+		color: var(--color-invalid-copy);
 		padding: 0.2em 0.4em;
 		font-weight: 800;
 		border-radius: 0 0 var(--box-border-radius) var(--box-border-radius);
