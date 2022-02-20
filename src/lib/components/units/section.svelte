@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from "$app/env";
 	import { page } from "$app/stores";
 	import BigNumber from "bignumber.js";
 
@@ -17,28 +18,56 @@
 	export let conversions: object = {};
 	export let roundResults: boolean | number = false;
 
+	let shouldUpdateHistory = false;
+
+	const initialFromUnit = $page.url.searchParams.get(`${alias}[from][unit]`)
+		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][unit]`))
+		: "";
+	const initialFromValue = $page.url.searchParams.get(`${alias}[from][value]`)
+		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][value]`))
+		: null;
 	const from = {
-		unit: $page.url.searchParams.get("from[unit]")
-			? decodeURIComponent($page.url.searchParams.get("from[unit]"))
-			: "",
-		value: $page.url.searchParams.get("from[value]")
-			? parseInt(decodeURIComponent($page.url.searchParams.get("from[value]")), 10)
-			: null,
+		unit: initialFromUnit,
+		shouldValidateUnit: initialFromUnit ? true : false,
+		value: initialFromValue,
+		shouldValidateValue: initialFromValue ? true : false,
 	};
 
+	const initialToUnit = $page.url.searchParams.get(`${alias}[to][unit]`)
+		? decodeURIComponent($page.url.searchParams.get(`${alias}[to][unit]`))
+		: "";
 	const to = {
-		unit: $page.url.searchParams.get("to[unit]")
-			? decodeURIComponent($page.url.searchParams.get("to[unit]"))
-			: "",
+		unit: initialToUnit,
+		shouldValidateUnit: initialToUnit ? true : false,
 	};
 
 	const units = Object.entries(names).map((entry) => ({
 		value: entry[0],
 		label: `${entry[1]} (${abbr ? abbr[entry[0]] : entry[0]})`,
 	}));
+	const unitValues = units.map((unit) => unit.value);
 
+	$: {
+		if (browser && shouldUpdateHistory) {
+			history.replaceState(
+				null,
+				null,
+				`?type=${alias}&${alias}[from][unit]=${from.unit || ""}&${alias}[from][value]=${
+					from.value || ""
+				}&${alias}[to][unit]=${to.unit || ""}`
+			);
+		}
+
+		shouldUpdateHistory = true;
+	}
+
+	$: fromUnitIsValid = unitValues.includes(from.unit);
+	$: fromValueIsValid = !Number.isNaN(parseFloat(from.value));
+	$: toUnitIsValid = unitValues.includes(to.unit);
 	$: result =
-		from.unit && from.value && to.unit ? calcResult(from.unit, from.value, to.unit) : null;
+		fromValueIsValid && from.unit && to.unit
+			? calcResult(from.unit, parseFloat(from.value), to.unit)
+			: null;
 	$: formattedResult = formatResult(result);
 
 	function toggleDirection() {
@@ -99,23 +128,39 @@
 		<Grid wrap={false}>
 			<svelte:fragment slot="1">
 				<Input
-					name="from[unit]"
+					name={`${alias}[from][unit]`}
 					label={i18n.units.labels.unit}
-					id={`${alias}-from-value`}
-					options={units}
+					id={`${alias}-from-unit`}
+					placeholder={i18n.units[alias].placeholders.unit.from}
+					list={`${alias}-list`}
+					invalid={from.shouldValidateUnit && !fromUnitIsValid}
 					bind:value={from.unit}
-					on:change={({ detail }) => (from.unit = detail)}
+					on:input={({ detail }) => {
+						from.unit = detail;
+						from.shouldValidateUnit = false;
+					}}
+					on:change={() => {
+						from.shouldValidateUnit = true;
+					}}
 				/>
 			</svelte:fragment>
 			<svelte:fragment slot="2">
 				<Input
-					name="from[value]"
-					type="number"
-					id={`${alias}-from-unit`}
-					placeholder={i18n.units.placeholders.lengths}
+					name={`${alias}[from][value]`}
+					type="text"
+					inputmode="decimal"
+					id={`${alias}-from-value`}
+					placeholder={i18n.units[alias].placeholders.value}
 					label={i18n.units.labels.value}
 					value={from.value}
-					on:input={({ detail }) => (from.value = detail)}
+					invalid={from.shouldValidateValue && !fromValueIsValid}
+					on:input={({ detail }) => {
+						from.value = detail;
+						from.shouldValidateValue = false;
+					}}
+					on:change={() => {
+						from.shouldValidateValue = true;
+					}}
 				/>
 			</svelte:fragment>
 		</Grid>
@@ -132,12 +177,20 @@
 		<Grid wrap={false}>
 			<svelte:fragment slot="1">
 				<Input
-					name="to[unit]"
+					name={`${alias}[to][unit]`}
 					label={i18n.units.labels.unit}
-					id={`${alias}-to-value`}
-					options={units}
+					id={`${alias}-to-unit`}
+					placeholder={i18n.units[alias].placeholders.unit.to}
+					list={`${alias}-list`}
+					invalid={to.shouldValidateUnit && !toUnitIsValid}
 					bind:value={to.unit}
-					on:change={({ detail }) => (to.unit = detail)}
+					on:input={({ detail }) => {
+						to.unit = detail;
+						to.shouldValidateUnit = false;
+					}}
+					on:change={() => {
+						to.shouldValidateUnit = true;
+					}}
 				/>
 				<Button />
 			</svelte:fragment>
@@ -152,3 +205,9 @@
 		</Grid>
 	</svelte:fragment>
 </FromTo>
+
+<datalist id={`${alias}-list`}>
+	{#each units as unit}
+		<option value={unit.value}>{unit.label}</option>
+	{/each}
+</datalist>

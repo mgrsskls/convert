@@ -25,11 +25,15 @@ export const en = {
 			value: "Value",
 			unit: "Unit",
 		},
-		placeholders: {
-			lengths: "e.g. 1337",
-		},
 		lengths: {
 			title: "Lengths",
+			placeholders: {
+				unit: {
+					from: "e.g. km",
+					to: "e.g. mi",
+				},
+				value: "e.g. 1337",
+			},
 			names: {
 				mm: "Millimeter",
 				cm: "Centimeter",
@@ -43,6 +47,13 @@ export const en = {
 		},
 		areas: {
 			title: "Areas",
+			placeholders: {
+				unit: {
+					from: "e.g. sq_m",
+					to: "e.g. sq_ft",
+				},
+				value: "e.g. 500",
+			},
 			names: {
 				sq_mm: "Square Millimeter",
 				sq_cm: "Square Centimeter",
@@ -66,6 +77,13 @@ export const en = {
 		},
 		volumes: {
 			title: "Volumes",
+			placeholders: {
+				unit: {
+					from: "e.g. ltr",
+					to: "e.g. us_gal",
+				},
+				value: "e.g. 10",
+			},
 			names: {
 				cbcm: "Cubic Centimeter",
 				cbm: "Cubic Meter",
@@ -89,6 +107,13 @@ export const en = {
 		},
 		masses: {
 			title: "Masses",
+			placeholders: {
+				unit: {
+					from: "e.g. kg",
+					to: "e.g. lb",
+				},
+				value: "e.g. 1000",
+			},
 			names: {
 				g: "Gram",
 				kg: "Kilogram",
@@ -116,6 +141,13 @@ export const en = {
 		},
 		speeds: {
 			title: "Speeds",
+			placeholders: {
+				unit: {
+					from: "e.g. km/h",
+					to: "e.g. mi/h",
+				},
+				value: "e.g. 120",
+			},
 			names: {
 				m_s: "Meter / Second",
 				m_min: "Meter / Minute",
@@ -139,6 +171,13 @@ export const en = {
 		},
 		temperatures: {
 			title: "Temperatures",
+			placeholders: {
+				unit: {
+					from: "e.g. C",
+					to: "e.g. F",
+				},
+				value: "e.g. 32",
+			},
 			names: {
 				C: "Degree Celsius",
 				F: "Degree Fahrenheit",
