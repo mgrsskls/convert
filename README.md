@@ -1,40 +1,45 @@
-# create-svelte
+# convert
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+https://convert.mgrossklaus.de
 
-## Creating a project
+Website to convert:
 
-If you're seeing this, you've probably already done this step. Congrats!
+- Colors
+  - HTML names
+  - RGB
+  - RGBA
+  - Hex
+  - HSL
+  - HSLA
+  - HWB
+  - CMYK
+- Currencies
+  - ISO code
+  - Currency name
+- Time
+  - Time zone to Time zone
+  - Time zone to UTC
+  - Time zone to UNIX timestamp
+  - UTC to Time zone
+  - UTC to UNIX timestamp
+  - UNIX timestamp to Time zone
+  - UNIX timestamp to UTC
+- Units
+  - Areas
+  - Lengths
+  - Masses
+  - Speeds
+  - Temperatures
+  - Volumes
 
-```bash
-# create a new project in the current directory
-npm init svelte@next
+## Built with
 
-# create a new project in my-app
-npm init svelte@next my-app
-```
+- Svelte (Kit)
+- Vite
+- TypeScript
+- Netlify functions
 
-> Note: the `@next` is temporary
+## External APIs
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+- Real time currency conversions: https://www.freecurrencyapi.net/
+- Getting the IANA time zone for a given location: https://www.abstractapi.com/time-date-timezone-api

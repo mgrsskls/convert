@@ -25,6 +25,9 @@
 			<ul>
 				<li><a href="https://kit.svelte.dev/" target="_blank" rel="noopener">Svelte Kit</a></li>
 				<li><a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a></li>
+				<li>
+					<a href="https://www.typescriptlang.org/" target="_blank" rel="noopener">TypeScript</a>
+				</li>
 			</ul>
 		</dd>
 	</div>
