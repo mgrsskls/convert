@@ -118,11 +118,7 @@
 	async function fetchCurrencies(currency: string) {
 		try {
 			if (!data[currency]) {
-				const response = await fetch(
-					`${
-						import.meta.env.VITE_BACKEND_HOST || ""
-					}/.netlify/functions/currencies?currency=${currency}`
-				);
+				const response = await fetch(`/currencies/rates?currency=${currency}`);
 				const json = await response.json();
 
 				data[currency] = json;

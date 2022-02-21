@@ -4,9 +4,7 @@
 		if (url.searchParams.get("from[currency]")) {
 			try {
 				const response = await fetch(
-					`${
-						import.meta.env.VITE_BACKEND_HOST || ""
-					}/.netlify/functions/currencies?currency=${url.searchParams.get("from[currency]")}`
+					`/currencies/rates?currency=${url.searchParams.get("from[currency]")}`
 				);
 
 				return {
