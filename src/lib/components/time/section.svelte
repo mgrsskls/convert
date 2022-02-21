@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from "$app/env";
 	import { page } from "$app/stores";
 	import { tick } from "svelte";
 	import i18n from "$lib/i18n.js";
@@ -49,6 +50,7 @@
 		options;
 
 	let timeout: number;
+	let shouldUpdateHistory = false;
 
 	const from: {
 		timeZone: TimeZone;
@@ -62,7 +64,7 @@
 		},
 		datetime: {
 			value: null,
-			changed: $page.url.searchParams.get(`${alias}[from][date_time]`) ? true : false,
+			changed: $page.url.searchParams.get(`${alias}[from][datetime]`) ? true : false,
 		},
 		timestamp: {
 			value: null,
@@ -77,8 +79,8 @@
 				: $page.url.searchParams.get(`${alias}[from][time_zone]`)
 				? decodeURIComponent($page.url.searchParams.get(`${alias}[from][time_zone]`))
 				: userTimeZoneId;
-		from.datetime.value = $page.url.searchParams.get(`${alias}[from][date_time]`)
-			? decodeURIComponent($page.url.searchParams.get(`${alias}[from][date_time]`))
+		from.datetime.value = $page.url.searchParams.get(`${alias}[from][datetime]`)
+			? decodeURIComponent($page.url.searchParams.get(`${alias}[from][datetime]`))
 			: formatDateForInput(currentLocalTime);
 	} else {
 		from.timestamp.value = $page.url.searchParams.get(`${alias}[from][timestamp]`)
@@ -98,6 +100,22 @@
 			suggestionLoading: false,
 		} as TimeZone,
 	};
+
+	$: {
+		if (browser && shouldUpdateHistory) {
+			history.replaceState(
+				null,
+				null,
+				`?type=${alias}&${alias}[from][time_zone]=${
+					from.timeZone.value || ""
+				}&${alias}[from][datetime]=${from.datetime.value || ""}&${alias}[from][timestamp]=${
+					from.timestamp.value || ""
+				}&${alias}[to][time_zone]=${to.timeZone.value || ""}`
+			);
+		}
+
+		shouldUpdateHistory = true;
+	}
 
 	$: fromValue =
 		typeFrom === "timestamp"
@@ -247,7 +265,7 @@
 				{#if typeFrom !== "timestamp"}
 					<Input
 						label={i18n.time.labels.dateTime}
-						name={`${alias}[from][date_time]`}
+						name={`${alias}[from][datetime]`}
 						id={`${alias}_to_datetime`}
 						type="datetime-local"
 						hasResetButton={true}
