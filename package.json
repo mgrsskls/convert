@@ -40,6 +40,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"big.js": "^6.1.1",
 		"bignumber.js": "^9.0.2",
 		"node-fetch": "^2.6.7"
 	}

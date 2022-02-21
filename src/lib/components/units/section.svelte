@@ -2,6 +2,7 @@
 	import { browser } from "$app/env";
 	import { page } from "$app/stores";
 	import BigNumber from "bignumber.js";
+	import Big from "big.js";
 
 	import i18n from "$lib/i18n.js";
 	import Grid from "$lib/components/grid.svelte";
@@ -78,7 +79,14 @@
 	}
 
 	function calcResult(fromUnit: string, fromValue: number, toUnit: string) {
-		if (!fromUnit || !fromValue || !toUnit) return null;
+		if (
+			!fromUnit ||
+			!fromValue ||
+			!toUnit ||
+			!conversions[fromUnit] ||
+			!conversions[fromUnit][toUnit]
+		)
+			return null;
 
 		let value: number;
 
@@ -88,7 +96,7 @@
 			if (typeof conversions[fromUnit][toUnit] === "function") {
 				value = conversions[fromUnit][toUnit](fromValue);
 			} else {
-				value = fromValue * conversions[fromUnit][toUnit];
+				value = new Big(fromValue).times(new Big(conversions[fromUnit][toUnit])).toString();
 			}
 		}
 
@@ -104,7 +112,7 @@
 				: new BigNumber(result).toFormat();
 
 		if (shouldUseExponential(result, roundResults, formatted)) {
-			return `${result.toExponential()}<br><small>${formatted}</small>`;
+			return `${result}<br><small>${formatted}</small>`;
 		}
 
 		return formatted;
@@ -115,7 +123,7 @@
 
 		if (!roundResults) {
 			const arr = formatted.toString().split(".");
-			return arr.length === 2 && arr[0] === "0" && arr[1].startsWith("00000");
+			return arr.length === 2 && arr[0] === "0" && arr[1].startsWith("000000");
 		}
 
 		return false;
