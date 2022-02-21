@@ -37,7 +37,6 @@ Website to convert:
 - Svelte (Kit)
 - Vite
 - TypeScript
-- Netlify functions
 
 ## External APIs
 
