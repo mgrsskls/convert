@@ -1,16 +1,7 @@
 import fetch from "node-fetch";
 
-export const get = async function ({ url, request }) {
+export const get = async function ({ url }) {
 	const currency = url.searchParams.get("currency");
-
-	if (
-		!request.headers.get("referer") ||
-		!request.headers.get("referer").startsWith(import.meta.env.VITE_FRONTEND_HOST)
-	) {
-		return {
-			status: 403,
-		};
-	}
 
 	try {
 		const response = await fetch(
