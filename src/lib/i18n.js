@@ -1,6 +1,8 @@
 export const en = {
 	title: "Convert",
 	description: "Convert is a tool to convert colors, currencies, time and units.",
+	supported: "Supported {{title}}",
+	unsupported: "Unsupported {{title}}",
 	colors: {
 		title: "Colors",
 		description:
@@ -14,8 +16,6 @@ export const en = {
 			amount: "Amount",
 			currency: "Currency",
 		},
-		supported: "Supported currencies",
-		unsupported: "Unsupported currencies",
 	},
 	units: {
 		title: "Units",
@@ -143,8 +143,8 @@ export const en = {
 			title: "Speeds",
 			placeholders: {
 				unit: {
-					from: "e.g. km/h",
-					to: "e.g. mi/h",
+					from: "e.g. km_h",
+					to: "e.g. mi_h",
 				},
 				value: "e.g. 120",
 			},

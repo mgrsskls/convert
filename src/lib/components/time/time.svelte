@@ -11,6 +11,7 @@
 	import UtcToTimestamp from "./utc-to-timestamp.svelte";
 	import UtcToTimeZone from "./utc-to-time-zone.svelte";
 	import Accordion from "$lib/components/accordion.svelte";
+	import SupportedUnits from "$lib/components/supported-units.svelte";
 
 	let open = $page.url.searchParams.get("type");
 
@@ -115,6 +116,8 @@
 		<UtcToTimestamp {currentLocalTime} alias="utc-to-timestamp" />
 	</svelte:fragment>
 </Accordion>
+
+<SupportedUnits supported={list} title="IANA time zone names" />
 
 <datalist id="time-zones">
 	{#each list as timeZone}

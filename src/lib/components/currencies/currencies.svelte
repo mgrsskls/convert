@@ -11,6 +11,7 @@
 	import Multiplier from "$lib/components/multiplier.svelte";
 	import DirectionToggle from "$lib/components/direction-toggle.svelte";
 	import Button from "$lib/components/button.svelte";
+	import SupportedUnits from "$lib/components/supported-units.svelte";
 
 	const sortedCurrencies = list.sort((a, b) => {
 		if (a.id > b.id) return 1;
@@ -198,56 +199,14 @@
 	</svelte:fragment>
 </FromTo>
 
-<div class="CurrencySupport">
-	<h3 class="CurrencySupport-title">{i18n.currencies.supported}</h3>
-	<ul class="CurrencySupport-list">
-		{#each supportedCurrencyIds as currency}
-			<li class="CurrencySupport-currency">{currency}</li>
-		{/each}
-	</ul>
-	<h3 class="CurrencySupport-title">{i18n.currencies.unsupported}</h3>
-	<ul class="CurrencySupport-list">
-		{#each unsupportedCurrencyIds as currency}
-			<li class="CurrencySupport-currency">{currency}</li>
-		{/each}
-	</ul>
-</div>
+<SupportedUnits
+	supported={supportedCurrencyIds}
+	unsupported={unsupportedCurrencyIds}
+	title={$page.stuff.title.toLowerCase()}
+/>
 
 <datalist id="currencyList">
 	{#each supportedCurrencies as currency}
 		<option value={currency.id}>{currency.name}</option>
 	{/each}
 </datalist>
-
-<style>
-	.CurrencySupport {
-		color: var(--color-copy-light);
-		font-size: 0.75em;
-		margin-block-start: 4rem;
-	}
-
-	.CurrencySupport-title {
-		font-weight: bold;
-	}
-
-	.CurrencySupport-list {
-		display: flex;
-		flex-wrap: wrap;
-	}
-
-	.CurrencySupport-list + .CurrencySupport-title {
-		margin-block-start: 2rem;
-	}
-
-	.CurrencySupport-currency {
-		list-style-type: none;
-	}
-
-	.CurrencySupport-currency:not(:last-child) {
-		padding-inline-end: 0.5ch;
-	}
-
-	.CurrencySupport-currency:not(:last-child)::after {
-		content: ",";
-	}
-</style>

@@ -28,7 +28,6 @@
 	summary {
 		--font-size: clamp(1.6rem, 2vw, 2.2rem);
 
-		cursor: default;
 		font-size: var(--font-size);
 		font-weight: 800;
 		line-height: 1;

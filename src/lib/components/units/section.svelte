@@ -12,7 +12,9 @@
 	import Multiplier from "$lib/components/multiplier.svelte";
 	import DirectionToggle from "$lib/components/direction-toggle.svelte";
 	import Button from "$lib/components/button.svelte";
+	import SupportedUnits from "$lib/components/supported-units.svelte";
 
+	export let title: string;
 	export let alias: string;
 	export let names: object = {};
 	export let abbr: object | null = null;
@@ -44,7 +46,7 @@
 
 	const units = Object.entries(names).map((entry) => ({
 		value: entry[0],
-		label: `${entry[1]} (${abbr ? abbr[entry[0]] : entry[0]})`,
+		label: `${entry[1]}: ${abbr ? abbr[entry[0]] : entry[0]}`,
 	}));
 	const unitValues = units.map((unit) => unit.value);
 
@@ -211,6 +213,17 @@
 				/>
 			</svelte:fragment>
 		</Grid>
+	</svelte:fragment>
+
+	<svelte:fragment slot="support">
+		<SupportedUnits
+			supported={unitValues.map((unit) =>
+				abbr
+					? `<b>${i18n.units[alias].names[unit]}:</b> ${i18n.units[alias].abbr[unit]} (${unit})`
+					: `<b>${i18n.units[alias].names[unit]}:</b> ${unit}`
+			)}
+			title={title.toLowerCase()}
+		/>
 	</svelte:fragment>
 </FromTo>
 
