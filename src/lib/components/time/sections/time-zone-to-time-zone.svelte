@@ -6,11 +6,17 @@
 	import FromTo from "$lib/components/from-to.svelte";
 	import Input from "$lib/components/input.svelte";
 	import Result from "$lib/components/result.svelte";
+	import Difference from "./components/difference.svelte";
 	import Button from "$lib/components/button.svelte";
-	import { formatDateForInput, getDateObjectForGivenDatetimeAndTimeZone } from "./utils.js";
-	import { getLocation } from "./api.js";
+	import {
+		formatDateForInput,
+		getDateObjectForGivenDatetimeAndTimeZone,
+		getDatetimeObject,
+		getTimeZonesDifference,
+	} from "../utils.js";
+	import { getLocation } from "../api.js";
 
-	export let alias = "";
+	export let alias: string;
 	export let userTimeZoneId: string;
 	export let currentLocalTime: Date;
 	export let formattedList: Array<string>;
@@ -33,6 +39,16 @@
 		},
 	};
 
+	const to = {
+		timeZone: {
+			value: $page.url.searchParams.get("to[time_zone]")
+				? decodeURIComponent($page.url.searchParams.get("to[time_zone]"))
+				: "",
+			suggestion: null,
+			suggestionLoading: false,
+		},
+	};
+
 	$: fromDatetimeFormatted = from.datetime.changed
 		? from.datetime.formatted
 		: formatDateForInput(currentLocalTime);
@@ -42,7 +58,17 @@
 		fromDatetimeFormatted,
 		from.timeZone.value
 	);
-	$: result = fromDatetimeTimeZoneObject ? fromDatetimeTimeZoneObject.getTime() : "-";
+	$: fromDatetimeObject = from.timeZone.value
+		? getDatetimeObject(from.timeZone.value, fromDatetimeTimeZoneObject)
+		: null;
+	$: toDatetimeObject = to.timeZone.value
+		? getDatetimeObject(to.timeZone.value, fromDatetimeTimeZoneObject)
+		: null;
+	$: toDatetimeFormattedForInput = toDatetimeObject ? toDatetimeObject.toLocaleString() : "-";
+	$: differenceInHours =
+		fromDatetimeObject && toDatetimeObject
+			? getTimeZonesDifference(fromDatetimeObject, toDatetimeObject)
+			: null;
 
 	function setFromTimeZone(value: string) {
 		const lowercaseValue = value.toLowerCase();
@@ -67,6 +93,29 @@
 		}
 	}
 
+	function setToTimeZone(value: string) {
+		const lowercaseValue = value.toLowerCase();
+
+		to.timeZone.suggestion = null;
+
+		if (value.length === 0) return;
+
+		if (formattedList.filter((entry) => entry.includes(lowercaseValue)).length > 0) {
+			if (formattedList.includes(lowercaseValue)) {
+				to.timeZone.value = value;
+			}
+		} else {
+			clearTimeout(timeout);
+
+			timeout = window.setTimeout(async () => {
+				to.timeZone.suggestionLoading = true;
+				const suggestion = await getLocation(value);
+				to.timeZone.suggestion = suggestion.timezone;
+				to.timeZone.suggestionLoading = false;
+			}, 500);
+		}
+	}
+
 	function resetFromTimeZone() {
 		from.timeZone.value = userTimeZoneId;
 	}
@@ -79,7 +128,7 @@
 			<svelte:fragment slot="1">
 				<Input
 					label={i18n.time.labels.timeZone}
-					id="time-zone-to-timestamp_from-time-zone"
+					id="from-time-zone_from-time-zone"
 					name="from[time_zone]"
 					type="text"
 					hasResetButton={true}
@@ -107,8 +156,8 @@
 			<svelte:fragment slot="2">
 				<Input
 					label={i18n.time.labels.dateTime}
-					id="time-zone-to-timestamp_from-datetime"
 					name="from[date_time]"
+					id="from-time-zone_from-datetime"
 					type="datetime-local"
 					hasResetButton={true}
 					resetButtonIsVisible={from.datetime.changed}
@@ -125,9 +174,42 @@
 				/>
 			</svelte:fragment>
 		</Grid>
-		<Button />
+	</svelte:fragment>
+	<svelte:fragment slot="divider">
+		{#if differenceInHours}
+			<Difference diff={differenceInHours} />
+		{/if}
 	</svelte:fragment>
 	<svelte:fragment slot="to">
-		<Result label={i18n.time.labels.unixTimestamp} {result} highlight={true} />
+		<Grid>
+			<svelte:fragment slot="1">
+				<Input
+					label={i18n.time.labels.timeZone}
+					name="to[time_zone]"
+					id="time-zone-to-time-zone_time-zone"
+					type="text"
+					list="time-zones"
+					placeholder={i18n.time.placeholders.timeZone.to}
+					value={to.timeZone.value}
+					suggestion={to.timeZone.suggestion}
+					loading={to.timeZone.suggestionLoading}
+					on:input={({ detail }) => setToTimeZone(detail)}
+					on:suggestionAccepted={async () => {
+						to.timeZone.value = null;
+						await tick();
+						to.timeZone.value = to.timeZone.suggestion;
+						to.timeZone.suggestion = null;
+					}}
+				/>
+				<Button />
+			</svelte:fragment>
+			<svelte:fragment slot="2">
+				<Result
+					label={i18n.time.labels.dateTime}
+					result={toDatetimeFormattedForInput}
+					highlight={true}
+				/>
+			</svelte:fragment>
+		</Grid>
 	</svelte:fragment>
 </FromTo>

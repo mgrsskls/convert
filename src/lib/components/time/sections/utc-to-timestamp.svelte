@@ -6,9 +6,9 @@
 	import Input from "$lib/components/input.svelte";
 	import Result from "$lib/components/result.svelte";
 	import Button from "$lib/components/button.svelte";
-	import { formatDateForInput, getDatetimeParts } from "./utils.js";
+	import { formatDateForInput, getDatetimeParts } from "../utils.js";
 
-	export let alias = "";
+	export let alias: string;
 	export let currentLocalTime: Date;
 
 	const from: {

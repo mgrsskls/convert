@@ -3,13 +3,13 @@
 	import { page } from "$app/stores";
 
 	import list from "./list.js";
-	import TimestampToTimeZone from "./timestamp-to-timezone.svelte";
-	import TimestampToUtc from "./timestamp-to-utc.svelte";
-	import TimeZoneToTimestamp from "./time-zone-to-timestamp.svelte";
-	import TimeZoneToTimeZone from "./time-zone-to-time-zone.svelte";
-	import TimeZoneToUtc from "./time-zone-to-utc.svelte";
-	import UtcToTimestamp from "./utc-to-timestamp.svelte";
-	import UtcToTimeZone from "./utc-to-time-zone.svelte";
+	import TimestampToTimeZone from "./sections/timestamp-to-timezone.svelte";
+	import TimestampToUtc from "./sections/timestamp-to-utc.svelte";
+	import TimeZoneToTimestamp from "./sections/time-zone-to-timestamp.svelte";
+	import TimeZoneToTimeZone from "./sections/time-zone-to-time-zone.svelte";
+	import TimeZoneToUtc from "./sections/time-zone-to-utc.svelte";
+	import UtcToTimestamp from "./sections/utc-to-timestamp.svelte";
+	import UtcToTimeZone from "./sections/utc-to-time-zone.svelte";
 	import Accordion from "$lib/components/accordion.svelte";
 	import SupportedUnits from "$lib/components/supported-units.svelte";
 

@@ -7,10 +7,10 @@
 	import Input from "$lib/components/input.svelte";
 	import Result from "$lib/components/result.svelte";
 	import Button from "$lib/components/button.svelte";
-	import { getDatetimeObject } from "./utils.js";
-	import { getLocation } from "./api.js";
+	import { getDatetimeObject } from "../utils.js";
+	import { getLocation } from "../api.js";
 
-	export let alias = "";
+	export let alias: string;
 	export let userTimeZoneId: string;
 	export let currentLocalTime: Date;
 	export let formattedList: Array<string>;

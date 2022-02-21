@@ -7,7 +7,7 @@
 	import Result from "$lib/components/result.svelte";
 	import Button from "$lib/components/button.svelte";
 
-	export let alias = "";
+	export let alias: string;
 	export let currentLocalTime: Date;
 
 	const from: {
