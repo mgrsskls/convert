@@ -1,9 +1,19 @@
 <script lang="ts">
+	import { onMount } from "svelte";
+
 	export let type = "submit";
 	export let label = "Convert";
+
+	let renderButton = true;
+
+	onMount(() => {
+		renderButton = false;
+	});
 </script>
 
-<button {type}>{label}</button>
+{#if renderButton}
+	<button {type}>{label}</button>
+{/if}
 
 <style>
 	button {

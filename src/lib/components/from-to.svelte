@@ -9,13 +9,7 @@
 </script>
 
 <div class="FromTo">
-	<form
-		{action}
-		class="FromTo-form"
-		style:--flex-1={flex1}
-		style:--flex-2={flex2}
-		on:submit|preventDefault
-	>
+	<form {action} class="FromTo-form" style:--flex-1={flex1} style:--flex-2={flex2}>
 		<Box tag="fieldset" title={i18n.from}>
 			<slot name="from" />
 		</Box>
