@@ -3,20 +3,21 @@ import list from "./list.js";
 export const getDateObjectForGivenDatetimeAndTimeZone = (datetimeValue, timeZoneFromValue) => {
 	const timestampForDatetimeInputWithLocalTimeZone = new Date(datetimeValue).getTime();
 
-	const timestampForCurrentDatetimeWithTimeZoneFromInput = list.includes(timeZoneFromValue)
-		? new Date(
-				standardizeDate(
-					Intl.DateTimeFormat(["en-GB"], {
-						timeZone: timeZoneFromValue,
-						year: "numeric",
-						month: "numeric",
-						day: "numeric",
-						hour: "numeric",
-						minute: "numeric",
-					}).format(new Date(datetimeValue))
-				)
-		  ).getTime()
-		: 0;
+	const timestampForCurrentDatetimeWithTimeZoneFromInput =
+		list.includes(timeZoneFromValue) || timeZoneFromValue === "UTC"
+			? new Date(
+					standardizeDate(
+						Intl.DateTimeFormat(["en-GB"], {
+							timeZone: timeZoneFromValue,
+							year: "numeric",
+							month: "numeric",
+							day: "numeric",
+							hour: "numeric",
+							minute: "numeric",
+						}).format(new Date(datetimeValue))
+					)
+			  ).getTime()
+			: 0;
 
 	const differenceBetweenLocalAndInputTimeZone =
 		timestampForCurrentDatetimeWithTimeZoneFromInput - timestampForDatetimeInputWithLocalTimeZone;
