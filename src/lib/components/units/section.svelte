@@ -176,7 +176,7 @@
 	<svelte:fragment slot="divider">
 		{#if from.unit && to.unit}
 			{#if conversions[from.unit] && conversions[from.unit][to.unit] && typeof conversions[from.unit][to.unit] !== "function"}
-				<Multiplier value={conversions[from.unit][to.unit]} />
+				<Multiplier value={new BigNumber(conversions[from.unit][to.unit]).toFormat()} />
 			{/if}
 			<DirectionToggle on:click={toggleDirection} />
 		{/if}
