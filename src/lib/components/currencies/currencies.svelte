@@ -90,6 +90,10 @@
 
 		from.currency = to.currency;
 		to.currency = oldFrom;
+
+		if (supportedCurrencyIds.includes(from.currency)) {
+			fetchCurrencies(from.currency);
+		}
 	}
 
 	async function onFromCurrencySelect({ detail }) {
