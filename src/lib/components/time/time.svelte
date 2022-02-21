@@ -60,7 +60,8 @@
 </Accordion>
 <Accordion open={open === "utc-to-time-zone"} id="utc-to-time-zone">
 	<svelte:fragment slot="title">
-		UTC <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> Time Zone
+		UTC <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span> Time
+		Zone
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<Section
@@ -79,7 +80,9 @@
 </Accordion>
 <Accordion open={open === "timestamp-to-time-zone"} id="timestamp-to-time-zone">
 	<svelte:fragment slot="title">
-		UNIX Timestamp <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> Time Zone
+		UNIX Timestamp <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true"
+			>→</span
+		> Time Zone
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<Section
@@ -97,7 +100,8 @@
 </Accordion>
 <Accordion open={open === "time-zone-to-utc"} id="time-zone-to-utc">
 	<svelte:fragment slot="title">
-		Time Zone <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> UTC
+		Time Zone <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span
+		> UTC
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<Section
@@ -116,7 +120,9 @@
 </Accordion>
 <Accordion open={open === "timestamp-to-utc"} id="timestamp-to-utc">
 	<svelte:fragment slot="title">
-		UNIX Timestamp <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> UTC
+		UNIX Timestamp <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true"
+			>→</span
+		> UTC
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<Section
@@ -134,7 +140,8 @@
 </Accordion>
 <Accordion open={open === "time-zone-to-timestamp"} id="time-zone-to-timestamp">
 	<svelte:fragment slot="title">
-		Time Zone <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> UNIX Timestamp
+		Time Zone <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span
+		> UNIX Timestamp
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<Section
@@ -152,7 +159,8 @@
 </Accordion>
 <Accordion open={open === "utc-to-timestamp"} id="utc-to-timestamp">
 	<svelte:fragment slot="title">
-		UTC <span class="u-hiddenVisually">to</span><span aria-hidden="true">→</span> UNIX Timestamp
+		UTC <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span> UNIX
+		Timestamp
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<Section
