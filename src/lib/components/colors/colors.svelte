@@ -14,6 +14,8 @@
 	let bgColor = "";
 	let shouldValidate = color ? true : false;
 
+	const lowercaseHtmlNames = htmlNames.map((name) => name.toLowerCase());
+
 	$: types = [
 		{
 			label: "HTML Name",
@@ -55,6 +57,7 @@
 		}
 	}
 
+	$: colorSpace = color ? getColorSpace(color) : "-";
 	$: colorAsHex = color && isValid ? w3color(color).toHexString() : "";
 	$: isValid = isValidColor(color);
 	$: matchesBackground = colorMatchesBackground(result, w3color(bgColor));
@@ -71,6 +74,41 @@
 	onMount(() => {
 		bgColor = window.getComputedStyle(document.documentElement).getPropertyValue("--color-box-bg");
 	});
+
+	function getColorSpace(color: string) {
+		const lowercase = color.toLowerCase().trim();
+
+		if (lowercase.startsWith("rgba")) return "RGBA";
+		if (lowercase.startsWith("rgb")) return "RGB";
+		if (lowercase.startsWith("hsla")) return "HSLA";
+		if (lowercase.startsWith("hsl")) return "HSL";
+		if (lowercase.startsWith("hwb")) return "HWB";
+		if (lowercase.startsWith("cmyk")) return "CMYK";
+		if (lowercase.startsWith("#")) return "Hex";
+		if (lowercaseHtmlNames.filter((name) => name.startsWith(lowercase)).length > 0) return "HTML";
+
+		const isRgbOrRgba = isRgbOrRgbaWithoutExplicitNamespace(color);
+
+		if (isRgbOrRgba.value) return isRgbOrRgba.split.length >= 4 ? "RGBA" : "RGB";
+
+		return "-";
+	}
+
+	function isRgbOrRgbaWithoutExplicitNamespace(color: string) {
+		const regex = /^([0-9.]*[0-9]+)$/;
+		const trimmedColor = color.trim();
+		const separators = [",", " "];
+
+		for (let i = 0; i < separators.length; i += 1) {
+			const split = trimmedColor
+				.split(separators[i])
+				.filter((entry) => entry !== "" && entry !== ",");
+
+			if (split.every((str) => regex.test(str))) return { split, value: true };
+		}
+
+		return { value: false };
+	}
 
 	function getColorFromSearchParam() {
 		if ($page.url.searchParams.get("string")) {
@@ -131,6 +169,10 @@
 					shouldValidate = true;
 				}}
 			/>
+			<dl class="ColorSpace">
+				<dt>Color space</dt>
+				<dd>{colorSpace}</dd>
+			</dl>
 		</div>
 		<p class="ColorInputDivider">or</p>
 		<div class="ColorInput">
@@ -169,6 +211,23 @@
 </datalist>
 
 <style>
+	.ColorSpace {
+		color: var(--color-copy-light);
+		margin-block-start: 0.5rem;
+		font-size: 0.875em;
+		display: flex;
+	}
+
+	.ColorSpace dt::after {
+		display: inline;
+		content: ":";
+		padding-inline-end: 0.5em;
+	}
+
+	.ColorSpace dd {
+		font-weight: 800;
+	}
+
 	.Values {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
