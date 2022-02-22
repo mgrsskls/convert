@@ -16,6 +16,10 @@
 
 	const lowercaseHtmlNames = htmlNames.map((name) => name.toLowerCase());
 
+	interface w3colorResult {
+		valid: boolean;
+	}
+
 	$: types = [
 		{
 			label: "HTML Name",
@@ -57,11 +61,16 @@
 		}
 	}
 
+	$: w3colorResult = w3color(fixedColor);
+	$: fixedColor = ["RGB", "RGBA"].includes(colorSpace) ? rgbOrRgbaWithNamespace : color;
 	$: colorSpace = color ? getColorSpace(color) : "-";
-	$: colorAsHex = color && isValid ? w3color(color).toHexString() : "";
-	$: isValid = isValidColor(color);
+	$: rgbOrRgbaWithNamespace = ["RGB", "RGBA"].includes(colorSpace)
+		? wrapRgbWithoutPrefix(color)
+		: color;
+	$: colorAsHex = color && isValid ? w3colorResult.toHexString() : "";
+	$: isValid = isValidColor(w3colorResult, color);
 	$: matchesBackground = colorMatchesBackground(result, w3color(bgColor));
-	$: result = isValid ? w3color(color) : null;
+	$: result = isValid ? w3colorResult : null;
 	$: htmlName = result ? (result.opacity === 1 ? result.toName() || "-" : "-") : "-";
 	$: rgb = result ? (result.opacity === 1 ? result.toRgbString() : "-") : "-";
 	$: rgba = result ? result.toRgbaString() : "-";
@@ -74,6 +83,18 @@
 	onMount(() => {
 		bgColor = window.getComputedStyle(document.documentElement).getPropertyValue("--color-box-bg");
 	});
+
+	function wrapRgbWithoutPrefix(color: string) {
+		if (!color) return color;
+
+		const lowercase = color.toLowerCase().trim();
+
+		if (lowercase.startsWith("rgb(") || lowercase.startsWith("rgba(")) return color;
+
+		const parts = getRgbOrRgbaParts(color.trim());
+
+		return parts.length > 3 ? `rgba(${parts.join(",")})` : `rgb(${parts.join(",")})`;
+	}
 
 	function getColorSpace(color: string) {
 		const lowercase = color.toLowerCase().trim();
@@ -89,25 +110,34 @@
 
 		const isRgbOrRgba = isRgbOrRgbaWithoutExplicitNamespace(color);
 
-		if (isRgbOrRgba.value) return isRgbOrRgba.split.length >= 4 ? "RGBA" : "RGB";
+		if (isRgbOrRgba) return getRgbOrRgbaParts(color).length >= 4 ? "RGBA" : "RGB";
 
 		return "-";
 	}
 
 	function isRgbOrRgbaWithoutExplicitNamespace(color: string) {
 		const regex = /^([0-9.]*[0-9]+)$/;
+		const parts = getRgbOrRgbaParts(color);
+
+		if (parts.every((str) => regex.test(str))) return true;
+
+		return false;
+	}
+
+	function getRgbOrRgbaParts(color: string) {
 		const trimmedColor = color.trim();
 		const separators = [",", " "];
 
 		for (let i = 0; i < separators.length; i += 1) {
 			const split = trimmedColor
 				.split(separators[i])
-				.filter((entry) => entry !== "" && entry !== ",");
+				.map((str) => str.trim())
+				.filter((str) => str !== "" && str !== ",");
 
-			if (split.every((str) => regex.test(str))) return { split, value: true };
+			if (split.length > 1) return split;
 		}
 
-		return { value: false };
+		return [];
 	}
 
 	function getColorFromSearchParam() {
@@ -122,10 +152,8 @@
 		return null;
 	}
 
-	function isValidColor(color: string) {
-		const result = w3color(color);
-
-		if (color == "" || !result.valid) {
+	function isValidColor(w3colorResult: w3colorResult, color: string) {
+		if (color == "" || !w3colorResult.valid) {
 			return false;
 		}
 
@@ -170,7 +198,7 @@
 				}}
 			/>
 			<dl class="ColorSpace">
-				<dt>Color space</dt>
+				<dt>{i18n.colors.colorSpace}</dt>
 				<dd>{colorSpace}</dd>
 			</dl>
 		</div>
@@ -213,7 +241,7 @@
 <style>
 	.ColorSpace {
 		color: var(--color-copy-light);
-		margin-block-start: 0.5rem;
+		margin-block-start: 1rem;
 		font-size: 0.875em;
 		display: flex;
 	}

@@ -7,7 +7,8 @@ export const en = {
 		title: "Colors",
 		description:
 			"Convert between <b>HTML color names</b>, <b>RGB</b>, <b>Hex</b>, <b>HSL</b>, <b>HWB</b> and <b>CMYK</b>.",
-		placeholder: "e.g. rebeccapurple or #663399",
+		placeholder: "e.g. 102, 51, 153 or #663399",
+		colorSpace: "Color space",
 	},
 	currencies: {
 		title: "Currencies",
