@@ -149,8 +149,8 @@
 						from.unit = detail;
 						from.shouldValidateUnit = false;
 					}}
-					on:change={() => {
-						from.shouldValidateUnit = true;
+					on:change={({ detail }) => {
+						from.shouldValidateUnit = detail.length > 0 ? true : false;
 					}}
 				/>
 			</svelte:fragment>
