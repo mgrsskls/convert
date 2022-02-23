@@ -129,8 +129,6 @@
 	}
 </script>
 
-{fromValueIsValid}
-{result}: {rawResult}
 <FromTo action={`#${alias}`}>
 	<svelte:fragment slot="from">
 		<input type="hidden" name="type" value={alias} />
