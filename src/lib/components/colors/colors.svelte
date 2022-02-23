@@ -235,7 +235,7 @@
 		<div class="Values">
 			{#each types as { label, value }}
 				<div class="Values-entry">
-					<Result {label} result={value} />
+					<Result {label} result={value} isCode={true} />
 				</div>
 			{/each}
 		</div>
