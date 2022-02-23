@@ -131,7 +131,7 @@
 
 <style>
 	.Input-label {
-		display: block;
+		display: inline-block;
 		margin-block-end: 1rem;
 		font-weight: 800;
 		color: var(--color-accent);
@@ -142,6 +142,10 @@
 	}
 
 	.Input-element {
+		display: block;
+	}
+
+	.Input-element:not([type="color"]) {
 		padding-block-end: 0.4rem;
 		inline-size: 100%;
 		box-sizing: border-box;

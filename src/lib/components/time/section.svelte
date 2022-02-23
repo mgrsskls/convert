@@ -354,7 +354,7 @@
 				{:else}
 					<Result
 						label={i18n.time.labels.unixTimestamp}
-						result={timestampResult}
+						result={timestampResult.toString()}
 						highlight={true}
 					/>
 				{/if}

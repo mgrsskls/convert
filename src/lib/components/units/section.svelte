@@ -71,7 +71,8 @@
 		fromValueIsValid && from.unit && to.unit
 			? calcResult(from.unit, parseFloat(from.value), to.unit)
 			: null;
-	$: formattedResult = formatResult(result);
+	$: useExponential = shouldUseExponential(result, rawResult, roundResults);
+	$: rawResult = getFormattedResult(result, roundResults) || "-";
 
 	function toggleDirection() {
 		const oldFrom = from.unit;
@@ -81,9 +82,10 @@
 	}
 
 	function calcResult(fromUnit: string, fromValue: number, toUnit: string) {
+		console.log(fromValue !== null);
 		if (
 			!fromUnit ||
-			!fromValue ||
+			fromValue === null ||
 			!toUnit ||
 			!conversions[fromUnit] ||
 			!conversions[fromUnit][toUnit]
@@ -105,33 +107,30 @@
 		return value;
 	}
 
-	function formatResult(result: number) {
-		if (!result) return "-";
+	function getFormattedResult(result: string | number, roundResults: number | boolean) {
+		if (!["string", "number"].includes(typeof result)) return null;
 
-		const formatted =
-			roundResults && typeof roundResults === "number"
-				? new BigNumber(result).toFormat(roundResults)
-				: new BigNumber(result).toFormat();
-
-		if (shouldUseExponential(result, roundResults, formatted)) {
-			return `${result}<br><small>${formatted}</small>`;
-		}
-
-		return formatted;
+		return roundResults && typeof roundResults === "number"
+			? new BigNumber(result).toFormat(roundResults)
+			: new BigNumber(result).toFormat();
 	}
 
-	function shouldUseExponential(result: number, roundResults: boolean | number, formatted: string) {
+	function shouldUseExponential(result: number, formatted: string, roundResults: boolean | number) {
+		if (!result) return false;
+
 		if (result >= 1000000000000000000000) return true;
 
 		if (!roundResults) {
 			const arr = formatted.toString().split(".");
-			return arr.length === 2 && arr[0] === "0" && arr[1].startsWith("000000");
+			return arr.length === 2 && ["0", "-0"].includes(arr[0]) && arr[1].startsWith("000000");
 		}
 
 		return false;
 	}
 </script>
 
+{fromValueIsValid}
+{result}: {rawResult}
 <FromTo action={`#${alias}`}>
 	<svelte:fragment slot="from">
 		<input type="hidden" name="type" value={alias} />
@@ -208,7 +207,8 @@
 				<Result
 					wrap={true}
 					label={i18n.units.labels.value}
-					result={formattedResult}
+					result={(useExponential ? result : rawResult).toString()}
+					raw={useExponential ? rawResult : null}
 					highlight={true}
 				/>
 			</svelte:fragment>

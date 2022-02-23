@@ -8,15 +8,28 @@
 	import FromTo from "$lib/components/from-to.svelte";
 	import Input from "$lib/components/input.svelte";
 	import Button from "$lib/components/button.svelte";
+	import Result from "$lib/components/result.svelte";
 	import w3color from "./w3color.js";
 
-	let color = getColorFromSearchParam() || "";
-	let bgColor = "";
+	const initialStringColor = $page.url.searchParams.get("string")
+		? decodeURIComponent($page.url.searchParams.get("string"))
+		: "";
+
+	const initialPickerColor = $page.url.searchParams.get("picker")
+		? decodeURIComponent($page.url.searchParams.get("picker"))
+		: "";
+
+	let color = initialStringColor || initialPickerColor || "";
+
+	let colorFromString = initialStringColor;
+	let colorFromPicker = initialPickerColor;
 	let shouldValidate = color ? true : false;
+	let shouldUpdateHistory = false;
+	let bgColor = "";
 
 	const lowercaseHtmlNames = htmlNames.map((name) => name.toLowerCase());
 
-	interface w3colorResult {
+	interface w3colorResultInterface {
 		valid: boolean;
 	}
 
@@ -56,18 +69,26 @@
 	];
 
 	$: {
-		if (browser) {
-			history.replaceState(null, null, `?string=${color}`);
+		if (browser && shouldUpdateHistory) {
+			history.replaceState(
+				null,
+				null,
+				`?string=${encodeURIComponent(colorFromString)}&picker=${encodeURIComponent(
+					colorFromPicker
+				)}`
+			);
 		}
+
+		shouldUpdateHistory = true;
 	}
 
+	$: color = colorFromString || colorFromPicker;
 	$: w3colorResult = w3color(fixedColor);
 	$: fixedColor = ["RGB", "RGBA"].includes(colorSpace) ? rgbOrRgbaWithNamespace : color;
 	$: colorSpace = color ? getColorSpace(color) : "-";
 	$: rgbOrRgbaWithNamespace = ["RGB", "RGBA"].includes(colorSpace)
 		? wrapRgbWithoutPrefix(color)
 		: color;
-	$: colorAsHex = color && isValid ? w3colorResult.toHexString() : "";
 	$: isValid = isValidColor(w3colorResult, color);
 	$: matchesBackground = colorMatchesBackground(result, w3color(bgColor));
 	$: result = isValid ? w3colorResult : null;
@@ -81,7 +102,7 @@
 	$: cmyk = result ? (result.opacity === 1 ? result.toCmykString() : "-") : "-";
 
 	onMount(() => {
-		bgColor = window.getComputedStyle(document.documentElement).getPropertyValue("--color-box-bg");
+		bgColor = window.getComputedStyle(document.documentElement).getPropertyValue("--color-bg");
 	});
 
 	function wrapRgbWithoutPrefix(color: string) {
@@ -140,19 +161,7 @@
 		return [];
 	}
 
-	function getColorFromSearchParam() {
-		if ($page.url.searchParams.get("string")) {
-			return decodeURIComponent($page.url.searchParams.get("string"));
-		}
-
-		if ($page.url.searchParams.get("picker")) {
-			return decodeURIComponent($page.url.searchParams.get("picker"));
-		}
-
-		return null;
-	}
-
-	function isValidColor(w3colorResult: w3colorResult, color: string) {
+	function isValidColor(w3colorResult: w3colorResultInterface, color: string) {
 		if (color == "" || !w3colorResult.valid) {
 			return false;
 		}
@@ -171,11 +180,6 @@
 
 		return matches.every((entry) => entry === true);
 	}
-
-	function onInput(e: Event) {
-		const target = e.target as HTMLInputElement;
-		color = target.value;
-	}
 </script>
 
 <FromTo flex1="0 0 25rem">
@@ -188,10 +192,11 @@
 				list="htmlNames"
 				name="string"
 				invalid={shouldValidate && color.length > 0 && !isValid}
-				bind:value={color}
+				value={colorFromString}
 				on:input={({ detail }) => {
 					shouldValidate = false;
-					color = detail;
+					colorFromString = detail;
+					colorFromPicker = "";
 				}}
 				on:change={() => {
 					shouldValidate = true;
@@ -204,31 +209,36 @@
 		</div>
 		<p class="ColorInputDivider">or</p>
 		<div class="ColorInput">
-			<Input id="color-from-picker" label="Color picker" viaSlot={true}>
-				<span class="ColorPicker" class:matches-background={matchesBackground} style:color={rgba}>
-					<input
-						name="picker"
-						class="u-hiddenVisually"
-						id="color-from-picker"
-						type="color"
-						bind:value={colorAsHex}
-						on:input={onInput}
-					/>
-					AaBbCc
-				</span>
-			</Input>
+			<Input
+				id="color-from-picker"
+				label="Color picker"
+				type="color"
+				bind:value={colorFromPicker}
+				on:input={({ detail }) => {
+					colorFromString = "";
+					colorFromPicker = detail;
+				}}
+			/>
 		</div>
 		<Button />
 	</svelte:fragment>
+	<svelte:fragment slot="divider">
+		<span
+			class="ColorDisplay"
+			class:matches-background={matchesBackground}
+			style:color={isValid ? rgba : null}
+		>
+			AaBbCc
+		</span>
+	</svelte:fragment>
 	<svelte:fragment slot="to">
-		<dl class="Values">
+		<div class="Values">
 			{#each types as { label, value }}
 				<div class="Values-entry">
-					<dt class="Values-label">{label}</dt>
-					<dd>{value}</dd>
+					<Result {label} result={value} />
 				</div>
 			{/each}
-		</dl>
+		</div>
 	</svelte:fragment>
 </FromTo>
 
@@ -246,14 +256,14 @@
 		display: flex;
 	}
 
+	.ColorSpace dt {
+		font-weight: 800;
+	}
+
 	.ColorSpace dt::after {
 		display: inline;
 		content: ":";
 		padding-inline-end: 0.5em;
-	}
-
-	.ColorSpace dd {
-		font-weight: 800;
 	}
 
 	.Values {
@@ -265,33 +275,27 @@
 		padding-block: 1rem;
 	}
 
-	.Values-label {
-		font-weight: 800;
-		color: var(--color-accent);
-	}
-
 	.ColorInputDivider {
+		font-style: italic;
 		margin-block: 2rem;
 	}
 
-	.ColorPicker {
+	.ColorDisplay {
 		display: flex;
 		gap: 0.25em;
 		align-items: center;
 		font-size: 3.6rem;
 		font-weight: 800;
 		line-height: 1;
-		margin-block-start: 1rem;
-		cursor: pointer;
 		color: var(--color-copy);
 		transition: text-shadow 0.5s ease;
 	}
 
-	.ColorPicker.matches-background {
+	.ColorDisplay.matches-background {
 		text-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.5);
 	}
 
-	.ColorPicker::before {
+	.ColorDisplay::before {
 		content: "";
 		display: block;
 		height: 1em;
@@ -300,7 +304,7 @@
 		transition: box-shadow 0.5s ease;
 	}
 
-	.ColorPicker.matches-background::before {
+	.ColorDisplay.matches-background::before {
 		box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.5);
 	}
 </style>

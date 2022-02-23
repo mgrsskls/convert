@@ -33,6 +33,7 @@ small {
 :where(a, input, summary, button, select):focus-visible {
 	outline: 0.2rem solid currentColor;
 	outline-offset: 0.4rem;
+	transition: 0.1s outline ease;
 }
 
 :where(a, input, summary, select):focus-visible {
@@ -45,4 +46,8 @@ button:focus-visible {
 
 summary {
 	cursor: default;
+}
+
+code {
+	font-family: monospace;
 }

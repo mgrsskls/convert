@@ -68,7 +68,7 @@
 			names={temperatures.names}
 			abbr={i18n.units.temperatures.abbr}
 			conversions={temperatures.conversions}
-			roundResults={1}
+			roundResults={2}
 			alias="temperatures"
 		/>
 	</svelte:fragment>
