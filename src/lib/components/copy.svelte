@@ -94,12 +94,14 @@
 
 		position: absolute;
 		inset-inline-start: -0.2em;
-		inset-block-end: calc(100% + 0.1em);
+		inset-block-end: calc(100% + 0.5em);
 		background: var(--bg-color);
 		color: var(--button-color-copy);
-		font-size: 0.75em;
+		font-size: 1.2rem;
+		font-weight: normal;
 		padding: 0.25em 0.5em;
 		border-radius: var(--box-border-radius);
+		font-family: var(--font-family);
 	}
 
 	.Tooltip::after {
