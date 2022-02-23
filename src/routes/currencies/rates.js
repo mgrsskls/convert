@@ -1,5 +1,10 @@
 import fetch from "node-fetch";
 
+/**
+ * @param {object} options
+ * @param {string} options.url
+ * @returns {Promise<object>}
+ */
 export const get = async function ({ url }) {
 	const currency = url.searchParams.get("currency");
 

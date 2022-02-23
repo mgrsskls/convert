@@ -1,5 +1,10 @@
 import list from "./list.js";
 
+/**
+ * @param {string|number} datetimeValue
+ * @param {string} timeZoneFromValue
+ * @returns {Date}
+ */
 export const getDateObjectForGivenDatetimeAndTimeZone = (datetimeValue, timeZoneFromValue) => {
 	const timestampForDatetimeInputWithLocalTimeZone = new Date(datetimeValue).getTime();
 
@@ -27,6 +32,10 @@ export const getDateObjectForGivenDatetimeAndTimeZone = (datetimeValue, timeZone
 	);
 };
 
+/**
+ * @param {Date} date
+ * @returns {string}
+ */
 export const formatDateForInput = (date) => {
 	const year = date.getFullYear();
 	const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -37,6 +46,11 @@ export const formatDateForInput = (date) => {
 	return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
+/**
+ * @param {string} timeZone
+ * @param {Date|number} date
+ * @returns {Date | null}
+ */
 export const getDatetimeObject = (timeZone, date) => {
 	return timeZone.length && date
 		? new Date(
@@ -54,12 +68,20 @@ export const getDatetimeObject = (timeZone, date) => {
 		: null;
 };
 
+/**
+ * @returns {Date}
+ */
 export const getCurrentLocalTime = () => {
 	const date = new Date();
 
 	return date;
 };
 
+/**
+ * @param {Date} from
+ * @param {Date} to
+ * @returns {string | null}
+ */
 export const getTimeZonesDifference = (from, to) => {
 	let string;
 
@@ -80,6 +102,10 @@ export const getTimeZonesDifference = (from, to) => {
 	return null;
 };
 
+/**
+ * @param {string} string
+ * @returns {Array}
+ */
 export const getDatetimeParts = (string) => {
 	const arr = string
 		.split("T")
@@ -98,6 +124,10 @@ export const getDatetimeParts = (string) => {
 	return arr;
 };
 
+/**
+ * @param {string} dateTime
+ * @returns {string}
+ */
 export const standardizeDate = (dateTime) => {
 	const [date, time] = dateTime.split(", ");
 

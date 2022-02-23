@@ -2,6 +2,11 @@ import fetch from "node-fetch";
 
 const cache = {};
 
+/**
+ * @param {object} options
+ * @param {string} options.url
+ * @returns {Promise<object>}
+ */
 export const get = async function ({ url }) {
 	const location = url.searchParams.get("location");
 

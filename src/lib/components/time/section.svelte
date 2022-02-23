@@ -153,7 +153,11 @@
 		toTimeZoneIsValid && to.timeZone.value
 			? getDatetimeObject(
 					to.timeZone.value,
-					typeFrom === "timestamp" ? fromValue : fromDatetimeTimeZoneObject
+					typeFrom === "timestamp"
+						? typeof fromValue === "number"
+							? fromValue
+							: parseInt(fromValue, 10)
+						: fromDatetimeTimeZoneObject
 			  )
 			: null;
 	$: differenceInHours =

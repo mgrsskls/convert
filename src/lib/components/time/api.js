@@ -1,10 +1,13 @@
-export const getLocation = (address) => {
-	return fetch(`/time/iana-name?location=${encodeURIComponent(address)}`)
-		.then(async (response) => {
-			return await response.json();
-		})
-		.catch((e) => {
-			console.error(e);
-			return null;
-		});
+/**
+ * @param {string} address
+ * @returns {Promise}
+ */
+export const getLocation = async (address) => {
+	try {
+		const response = await fetch(`/time/iana-name?location=${encodeURIComponent(address)}`);
+		return await response.json();
+	} catch (e) {
+		console.error(e);
+		return null;
+	}
 };
