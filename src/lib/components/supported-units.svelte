@@ -37,6 +37,7 @@
 	.SupportedUnits-title {
 		color: var(--color-accent);
 		font-weight: bold;
+		width: fit-content;
 	}
 
 	.SupportedUnits-list {
