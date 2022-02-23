@@ -1,8 +1,8 @@
-<script>
-	export let wrap = true;
+<script lang="ts">
+	export let wrapSize = "20rem";
 </script>
 
-<div class="Grid" class:Grid--wrap={wrap}>
+<div class="Grid" style:--wrap-size={wrapSize}>
 	<div class="Grid-item">
 		<slot name="1" />
 	</div>
@@ -15,13 +15,10 @@
 	.Grid {
 		display: flex;
 		gap: calc(2 * var(--spacing-y));
-	}
-
-	.Grid--wrap {
 		flex-wrap: wrap;
 	}
 
 	.Grid-item {
-		flex: 1 1 20rem;
+		flex: 1 1 var(--wrap-size);
 	}
 </style>
