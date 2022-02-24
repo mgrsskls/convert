@@ -205,8 +205,29 @@
 	title={$page.stuff.title.toLowerCase()}
 />
 
+<p>
+	<small
+		>Currency conversion rates are updated every five minutes via <a
+			href="https://www.freecurrencyapi.net/"
+			target="_blank"
+			rel="noopener">https://www.freecurrencyapi.net/</a
+		>.</small
+	>
+</p>
+
 <datalist id="currencyList">
 	{#each supportedCurrencies as currency}
 		<option value={currency.id}>{currency.name}</option>
 	{/each}
 </datalist>
+
+<style>
+	p {
+		margin-block-start: 2rem;
+	}
+
+	small {
+		color: var(--color-copy-light);
+		font-size: 1.2rem;
+	}
+</style>
