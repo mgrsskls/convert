@@ -147,7 +147,7 @@
 
 	function getRgbOrRgbaParts(color: string) {
 		const trimmedColor = color.trim();
-		const separators = [",", " "];
+		const separators = [",", " ", "/"];
 
 		for (let i = 0; i < separators.length; i += 1) {
 			const split = trimmedColor
