@@ -63,7 +63,7 @@ export const conversions = {
 		m: 0.3048,
 		km: 0.0003048,
 		in: 12,
-		yd: 0.333333333,
+		yd: 1 / 3,
 		mi: 0.000189,
 	},
 	yd: {

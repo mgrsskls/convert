@@ -20,6 +20,7 @@
 	export let abbr: object | null = null;
 	export let conversions: object = {};
 	export let roundResults: boolean | number = false;
+	export let pageName: string;
 
 	let shouldUpdateHistory = false;
 
@@ -136,9 +137,9 @@
 			<svelte:fragment slot="1">
 				<Input
 					name={`${alias}[from][unit]`}
-					label={i18n.units.labels.unit}
+					label={i18n[pageName].labels.unit}
 					id={`${alias}-from-unit`}
-					placeholder={i18n.units[alias].placeholders.unit.from}
+					placeholder={i18n[pageName][alias].placeholders.unit.from}
 					list={`${alias}-list`}
 					invalid={from.shouldValidateUnit && !fromUnitIsValid}
 					bind:value={from.unit}
@@ -157,8 +158,8 @@
 					type="text"
 					inputmode="decimal"
 					id={`${alias}-from-value`}
-					placeholder={i18n.units[alias].placeholders.value}
-					label={i18n.units.labels.value}
+					placeholder={i18n[pageName][alias].placeholders.value}
+					label={i18n[pageName].labels.value}
 					value={from.value}
 					invalid={from.shouldValidateValue && !fromValueIsValid}
 					on:input={({ detail }) => {
@@ -185,9 +186,9 @@
 			<svelte:fragment slot="1">
 				<Input
 					name={`${alias}[to][unit]`}
-					label={i18n.units.labels.unit}
+					label={i18n[pageName].labels.unit}
 					id={`${alias}-to-unit`}
-					placeholder={i18n.units[alias].placeholders.unit.to}
+					placeholder={i18n[pageName][alias].placeholders.unit.to}
 					list={`${alias}-list`}
 					invalid={to.shouldValidateUnit && !toUnitIsValid}
 					bind:value={to.unit}
@@ -204,7 +205,7 @@
 			<svelte:fragment slot="2">
 				<Result
 					wrap={true}
-					label={i18n.units.labels.value}
+					label={i18n[pageName].labels.value}
 					result={(useExponential ? result : rawResult).toString()}
 					raw={useExponential ? rawResult : null}
 					highlight={true}
@@ -217,8 +218,8 @@
 		<SupportedUnits
 			supported={unitValues.map((unit) =>
 				abbr
-					? `<b>${i18n.units[alias].names[unit]}:</b> ${i18n.units[alias].abbr[unit]} (${unit})`
-					: `<b>${i18n.units[alias].names[unit]}:</b> ${unit}`
+					? `<b>${i18n[pageName][alias].names[unit]}:</b> ${i18n[pageName][alias].abbr[unit]} (${unit})`
+					: `<b>${i18n[pageName][alias].names[unit]}:</b> ${unit}`
 			)}
 			title={title.toLowerCase()}
 		/>

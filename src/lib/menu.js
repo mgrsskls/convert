@@ -8,6 +8,12 @@ export default [
 		alias: "colors",
 	},
 	{
+		path: "/cooking",
+		label: i18n.cooking.title,
+		description: i18n.cooking.description,
+		alias: "cooking",
+	},
+	{
 		path: "/currencies",
 		label: i18n.currencies.title,
 		description: i18n.currencies.description,

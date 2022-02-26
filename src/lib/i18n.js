@@ -10,6 +10,66 @@ export const en = {
 		placeholder: "e.g. 102, 51, 153 or #663399",
 		colorSpace: "Color space",
 	},
+	cooking: {
+		title: "Cooking",
+		description: "Convert <b>liquids</b>, <b>volumes</b> and <b>weights</b> for cooking recipes.",
+		labels: {
+			value: "Value",
+			unit: "Unit",
+		},
+		volumes: {
+			title: "Volumes",
+			placeholders: {
+				unit: {
+					from: "e.g. us_cup",
+					to: "e.g. ml",
+				},
+				value: "e.g. 2",
+			},
+			names: {
+				imp_qt: "Imperial Quart",
+				imp_tbsp: "Imperial Tablespoon",
+				imp_tsp: "Imperial Teaspoon",
+				l: "Liter",
+				ml: "Milliliter",
+				us_cup: "US Cup",
+				us_qt: "US Quart",
+				us_tbsp: "US Tablespoon",
+				us_tsp: "US Teaspoon",
+			},
+		},
+		weights: {
+			title: "Weights",
+			placeholders: {
+				unit: {
+					from: "e.g. lb",
+					to: "e.g. g",
+				},
+				value: "e.g. 2",
+			},
+			names: {
+				lb: "Pound",
+				oz: "Ounce",
+				g: "Gram",
+				kg: "Kilogram",
+			},
+		},
+		liquids: {
+			title: "Liquids",
+			placeholders: {
+				unit: {
+					from: "e.g. us_oz",
+					to: "e.g. ml",
+				},
+				value: "e.g. 5",
+			},
+			names: {
+				us_oz: "US Ounce",
+				ml: "Milliliter",
+				l: "Liter",
+			},
+		},
+	},
 	currencies: {
 		title: "Currencies",
 		description: "Convert between <b>currencies</b> based on <b>real time data</b>.",
@@ -80,7 +140,7 @@ export const en = {
 			title: "Volumes",
 			placeholders: {
 				unit: {
-					from: "e.g. ltr",
+					from: "e.g. l",
 					to: "e.g. us_gal",
 				},
 				value: "e.g. 10",
@@ -88,7 +148,7 @@ export const en = {
 			names: {
 				cbcm: "Cubic Centimeter",
 				cbm: "Cubic Meter",
-				ltr: "Liter",
+				l: "Liter",
 				cbin: "Cubic Inch",
 				cbft: "Cubic Feet",
 				us_gal: "US Gallon",
@@ -98,7 +158,7 @@ export const en = {
 			abbr: {
 				cbcm: "cm³",
 				cbm: "m³",
-				ltr: "ltr",
+				l: "l",
 				cbin: "in³",
 				cbft: "ft³",
 				us_gal: "US gal",

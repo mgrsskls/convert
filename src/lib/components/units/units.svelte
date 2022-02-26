@@ -5,9 +5,11 @@
 	import { areas, lengths, masses, speeds, temperatures, volumes } from "./lookup/index.js";
 
 	import Accordion from "$lib/components/accordion.svelte";
-	import Section from "./section.svelte";
+	import Section from "../units.svelte";
 
 	let open = $page.url.searchParams.get("type");
+
+	const pageName = "units";
 </script>
 
 <Accordion open={open === "areas"} id="areas">
@@ -19,6 +21,7 @@
 			abbr={i18n.units.areas.abbr}
 			conversions={areas.conversions}
 			alias="areas"
+			{pageName}
 		/>
 	</svelte:fragment>
 </Accordion>
@@ -31,6 +34,7 @@
 			names={lengths.names}
 			conversions={lengths.conversions}
 			alias="lengths"
+			{pageName}
 		/>
 	</svelte:fragment>
 </Accordion>
@@ -43,6 +47,7 @@
 			names={masses.names}
 			conversions={masses.conversions}
 			alias="masses"
+			{pageName}
 		/>
 	</svelte:fragment>
 </Accordion>
@@ -56,6 +61,7 @@
 			abbr={i18n.units.speeds.abbr}
 			conversions={speeds.conversions}
 			alias="speeds"
+			{pageName}
 		/>
 	</svelte:fragment>
 </Accordion>
@@ -70,6 +76,7 @@
 			conversions={temperatures.conversions}
 			roundResults={2}
 			alias="temperatures"
+			{pageName}
 		/>
 	</svelte:fragment>
 </Accordion>
@@ -83,6 +90,7 @@
 			abbr={i18n.units.volumes.abbr}
 			conversions={volumes.conversions}
 			alias="volumes"
+			{pageName}
 		/>
 	</svelte:fragment>
 </Accordion>
