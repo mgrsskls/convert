@@ -13,19 +13,21 @@
 <header>
 	<a class="SkipLink" href="#main">{i18n.skipToContent}</a>
 	<h1>
-		<a href="/" aria-current={!current ? "page" : "false"}>{i18n.title}</a>
+		<a href="/" aria-current={!current ? "page" : "false"}
+			><span class="Convert">{i18n.title}</span></a
+		>
+		{#if title !== "Convert"}<span class="CurrentPage">{title}</span>{/if}
 	</h1>
 	<Menu {current} />
 </header>
 
 <style>
 	header {
-		position: sticky;
-		inset-block-start: 0;
+		align-items: center;
+		display: flex;
 		background: var(--color-bg);
 		z-index: 1;
-		display: flex;
-		flex-wrap: wrap;
+		position: sticky;
 	}
 
 	h1 {
@@ -33,14 +35,22 @@
 		display: flex;
 	}
 
-	h1::after {
-		content: "→";
-	}
 	a {
 		display: block;
-		padding: var(--spacing-y) var(--spacing-x);
-		font-weight: 800;
 		text-decoration: none;
+	}
+
+	h1 a {
+		padding: var(--spacing-y) 0 var(--spacing-y) var(--spacing-x);
+	}
+
+	h1 a::after {
+		content: "→";
+		padding-inline-start: var(--spacing-x);
+	}
+
+	.Convert {
+		font-weight: 800;
 	}
 
 	a:focus-visible {
@@ -65,5 +75,30 @@
 		overflow: hidden !important;
 		padding: 0 !important;
 		width: 1px !important;
+	}
+
+	@media (max-width: 32em) {
+		header {
+			border-block-start: 0.1rem solid var(--color-box-bg);
+			justify-content: space-between;
+			inset-block-end: 0;
+			inline-size: 100%;
+			order: 1;
+		}
+
+		.CurrentPage {
+			padding-inline-start: var(--spacing-x);
+		}
+	}
+
+	@media (min-width: 32.0625em) {
+		header {
+			flex-wrap: wrap;
+			inset-block-start: 0;
+		}
+
+		.CurrentPage {
+			display: none;
+		}
 	}
 </style>

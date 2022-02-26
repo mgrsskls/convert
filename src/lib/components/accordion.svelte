@@ -18,7 +18,6 @@
 		--border: 0.1rem solid var(--color-accent-light);
 
 		border-block-start: var(--border);
-		scroll-margin-block-start: 9rem;
 	}
 
 	details:last-of-type {
@@ -32,7 +31,6 @@
 		font-weight: 800;
 		line-height: 1;
 		padding-block: 2rem;
-		scroll-margin-block-start: 9rem;
 	}
 
 	summary::marker {
@@ -41,5 +39,17 @@
 
 	details[open] summary + :global(*) {
 		padding-block: 2rem 4rem;
+	}
+
+	@media (max-width: 32em) {
+		details {
+			scroll-margin-block-start: -0.1rem;
+		}
+	}
+
+	@media (min-width: 32.0625em) {
+		details {
+			scroll-margin-block-start: 9rem;
+		}
 	}
 </style>

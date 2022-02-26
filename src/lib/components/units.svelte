@@ -83,7 +83,6 @@
 	}
 
 	function calcResult(fromUnit: string, fromValue: number, toUnit: string) {
-		console.log(fromValue !== null);
 		if (
 			!fromUnit ||
 			fromValue === null ||
