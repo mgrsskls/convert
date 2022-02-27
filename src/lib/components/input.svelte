@@ -75,7 +75,7 @@
 					aria-invalid={invalid}
 					on:change={onChange}
 				>
-					<option value="">Please choose</option>
+					<option value="" disabled hidden>Please choose</option>
 					{#each options as option}
 						<option value={option.value} selected={value === option.value}>{option.label}</option>
 					{/each}
@@ -143,9 +143,17 @@
 
 	.Input-element {
 		display: block;
+		height: 3.6rem;
 	}
 
-	.Input-element:not([type="color"]) {
+	select.Input-element {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' style='enable-background:new 0 0 24 24' xml:space='preserve'%3E%3Cpath d='M21 5.8c.5-.5 1.1-.7 1.8-.5.6.2 1 .6 1.1 1.1l.1.3V7c-.1.6-.4 1-.8 1.3l-10 10c-.3.3-.7.5-1.2.5a2 2 0 0 1-1.2-.5L.5 8.2l-.5-1v-.5c.1-.4.3-.8.6-1.1.6-.5 1.5-.5 2.1 0l.3.3 9 8.7'/%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-size: auto 50%;
+		background-position: center right;
+	}
+
+	.Input-element:where(:not([type="color"])) {
 		padding-block-end: 0.4rem;
 		inline-size: 100%;
 		box-sizing: border-box;

@@ -38,7 +38,7 @@
 	padding: 0;
 }
 
-:where(button, input:not([type="checkbox"]), textarea) {
+:where(button, input:not([type="checkbox"]), select, textarea) {
 	-webkit-appearance: none;
 	appearance: none;
 }

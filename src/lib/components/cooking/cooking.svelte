@@ -23,38 +23,20 @@
 <Accordion open={open === "liquids"} id="liquids">
 	<svelte:fragment slot="title">{@html i18n.cooking.liquids.title}</svelte:fragment>
 	<svelte:fragment slot="content">
-		<Section
-			title={i18n.cooking.liquids.title}
-			names={liquids.names}
-			conversions={liquids.conversions}
-			alias="liquids"
-			{pageName}
-		/>
+		<Section names={liquids.names} conversions={liquids.conversions} alias="liquids" {pageName} />
 	</svelte:fragment>
 </Accordion>
 
 <Accordion open={open === "volumes"} id="volumes">
 	<svelte:fragment slot="title">{@html i18n.cooking.volumes.title}</svelte:fragment>
 	<svelte:fragment slot="content">
-		<Section
-			title={i18n.cooking.volumes.title}
-			names={volumes.names}
-			conversions={volumes.conversions}
-			alias="volumes"
-			{pageName}
-		/>
+		<Section names={volumes.names} conversions={volumes.conversions} alias="volumes" {pageName} />
 	</svelte:fragment>
 </Accordion>
 
 <Accordion open={open === "weights"} id="weights">
 	<svelte:fragment slot="title">{@html i18n.cooking.weights.title}</svelte:fragment>
 	<svelte:fragment slot="content">
-		<Section
-			title={i18n.cooking.weights.title}
-			names={weights.names}
-			conversions={weights.conversions}
-			alias="weights"
-			{pageName}
-		/>
+		<Section names={weights.names} conversions={weights.conversions} alias="weights" {pageName} />
 	</svelte:fragment>
 </Accordion>

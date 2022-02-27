@@ -12,9 +12,7 @@
 	import Multiplier from "$lib/components/multiplier.svelte";
 	import DirectionToggle from "$lib/components/direction-toggle.svelte";
 	import Button from "$lib/components/button.svelte";
-	import SupportedUnits from "$lib/components/supported-units.svelte";
 
-	export let title: string;
 	export let alias: string;
 	export let names: object = {};
 	export let abbr: object | null = null;
@@ -47,7 +45,7 @@
 
 	const units = Object.entries(names).map((entry) => ({
 		value: entry[0],
-		label: `${entry[1]}: ${abbr ? abbr[entry[0]] : entry[0]}`,
+		label: `${entry[1]}${abbr ? ` (${abbr[entry[0]]})` : ""}`,
 	}));
 	const unitValues = units.map((unit) => unit.value);
 
@@ -138,16 +136,12 @@
 					name={`${alias}[from][unit]`}
 					label={i18n[pageName].labels.unit}
 					id={`${alias}-from-unit`}
-					placeholder={i18n[pageName][alias].placeholders.unit.from}
-					list={`${alias}-list`}
+					options={units}
 					invalid={from.shouldValidateUnit && !fromUnitIsValid}
 					bind:value={from.unit}
-					on:input={({ detail }) => {
-						from.unit = detail;
-						from.shouldValidateUnit = false;
-					}}
 					on:change={({ detail }) => {
-						from.shouldValidateUnit = detail.length > 0 ? true : false;
+						from.unit = detail;
+						from.shouldValidateUnit = true;
 					}}
 				/>
 			</svelte:fragment>
@@ -187,15 +181,11 @@
 					name={`${alias}[to][unit]`}
 					label={i18n[pageName].labels.unit}
 					id={`${alias}-to-unit`}
-					placeholder={i18n[pageName][alias].placeholders.unit.to}
-					list={`${alias}-list`}
+					options={units}
 					invalid={to.shouldValidateUnit && !toUnitIsValid}
 					bind:value={to.unit}
-					on:input={({ detail }) => {
+					on:change={({ detail }) => {
 						to.unit = detail;
-						to.shouldValidateUnit = false;
-					}}
-					on:change={() => {
 						to.shouldValidateUnit = true;
 					}}
 				/>
@@ -212,21 +202,4 @@
 			</svelte:fragment>
 		</Grid>
 	</svelte:fragment>
-
-	<svelte:fragment slot="support">
-		<SupportedUnits
-			supported={unitValues.map((unit) =>
-				abbr
-					? `<b>${i18n[pageName][alias].names[unit]}:</b> ${i18n[pageName][alias].abbr[unit]} (${unit})`
-					: `<b>${i18n[pageName][alias].names[unit]}:</b> ${unit}`
-			)}
-			title={title.toLowerCase()}
-		/>
-	</svelte:fragment>
 </FromTo>
-
-<datalist id={`${alias}-list`}>
-	{#each units as unit}
-		<option value={unit.value}>{unit.label}</option>
-	{/each}
-</datalist>

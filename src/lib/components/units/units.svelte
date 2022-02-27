@@ -16,7 +16,6 @@
 	<svelte:fragment slot="title">{@html i18n.units.areas.title}</svelte:fragment>
 	<svelte:fragment slot="content">
 		<Section
-			title={i18n.units.areas.title}
 			names={areas.names}
 			abbr={i18n.units.areas.abbr}
 			conversions={areas.conversions}
@@ -29,26 +28,14 @@
 <Accordion open={open === "lengths"} id="lengths">
 	<svelte:fragment slot="title">{@html i18n.units.lengths.title}</svelte:fragment>
 	<svelte:fragment slot="content">
-		<Section
-			title={i18n.units.lengths.title}
-			names={lengths.names}
-			conversions={lengths.conversions}
-			alias="lengths"
-			{pageName}
-		/>
+		<Section names={lengths.names} conversions={lengths.conversions} alias="lengths" {pageName} />
 	</svelte:fragment>
 </Accordion>
 
 <Accordion open={open === "masses"} id="masses">
 	<svelte:fragment slot="title">{@html i18n.units.masses.title}</svelte:fragment>
 	<svelte:fragment slot="content">
-		<Section
-			title={i18n.units.masses.title}
-			names={masses.names}
-			conversions={masses.conversions}
-			alias="masses"
-			{pageName}
-		/>
+		<Section names={masses.names} conversions={masses.conversions} alias="masses" {pageName} />
 	</svelte:fragment>
 </Accordion>
 
@@ -56,7 +43,6 @@
 	<svelte:fragment slot="title">{@html i18n.units.speeds.title}</svelte:fragment>
 	<svelte:fragment slot="content">
 		<Section
-			title={i18n.units.speeds.title}
 			names={speeds.names}
 			abbr={i18n.units.speeds.abbr}
 			conversions={speeds.conversions}
@@ -70,7 +56,6 @@
 	<svelte:fragment slot="title">{@html i18n.units.temperatures.title}</svelte:fragment>
 	<svelte:fragment slot="content">
 		<Section
-			title={i18n.units.temperatures.title}
 			names={temperatures.names}
 			abbr={i18n.units.temperatures.abbr}
 			conversions={temperatures.conversions}
@@ -85,7 +70,6 @@
 	<svelte:fragment slot="title">{@html i18n.units.volumes.title}</svelte:fragment>
 	<svelte:fragment slot="content">
 		<Section
-			title={i18n.units.volumes.title}
 			names={volumes.names}
 			abbr={i18n.units.volumes.abbr}
 			conversions={volumes.conversions}
