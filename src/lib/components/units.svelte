@@ -72,6 +72,8 @@
 			: null;
 	$: useExponential = shouldUseExponential(result, rawResult, roundResults);
 	$: rawResult = getFormattedResult(result, roundResults) || "-";
+	$: unitsFrom = toUnitIsValid ? units.filter((unit) => unit.value !== to.unit) : units;
+	$: unitsTo = fromUnitIsValid ? units.filter((unit) => unit.value !== from.unit) : units;
 
 	function toggleDirection() {
 		const oldFrom = from.unit;
@@ -136,7 +138,7 @@
 					name={`${alias}[from][unit]`}
 					label={i18n[pageName].labels.unit}
 					id={`${alias}-from-unit`}
-					options={units}
+					options={unitsFrom}
 					invalid={from.shouldValidateUnit && !fromUnitIsValid}
 					bind:value={from.unit}
 					on:change={({ detail }) => {
@@ -181,7 +183,7 @@
 					name={`${alias}[to][unit]`}
 					label={i18n[pageName].labels.unit}
 					id={`${alias}-to-unit`}
-					options={units}
+					options={unitsTo}
 					invalid={to.shouldValidateUnit && !toUnitIsValid}
 					bind:value={to.unit}
 					on:change={({ detail }) => {
