@@ -86,6 +86,10 @@
 			order: 1;
 		}
 
+		h1 a {
+			--spacing-y: 1em;
+		}
+
 		.CurrentPage {
 			padding-inline-start: var(--spacing-x);
 		}
