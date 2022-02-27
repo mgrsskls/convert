@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-	<title>{title ? `${title} — ${i18n.title}` : i18n.title}</title>
+	<title>{title && title != "Convert" ? `${title} — ${i18n.title}` : i18n.title}</title>
 </svelte:head>
 
 <header>
