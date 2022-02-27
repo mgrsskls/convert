@@ -9,6 +9,7 @@
 	import Input from "$lib/components/input.svelte";
 	import Button from "$lib/components/button.svelte";
 	import Result from "$lib/components/result.svelte";
+	import SupportedUnits from "$lib/components/supported-units.svelte";
 	import w3color from "./w3color.js";
 
 	const initialStringColor = $page.url.searchParams.get("string")
@@ -239,6 +240,22 @@
 				</div>
 			{/each}
 		</div>
+	</svelte:fragment>
+	<svelte:fragment slot="support">
+		<SupportedUnits
+			title="colors"
+			block={true}
+			supported={[
+				"<b>HTML names</b> like <code>rebeccapurple</code>",
+				"<b>RGB</b> like <code>rgb(0,0,0)</code>, <code>rgb(0 0 0)</code>, <code>0,0,0</code>, <code>0/0/0</code>, <code>0 0 0</code>",
+				"<b>RGBA</b> like <code>rgb(0,0,0, .5)</code>, <code>rgb(0 0 0 .5)</code>, <code>0,0,0,.5</code>, <code>0/0/0/.5</code>, <code>0 0 0 .5</code>",
+				"<b>HEX</b> Code like <code>#000</code> or <code>#000000</code>",
+				"<b>HSL</b> like <code>hsl(0, 0%, 0%)</code>",
+				"<b>HSLA</b> like <code>hsla(0, 0%, 0%, .5)</code>",
+				"<b>HWB</b> like <code>hwb(0 0% 100%)</code> or <code>hwb(0, 0%, 100%)</code>",
+				"<b>CMYK</b> like <code>cmyk(0%, 0%, 0%, 100%)</code>",
+			]}
+		/>
 	</svelte:fragment>
 </FromTo>
 
