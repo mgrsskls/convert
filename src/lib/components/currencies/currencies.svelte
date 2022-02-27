@@ -135,7 +135,7 @@
 
 <FromTo>
 	<svelte:fragment slot="from">
-		<Grid wrapSize="14rem">
+		<Grid>
 			<svelte:fragment slot="1">
 				<Input
 					list="currencyList"
@@ -177,7 +177,7 @@
 		{/if}
 	</svelte:fragment>
 	<svelte:fragment slot="to">
-		<Grid wrapSize="14rem">
+		<Grid>
 			<svelte:fragment slot="1">
 				<Input
 					name="to[currency]"

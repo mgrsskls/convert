@@ -132,7 +132,7 @@
 <FromTo action={`#${alias}`}>
 	<svelte:fragment slot="from">
 		<input type="hidden" name="type" value={alias} />
-		<Grid wrapSize="14rem">
+		<Grid>
 			<svelte:fragment slot="1">
 				<Input
 					name={`${alias}[from][unit]`}
@@ -177,7 +177,7 @@
 		{/if}
 	</svelte:fragment><svelte:fragment />
 	<svelte:fragment slot="to">
-		<Grid wrapSize="14rem">
+		<Grid>
 			<svelte:fragment slot="1">
 				<Input
 					name={`${alias}[to][unit]`}
