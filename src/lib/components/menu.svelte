@@ -2,17 +2,27 @@
 	import menu from "$lib/menu.js";
 
 	export let current;
+
+	let menuElement;
+
+	function closeMenu() {
+		menuElement.open = false;
+	}
 </script>
 
-<details class="small-menu">
+<details class="small-menu" bind:this={menuElement}>
 	<summary>Menu</summary>
 	<nav>
 		<ul>
 			{#each menu as item}
 				<li>
-					<a href={item.path} aria-current={current === item.alias ? "page" : "false"}
-						>{item.label}</a
+					<a
+						href={item.path}
+						aria-current={current === item.alias ? "page" : "false"}
+						on:click={closeMenu}
 					>
+						{item.label}
+					</a>
 				</li>
 			{/each}
 		</ul>
