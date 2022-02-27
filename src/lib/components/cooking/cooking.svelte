@@ -21,7 +21,7 @@
 </Accordion>
 
 <Accordion open={open === "liquids"} id="liquids">
-	<svelte:fragment slot="title">{i18n.cooking.liquids.title}</svelte:fragment>
+	<svelte:fragment slot="title">{@html i18n.cooking.liquids.title}</svelte:fragment>
 	<svelte:fragment slot="content">
 		<Section
 			title={i18n.cooking.liquids.title}
@@ -34,7 +34,7 @@
 </Accordion>
 
 <Accordion open={open === "volumes"} id="volumes">
-	<svelte:fragment slot="title">{i18n.cooking.volumes.title}</svelte:fragment>
+	<svelte:fragment slot="title">{@html i18n.cooking.volumes.title}</svelte:fragment>
 	<svelte:fragment slot="content">
 		<Section
 			title={i18n.cooking.volumes.title}
@@ -47,7 +47,7 @@
 </Accordion>
 
 <Accordion open={open === "weights"} id="weights">
-	<svelte:fragment slot="title">{i18n.cooking.weights.title}</svelte:fragment>
+	<svelte:fragment slot="title">{@html i18n.cooking.weights.title}</svelte:fragment>
 	<svelte:fragment slot="content">
 		<Section
 			title={i18n.cooking.weights.title}

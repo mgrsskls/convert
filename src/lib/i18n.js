@@ -42,7 +42,7 @@ export const en = {
 			},
 		},
 		volumes: {
-			title: "Volumes",
+			title: "Volumes <span>(Quart, Tablespoon, Teaspoon, Cup, Liter and Milliliter)</span>",
 			placeholders: {
 				unit: {
 					from: "e.g. us_cup",
@@ -63,7 +63,7 @@ export const en = {
 			},
 		},
 		weights: {
-			title: "Weights",
+			title: "Weights <span>(Pound, Ounce, Gram and Kilogram)</span>",
 			placeholders: {
 				unit: {
 					from: "e.g. lb",
@@ -79,7 +79,7 @@ export const en = {
 			},
 		},
 		liquids: {
-			title: "Liquids",
+			title: "Liquids <span>(US Ounce, Milliliter and Liter)</span>",
 			placeholders: {
 				unit: {
 					from: "e.g. us_oz",
@@ -111,7 +111,7 @@ export const en = {
 			unit: "Unit",
 		},
 		lengths: {
-			title: "Lengths",
+			title: "Lengths <span>(mm, cm, m, km, in, ft, yd and mi)</span>",
 			placeholders: {
 				unit: {
 					from: "e.g. km",
@@ -131,7 +131,7 @@ export const en = {
 			},
 		},
 		areas: {
-			title: "Areas",
+			title: "Areas <span>(mm², cm², m², km², in², ft², yd² and mi²)</span>",
 			placeholders: {
 				unit: {
 					from: "e.g. sq_m",
@@ -161,7 +161,8 @@ export const en = {
 			},
 		},
 		volumes: {
-			title: "Volumes",
+			title:
+				"Volumes <span>(cm³, m³, Liter, in³, ft³, US gallon, Imperial gallon and US barrel)</span>",
 			placeholders: {
 				unit: {
 					from: "e.g. l",
@@ -191,7 +192,8 @@ export const en = {
 			},
 		},
 		masses: {
-			title: "Masses",
+			title:
+				"Masses <span>(Gram, Kilogram, Metric tonne, Short ton, Long ton, Pound and Ounce)</span>",
 			placeholders: {
 				unit: {
 					from: "e.g. kg",
@@ -225,7 +227,7 @@ export const en = {
 			},
 		},
 		speeds: {
-			title: "Speeds",
+			title: "Speeds <span>(m/s, m/min, km/h, ft/s, ft/min, mi/h, Knots and Speed of Light)</span>",
 			placeholders: {
 				unit: {
 					from: "e.g. km_h",
@@ -255,7 +257,7 @@ export const en = {
 			},
 		},
 		temperatures: {
-			title: "Temperatures",
+			title: "Temperatures <span>(Celsius, Fahrenheit and Kelvin)</span>",
 			placeholders: {
 				unit: {
 					from: "e.g. C",

@@ -29,7 +29,7 @@
 
 		font-size: var(--font-size);
 		font-weight: 800;
-		line-height: 1;
+		line-height: 1.2;
 		padding-block: 2rem;
 	}
 
