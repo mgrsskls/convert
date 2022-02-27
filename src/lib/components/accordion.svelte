@@ -37,6 +37,10 @@
 		color: var(--color-accent);
 	}
 
+	summary :global(span) {
+		font-weight: normal;
+	}
+
 	details[open] summary + :global(*) {
 		padding-block: 2rem 4rem;
 	}

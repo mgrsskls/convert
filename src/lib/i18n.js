@@ -12,10 +12,34 @@ export const en = {
 	},
 	cooking: {
 		title: "Cooking",
-		description: "Convert <b>liquids</b>, <b>volumes</b> and <b>weights</b> for cooking recipes.",
+		description:
+			"Convert <b>cups to grams</b> as well as <b>liquids</b>, <b>volumes</b> and <b>weights</b> for cooking recipes.",
 		labels: {
 			value: "Value",
 			unit: "Unit",
+		},
+		ingredients: {
+			title: "Ingredients <span>(Cups → Grams)</span>",
+			placeholders: {
+				ingredient: "e.g. Cocoa powder",
+				amount: "e.g. 0.5",
+			},
+			labels: {
+				ingredient: "Ingredient",
+				amount: "Cups",
+				result: "Grams",
+			},
+			names: {
+				butter: "Butter",
+				cocoa: "Cocoa powder",
+				flour: "Flour (all purpose)",
+				margarine: "Margarine",
+				rice: "Rice (uncooked)",
+				salt: "Table salt",
+				sugar_granulated: "Sugar (granulated)",
+				sugar_packed: "Sugar (packed)",
+				sugar_powdered: "Sugar (powdered)",
+			},
 		},
 		volumes: {
 			title: "Volumes",

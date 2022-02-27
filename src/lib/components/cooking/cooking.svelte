@@ -6,11 +6,19 @@
 
 	import Accordion from "$lib/components/accordion.svelte";
 	import Section from "../units.svelte";
+	import Ingredients from "./ingredients.svelte";
 
 	let open = $page.url.searchParams.get("type");
 
 	const pageName = "cooking";
 </script>
+
+<Accordion open={open === "ingredients"} id="ingredients">
+	<svelte:fragment slot="title">{@html i18n.cooking.ingredients.title}</svelte:fragment>
+	<svelte:fragment slot="content">
+		<Ingredients />
+	</svelte:fragment>
+</Accordion>
 
 <Accordion open={open === "liquids"} id="liquids">
 	<svelte:fragment slot="title">{i18n.cooking.liquids.title}</svelte:fragment>
