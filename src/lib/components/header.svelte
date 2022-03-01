@@ -59,6 +59,7 @@
 
 	.SkipLink {
 		background: var(--color-bg);
+		padding: var(--spacing-y) var(--spacing-x);
 		position: absolute;
 		inset-block-start: 0;
 		inset-inline-start: 50%;
