@@ -3,7 +3,7 @@
 	import Box from "./box.svelte";
 	import Divider from "./divider.svelte";
 
-	export let action = "";
+	export let action: string = null;
 	export let flex1 = "";
 	export let flex2 = "";
 </script>
