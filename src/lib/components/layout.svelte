@@ -2,7 +2,6 @@
 	import i18n from "$lib/i18n.js";
 	import Header from "./header.svelte";
 	import Introduction from "./introduction.svelte";
-	import Footer from "./footer.svelte";
 
 	export let alias: string | null;
 	export let title: string;
@@ -22,7 +21,6 @@
 	{/if}
 	<slot />
 </main>
-<Footer />
 
 <style>
 	@import "../../css/index.css";

@@ -77,7 +77,7 @@
 		width: 1px !important;
 	}
 
-	@media (max-width: 32em) {
+	@media (max-width: 40em) {
 		header {
 			border-block-start: 0.1rem solid var(--color-box-bg);
 			justify-content: space-between;
@@ -95,7 +95,7 @@
 		}
 	}
 
-	@media (min-width: 32.0625em) {
+	@media (min-width: 40.0625em) {
 		header {
 			flex-wrap: wrap;
 			inset-block-start: 0;

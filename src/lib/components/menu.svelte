@@ -1,5 +1,6 @@
 <script>
 	import menu from "$lib/menu.js";
+	import i18n from "$lib/i18n.js";
 
 	export let current;
 
@@ -25,6 +26,15 @@
 					</a>
 				</li>
 			{/each}
+			<li>
+				<a
+					href="/about-convert"
+					aria-current={current === "about-convert" ? "page" : "false"}
+					on:click={closeMenu}
+				>
+					{i18n["about-convert"].title}
+				</a>
+			</li>
 		</ul>
 	</nav>
 </details>
@@ -37,6 +47,15 @@
 				>
 			</li>
 		{/each}
+		<li>
+			<a
+				href="/about-convert"
+				aria-current={current === "about-convert" ? "page" : "false"}
+				on:click={closeMenu}
+			>
+				{i18n["about-convert"].title}
+			</a>
+		</li>
 	</ul>
 </nav>
 
@@ -64,7 +83,7 @@
 		font-weight: 900;
 	}
 
-	@media (max-width: 32em) {
+	@media (max-width: 40em) {
 		.large-menu {
 			display: none;
 		}
@@ -107,13 +126,25 @@
 		}
 	}
 
-	@media (min-width: 32.0625em) {
+	@media (min-width: 40.0625em) {
 		.small-menu {
 			display: none;
 		}
 
+		.large-menu {
+			flex: 1;
+		}
+
 		ul {
 			display: flex;
+		}
+
+		li:last-child {
+			margin-inline-start: auto;
+		}
+
+		a {
+			white-space: nowrap;
 		}
 	}
 </style>
