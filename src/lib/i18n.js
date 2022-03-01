@@ -13,7 +13,7 @@ export const en = {
 	cooking: {
 		title: "Cooking",
 		description:
-			"Convert <b>cups to grams</b> as well as <b>liquids</b>, <b>volumes</b> and <b>weights</b> for cooking recipes.",
+			"Convert <b>cups to grams</b> as well as <b>liquids</b>, <b>temperatures</b>, <b>volumes</b> and <b>weights</b> for cooking recipes.",
 		labels: {
 			value: "Value",
 			unit: "Unit",
@@ -79,6 +79,16 @@ export const en = {
 				us_oz: "US Ounce (oz)",
 				ml: "Milliliter (ml)",
 				l: "Liter (l)",
+			},
+		},
+		temperatures: {
+			title: "Temperatures <span>(Celsius and Fahrenheit)</span>",
+			placeholders: {
+				value: "e.g. 32",
+			},
+			names: {
+				C: "Degree Celsius (°C)",
+				F: "Degree Fahrenheit (°F)",
 			},
 		},
 	},
