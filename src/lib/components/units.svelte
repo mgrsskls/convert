@@ -142,6 +142,10 @@
 					on:change={({ detail }) => {
 						from.unit = detail;
 						from.shouldValidateUnit = true;
+
+						if (units.length === 2) {
+							to.unit = units.find((unit) => unit.value != detail).value;
+						}
 					}}
 				/>
 			</svelte:fragment>
