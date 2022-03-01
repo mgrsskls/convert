@@ -26,8 +26,9 @@
 	export let loading = false;
 	export let options: Array<Option> | null = null;
 	export let invalid = false;
-	export let name = "";
-	export let inputmode = "";
+	export let name: string = null;
+	export let inputmode: string = null;
+	export let required = true;
 
 	function onInput(e: Event) {
 		const target = e.target as HTMLInputElement;
@@ -68,8 +69,8 @@
 		{#if !viaSlot}
 			{#if options}
 				<select
-					{name}
-					required
+					name={name || id}
+					{required}
 					class="Input-element"
 					{id}
 					aria-invalid={invalid}
@@ -89,9 +90,9 @@
 					{placeholder}
 					{step}
 					{list}
-					{name}
+					name={name || id}
 					{inputmode}
-					required
+					{required}
 					aria-invalid={invalid}
 					on:input={onInput}
 					on:change={onChange}

@@ -214,6 +214,7 @@
 				id="color-from-picker"
 				label="Color picker"
 				type="color"
+				required={false}
 				bind:value={colorFromPicker}
 				on:input={({ detail }) => {
 					colorFromString = "";
