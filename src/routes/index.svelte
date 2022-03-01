@@ -21,7 +21,6 @@
 		display: grid;
 		grid-gap: var(--spacing-x);
 		inline-size: 100%;
-		margin: auto;
 	}
 
 	li {
