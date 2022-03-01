@@ -1,11 +1,6 @@
 <script>
-	import i18n from "$lib/i18n.js";
 	import menu from "$lib/menu.js";
 </script>
-
-<svelte:head>
-	<meta name="description" content={i18n.description} />
-</svelte:head>
 
 <ul>
 	{#each menu as item}
