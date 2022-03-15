@@ -40,5 +40,5 @@ Website to convert:
 
 ## External APIs
 
-- Real time currency conversions: https://www.freecurrencyapi.net/
+- Real time currency conversions: https://www.currencyapi.com/
 - Getting the IANA time zone for a given location: https://www.abstractapi.com/time-date-timezone-api

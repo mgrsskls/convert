@@ -82,7 +82,7 @@
 		toCurrencyIsValid &&
 		data[from.currency] &&
 		data[from.currency][to.currency]
-			? (parseFloat(from.amount) * data[from.currency][to.currency]).toFixed(2)
+			? (parseFloat(from.amount) * data[from.currency][to.currency].value).toFixed(2)
 			: "-";
 
 	function toggleDirection() {
@@ -171,7 +171,7 @@
 	<svelte:fragment slot="divider">
 		{#if fromCurrencyIsValid && toCurrencyIsValid}
 			{#if data[from.currency] && data[from.currency][to.currency]}
-				<Multiplier value={data[from.currency][to.currency].toFixed(4)} />
+				<Multiplier value={data[from.currency][to.currency].value.toFixed(4)} />
 				<DirectionToggle on:click={toggleDirection} />
 			{/if}
 		{/if}
@@ -207,10 +207,10 @@
 
 <p>
 	<small
-		>Currency conversion rates are updated every five minutes via <a
-			href="https://www.freecurrencyapi.net/"
+		>Currency conversion rates are updated daily via <a
+			href="https://www.currencyapi.com/"
 			target="_blank"
-			rel="noopener">https://www.freecurrencyapi.net/</a
+			rel="noopener">https://www.currencyapi.com/</a
 		>.</small
 	>
 </p>

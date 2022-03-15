@@ -10,7 +10,7 @@ export const get = async function ({ url }) {
 
 	try {
 		const response = await fetch(
-			`https://freecurrencyapi.net/api/v2/latest?apikey=${
+			`https://api.currencyapi.com/v3/latest?apikey=${
 				import.meta.env.VITE_CURRENCIES_API_KEY
 			}&base_currency=${currency}`,
 			{

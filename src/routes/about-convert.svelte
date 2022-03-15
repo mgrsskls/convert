@@ -43,8 +43,8 @@
 			<ul>
 				<li>
 					{copy.apiCurrencies}
-					<a href="https://www.freecurrencyapi.net/" target="_blank" rel="noopener"
-						>https://www.freecurrencyapi.net/</a
+					<a href="https://www.currencyapi.com/" target="_blank" rel="noopener"
+						>https://www.currencyapi.com/</a
 					>
 				</li>
 				<li>
