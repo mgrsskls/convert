@@ -9,7 +9,7 @@
 		"lint:svelte": "svelte-check",
 		"lint:prettier": "prettier --check --plugin-search-dir=. .",
 		"lint:eslint": "eslint --ignore-path .gitignore .",
-		"lint:a11y": "node_modules/.bin/axe http://localhost:3000, http://localhost:3000/colors, http://localhost:3000/currencies, http://localhost:3000/time, http://localhost:3000/units, http://localhost:3000/about-convert --exit",
+		"lint:a11y": "node_modules/.bin/axe http://localhost:3000, http://localhost:3000/colors, http://localhost:3000/currencies, http://localhost:3000/time, http://localhost:3000/units, http://localhost:3000/about-convert --exit --show-errors",
 		"lint": "npm run lint:svelte && npm run lint:prettier && npm run lint:eslint && npm run lint:a11y",
 		"format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
 	},
