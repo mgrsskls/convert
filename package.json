@@ -20,7 +20,7 @@
 		"lint:a11y"
 	],
 	"devDependencies": {
-		"@axe-core/cli": "^4.4.1-alpha.247",
+		"@axe-core/cli": "^4.4.3",
 		"@sveltejs/adapter-netlify": "^1.0.0-next.45",
 		"@sveltejs/kit": "next",
 		"@tsconfig/svelte": "^3.0.0",
