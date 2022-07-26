@@ -31,7 +31,7 @@
 		"pre-commit": "^1.2.2",
 		"prettier": "^2.7.1",
 		"prettier-plugin-svelte": "^2.7.0",
-		"selenium-webdriver": "^4.3.0",
+		"selenium-webdriver": "^4.3.1",
 		"svelte": "^3.49.0",
 		"svelte-check": "^2.8.0",
 		"svelte-preprocess": "^4.10.7",
@@ -46,6 +46,6 @@
 		"node-fetch": "^3.2.9"
 	},
 	"resolutions": {
-		"selenium-webdriver": "4.3.0"
+		"selenium-webdriver": "4.3.1"
 	}
 }
