@@ -7,7 +7,7 @@ const cache = {};
  * @param {string} options.url
  * @returns {Promise<object>}
  */
-export const get = async function ({ url }) {
+export const GET = async function ({ url }) {
 	const location = url.searchParams.get("location");
 
 	try {
