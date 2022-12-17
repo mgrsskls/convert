@@ -8,13 +8,15 @@
 	<div>
 		<dt>{copy.createdBy}</dt>
 		<dd>
-			<a href="https://www.mgrossklaus.de" target="_blank" rel="noopener">Michael Großklaus</a>
+			<a href="https://www.mgrossklaus.de" target="_blank" rel="noopener noreferrer"
+				>Michael Großklaus</a
+			>
 		</dd>
 	</div>
 	<div>
 		<dt>{copy.repository}</dt>
 		<dd>
-			<a href="https://github.com/mgrsskls/convert" target="_blank" rel="noopener"
+			<a href="https://github.com/mgrsskls/convert" target="_blank" rel="noopener noreferrer"
 				>https://github.com/mgrsskls/convert</a
 			>
 		</dd>
@@ -23,10 +25,14 @@
 		<dt>{copy.builtWith}</dt>
 		<dd>
 			<ul>
-				<li><a href="https://kit.svelte.dev/" target="_blank" rel="noopener">Svelte Kit</a></li>
-				<li><a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a></li>
 				<li>
-					<a href="https://www.typescriptlang.org/" target="_blank" rel="noopener">TypeScript</a>
+					<a href="https://kit.svelte.dev/" target="_blank" rel="noopener noreferrer">Svelte Kit</a>
+				</li>
+				<li><a href="https://vitejs.dev/" target="_blank" rel="noopener noreferrer">Vite</a></li>
+				<li>
+					<a href="https://www.typescriptlang.org/" target="_blank" rel="noopener noreferrer"
+						>TypeScript</a
+					>
 				</li>
 			</ul>
 		</dd>
@@ -34,7 +40,7 @@
 	<div>
 		<dt>{copy.hosting}</dt>
 		<dd>
-			<a href="https://www.netlify.com/" target="_blank" rel="noopener">Netlify</a>
+			<a href="https://www.netlify.com/" target="_blank" rel="noopener noreferrer">Netlify</a>
 		</dd>
 	</div>
 	<div>
@@ -43,7 +49,7 @@
 			<ul>
 				<li>
 					{copy.apiCurrencies}
-					<a href="https://www.currencyapi.com/" target="_blank" rel="noopener"
+					<a href="https://www.currencyapi.com/" target="_blank" rel="noopener noreferrer"
 						>https://www.currencyapi.com/</a
 					>
 				</li>
@@ -52,7 +58,7 @@
 					<a
 						href="https://www.abstractapi.com/time-date-timezone-api"
 						target="_blank"
-						rel="noopener">https://www.abstractapi.com/time-date-timezone-api</a
+						rel="noopener noreferrer">https://www.abstractapi.com/time-date-timezone-api</a
 					>
 				</li>
 			</ul>

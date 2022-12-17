@@ -9,3 +9,4 @@ node_modules
 /.netlify
 
 src/app.html
+src/css/reset.css

@@ -1,3 +1,4 @@
+import { json as json$1 } from "@sveltejs/kit";
 import fetch from "node-fetch";
 
 const cache = {};
@@ -33,20 +34,18 @@ export const GET = async function ({ url }) {
 			};
 		}
 
-		return {
-			status: 200,
-			body: {
+		return json$1(
+			{
 				timezone: body.timezone_location,
 			},
-			headers: {
-				"Content-Type": "application/json",
-				"Access-Control-Allow-Origin": import.meta.env.VITE_FRONTEND_HOST,
-			},
-		};
+			{
+				headers: {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": import.meta.env.VITE_FRONTEND_HOST,
+				},
+			}
+		);
 	} catch (e) {
-		return {
-			status: 500,
-			body: e.toString(),
-		};
+		return new Response(e.toString(), { status: 500 });
 	}
 };

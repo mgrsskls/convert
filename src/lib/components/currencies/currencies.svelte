@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { browser } from "$app/env";
+	import { browser } from "$app/environment";
 	import { page } from "$app/stores";
 
 	import i18n from "$lib/i18n.js";
@@ -53,9 +53,9 @@
 		shouldValidateCurrency: initialToCurrency ? true : false,
 	};
 
-	const data = $page.stuff.data
+	const data = $page.data.result
 		? {
-				[from.currency]: $page.stuff.data,
+				[from.currency]: $page.data.result,
 		  }
 		: {};
 
@@ -202,7 +202,7 @@
 <SupportedUnits
 	supported={supportedCurrencyIds}
 	unsupported={unsupportedCurrencyIds}
-	title={$page.stuff.title.toLowerCase()}
+	title={$page.data.title.toLowerCase()}
 />
 
 <p>
@@ -210,7 +210,7 @@
 		>Currency conversion rates are updated daily via <a
 			href="https://www.currencyapi.com/"
 			target="_blank"
-			rel="noopener">https://www.currencyapi.com/</a
+			rel="noopener noreferrer">https://www.currencyapi.com/</a
 		>.</small
 	>
 </p>

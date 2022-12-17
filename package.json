@@ -19,30 +19,33 @@
 		"lint:a11y"
 	],
 	"devDependencies": {
-		"@axe-core/cli": "^4.4.5",
-		"@sveltejs/adapter-netlify": "^1.0.0-next.70",
-		"@sveltejs/kit": "next",
+		"@axe-core/cli": "^4.5.2",
+		"@sveltejs/adapter-netlify": "^1.0.0",
+		"@sveltejs/kit": "1.0.1",
 		"@tsconfig/svelte": "^3.0.0",
-		"@typescript-eslint/eslint-plugin": "^5.30.7",
-		"@typescript-eslint/parser": "^5.30.7",
-		"eslint": "^8.20.0",
+		"@typescript-eslint/eslint-plugin": "^5.46.1",
+		"@typescript-eslint/parser": "^5.46.1",
+		"eslint": "^8.30.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^4.0.0",
 		"pre-commit": "^1.2.2",
-		"prettier": "^2.7.1",
-		"prettier-plugin-svelte": "^2.7.0",
-		"selenium-webdriver": "4.3.0",
-		"svelte": "^3.49.0",
-		"svelte-check": "^2.8.0",
-		"svelte-preprocess": "^4.10.7",
-		"tslib": "^2.4.0",
-		"typescript": "^4.7.4",
-		"vite": "^3.0.2"
+		"prettier": "^2.8.1",
+		"prettier-plugin-svelte": "^2.9.0",
+		"selenium-webdriver": "4.7.1",
+		"svelte": "^3.55.0",
+		"svelte-check": "^2.10.2",
+		"svelte-preprocess": "^5.0.0",
+		"tslib": "^2.4.1",
+		"typescript": "^4.9.4",
+		"vite": "^4.0.1"
 	},
 	"type": "module",
 	"dependencies": {
 		"big.js": "^6.2.1",
-		"bignumber.js": "^9.1.0",
-		"node-fetch": "^3.2.9"
+		"bignumber.js": "^9.1.1",
+		"node-fetch": "^3.3.0"
+	},
+	"overrides": {
+		"chromedriver": "^108"
 	}
 }

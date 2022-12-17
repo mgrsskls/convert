@@ -19,20 +19,16 @@ export const GET = async function ({ url }) {
 				},
 			}
 		);
+
 		const body = await response.json();
 
-		return {
-			status: 200,
-			body: body.data,
+		return new Response(JSON.stringify(body.data), {
 			headers: {
 				"Content-Type": "application/json",
 				"Access-Control-Allow-Origin": import.meta.env.VITE_FRONTEND_HOST,
 			},
-		};
+		});
 	} catch (e) {
-		return {
-			status: 404,
-			body: e.toString(),
-		};
+		return new Response(e.toString(), { status: 404 });
 	}
 };

@@ -6,11 +6,9 @@
 		const trans = alias ? i18n[alias] : null;
 
 		return {
-			stuff: {
-				alias,
-				title: trans ? trans.title : i18n.title,
-				description: trans ? trans.description : i18n.description,
-			},
+			alias,
+			title: trans ? trans.title : i18n.title,
+			description: trans ? trans.description : i18n.description,
 		};
 	};
 </script>
@@ -20,6 +18,6 @@
 	import Layout from "$lib/components/layout.svelte";
 </script>
 
-<Layout alias={$page.stuff.alias} title={$page.stuff.title} description={$page.stuff.description}>
+<Layout alias={$page.data.alias} title={$page.data.title} description={$page.data.description}>
 	<slot />
 </Layout>
