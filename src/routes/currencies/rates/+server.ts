@@ -20,7 +20,11 @@ export const GET = async function ({ url }) {
 			}
 		);
 
-		const body = await response.json();
+		type Response = {
+			data: object;
+		};
+
+		const body = (await response.json()) as Response;
 
 		return new Response(JSON.stringify(body.data), {
 			headers: {

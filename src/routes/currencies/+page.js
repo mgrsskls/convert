@@ -1,4 +1,3 @@
-/** @type {import('./$types').PageLoad} */
 export async function load({ fetch, url }) {
 	if (url.searchParams.get("from[currency]")) {
 		try {

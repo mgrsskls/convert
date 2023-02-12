@@ -2,33 +2,43 @@
 
 import htmlNames from "./html-names";
 
-function w3color(color, elmnt) {
-	if (!(this instanceof w3color)) {
-		return new w3color(color, elmnt);
+class w3color {
+	black;
+	blackness;
+	blue;
+	cyan;
+	green;
+	hue;
+	lightness;
+	magenta;
+	opacity;
+	red;
+	sat;
+	valid;
+	whiteness;
+	yellow;
+
+	constructor(color) {
+		this.attachValues(toColorObject(color));
 	}
-	if (typeof color == "object") {
-		return color;
-	}
-	this.attachValues(toColorObject(color));
-	if (elmnt) {
-		elmnt.style.backgroundColor = this.toRgbString();
-	}
-}
-w3color.prototype = {
-	toRgbString: function () {
+
+	toRgbString() {
 		return "rgb(" + this.red + ", " + this.green + ", " + this.blue + ")";
-	},
-	toRgbaString: function () {
+	}
+
+	toRgbaString() {
 		return "rgba(" + this.red + ", " + this.green + ", " + this.blue + ", " + this.opacity + ")";
-	},
-	toHwbString: function () {
+	}
+
+	toHwbString() {
 		const opacityString = this.opacity < 1 ? ` / ${this.opacity}` : "";
 
 		return `hwb(${this.hue} ${Math.round(this.whiteness * 100)}% ${Math.round(
 			this.blackness * 100
 		)}%${opacityString})`;
-	},
-	toHslString: function () {
+	}
+
+	toHslString() {
 		const sat = this.sat * 100;
 		return (
 			"hsl(" +
@@ -39,8 +49,9 @@ w3color.prototype = {
 			Math.round(this.lightness * 100) +
 			"%)"
 		);
-	},
-	toHslaString: function () {
+	}
+
+	toHslaString() {
 		const sat = this.sat * 100;
 		return (
 			"hsla(" +
@@ -53,8 +64,9 @@ w3color.prototype = {
 			this.opacity +
 			")"
 		);
-	},
-	toCmykString: function () {
+	}
+
+	toCmykString() {
 		return (
 			"cmyk(" +
 			Math.round(this.cyan * 100) +
@@ -66,12 +78,11 @@ w3color.prototype = {
 			Math.round(this.black * 100) +
 			"%)"
 		);
-	},
-	toName: function () {
-		var r,
-			g,
-			b,
-			colorhexs = getColorArr("hexs");
+	}
+
+	toName() {
+		let r, g, b;
+		const colorhexs = getColorArr("hexs");
 		for (let i = 0; i < colorhexs.length; i++) {
 			r = parseInt(colorhexs[i].substr(0, 2), 16);
 			g = parseInt(colorhexs[i].substr(2, 2), 16);
@@ -81,30 +92,37 @@ w3color.prototype = {
 			}
 		}
 		return "";
-	},
-	toHexString: function () {
-		var r = toHex(this.red);
-		var g = toHex(this.green);
-		var b = toHex(this.blue);
+	}
+
+	toHexString() {
+		const r = toHex(this.red);
+		const g = toHex(this.green);
+		const b = toHex(this.blue);
 		return "#" + r + g + b;
-	},
-	toRgb: function () {
+	}
+
+	toRgb() {
 		return { r: this.red, g: this.green, b: this.blue, a: this.opacity };
-	},
-	toHsl: function () {
+	}
+
+	toHsl() {
 		return { h: this.hue, s: this.sat, l: this.lightness, a: this.opacity };
-	},
-	toHwb: function () {
+	}
+
+	toHwb() {
 		return { h: this.hue, w: this.whiteness, b: this.blackness, a: this.opacity };
-	},
-	toCmyk: function () {
+	}
+
+	toCmyk() {
 		return { c: this.cyan, m: this.magenta, y: this.yellow, k: this.black, a: this.opacity };
-	},
-	isDark: function (n) {
-		var m = n || 128;
+	}
+
+	isDark(n) {
+		const m = n || 128;
 		return (this.red * 299 + this.green * 587 + this.blue * 114) / 1000 < m;
-	},
-	attachValues: function (color) {
+	}
+
+	attachValues(color) {
 		this.red = color.red;
 		this.green = color.green;
 		this.blue = color.blue;
@@ -119,10 +137,11 @@ w3color.prototype = {
 		this.black = color.black;
 		this.opacity = color.opacity;
 		this.valid = color.valid;
-	},
-};
+	}
+}
+
 function toColorObject(c) {
-	var typ,
+	let typ,
 		arr = [],
 		arrlength,
 		i,
@@ -316,18 +335,18 @@ function toColorObject(c) {
 	return colorObject(rgb, a, hue, sat);
 }
 function colorObject(rgb, a, h, s) {
-	var hsl, hwb, cmyk, color, hue, sat;
+	let color;
 	if (!rgb) {
 		return emptyObject();
 	}
 	if (a === null) {
 		a = 1;
 	}
-	hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-	hwb = rgbToHwb(rgb.r, rgb.g, rgb.b);
-	cmyk = rgbToCmyk(rgb.r, rgb.g, rgb.b);
-	hue = h || hsl.h;
-	sat = s || hsl.s;
+	const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+	const hwb = rgbToHwb(rgb.r, rgb.g, rgb.b);
+	const cmyk = rgbToCmyk(rgb.r, rgb.g, rgb.b);
+	const hue = h || hsl.h;
+	const sat = s || hsl.s;
 	color = {
 		red: rgb.r,
 		green: rgb.g,
@@ -539,17 +558,17 @@ function roundDecimals(c) {
 	return c;
 }
 function hslToRgb(hue, sat, light) {
-	var t1, t2, r, g, b;
+	let t2;
 	hue = hue / 60;
 	if (light <= 0.5) {
 		t2 = light * (sat + 1);
 	} else {
 		t2 = light + sat - light * sat;
 	}
-	t1 = light * 2 - t2;
-	r = hueToRgb(t1, t2, hue + 2) * 255;
-	g = hueToRgb(t1, t2, hue) * 255;
-	b = hueToRgb(t1, t2, hue - 2) * 255;
+	const t1 = light * 2 - t2;
+	const r = hueToRgb(t1, t2, hue + 2) * 255;
+	const g = hueToRgb(t1, t2, hue) * 255;
+	const b = hueToRgb(t1, t2, hue - 2) * 255;
 	return { r: r, g: g, b: b };
 }
 function hueToRgb(t1, t2, hue) {
@@ -561,15 +580,13 @@ function hueToRgb(t1, t2, hue) {
 	else return t1;
 }
 function hwbToRgb(hue, white, black) {
-	var i,
-		rgb,
-		rgbArr = [],
-		tot;
-	rgb = hslToRgb(hue, 1, 0.5);
+	let i;
+	const rgbArr = [];
+	const rgb = hslToRgb(hue, 1, 0.5);
 	rgbArr[0] = rgb.r / 255;
 	rgbArr[1] = rgb.g / 255;
 	rgbArr[2] = rgb.b / 255;
-	tot = white + black;
+	const tot = white + black;
 	if (tot > 1) {
 		white = Number((white / tot).toFixed(2));
 		black = Number((black / tot).toFixed(2));
@@ -582,21 +599,14 @@ function hwbToRgb(hue, white, black) {
 	return { r: rgbArr[0], g: rgbArr[1], b: rgbArr[2] };
 }
 function cmykToRgb(c, m, y, k) {
-	var r, g, b;
-	r = 255 - Math.min(1, c * (1 - k) + k) * 255;
-	g = 255 - Math.min(1, m * (1 - k) + k) * 255;
-	b = 255 - Math.min(1, y * (1 - k) + k) * 255;
+	const r = 255 - Math.min(1, c * (1 - k) + k) * 255;
+	const g = 255 - Math.min(1, m * (1 - k) + k) * 255;
+	const b = 255 - Math.min(1, y * (1 - k) + k) * 255;
 	return { r: r, g: g, b: b };
 }
 function rgbToHsl(r, g, b) {
-	var min,
-		max,
-		i,
-		l,
-		s,
-		maxcolor,
-		h,
-		rgb = [];
+	let min, max, i, s, maxcolor, h;
+	const rgb = [];
 	rgb[0] = r / 255;
 	rgb[1] = g / 255;
 	rgb[2] = b / 255;
@@ -628,7 +638,7 @@ function rgbToHsl(r, g, b) {
 	if (h < 0) {
 		h = h + 360;
 	}
-	l = (min + max) / 2;
+	const l = (min + max) / 2;
 	if (min == max) {
 		s = 0;
 	} else {
@@ -641,13 +651,13 @@ function rgbToHsl(r, g, b) {
 	return { h: h, s: s, l: l };
 }
 function rgbToHwb(r, g, b) {
-	var h, w, bl, max, min, chroma;
 	r = r / 255;
 	g = g / 255;
 	b = b / 255;
-	max = Math.max(r, g, b);
-	min = Math.min(r, g, b);
-	chroma = max - min;
+	const max = Math.max(r, g, b);
+	const min = Math.min(r, g, b);
+	const chroma = max - min;
+	let h;
 	if (chroma == 0) {
 		h = 0;
 	} else if (r == max) {
@@ -657,17 +667,17 @@ function rgbToHwb(r, g, b) {
 	} else {
 		h = (((r - g) / chroma + 4) % 6) * 360;
 	}
-	w = min;
-	bl = 1 - max;
+	const w = min;
+	const bl = 1 - max;
 	return { h: h, w: w, b: bl };
 }
 function rgbToCmyk(r, g, b) {
-	var c, m, y, k, max;
+	let c, m, y;
 	r = r / 255;
 	g = g / 255;
 	b = b / 255;
-	max = Math.max(r, g, b);
-	k = 1 - max;
+	const max = Math.max(r, g, b);
+	const k = 1 - max;
 	if (k == 1) {
 		c = 0;
 		m = 0;
@@ -680,7 +690,7 @@ function rgbToCmyk(r, g, b) {
 	return { c: c, m: m, y: y, k: k };
 }
 function toHex(n) {
-	var hex = n.toString(16);
+	let hex = n.toString(16);
 	while (hex.length < 2) {
 		hex = "0" + hex;
 	}

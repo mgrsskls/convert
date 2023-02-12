@@ -27,7 +27,15 @@
 	export let options: Array<Option> | null = null;
 	export let invalid = false;
 	export let name: string = null;
-	export let inputmode: string = null;
+	export let inputmode:
+		| "text"
+		| "none"
+		| "search"
+		| "tel"
+		| "url"
+		| "email"
+		| "numeric"
+		| "decimal" = null;
 	export let required = true;
 
 	function onInput(e: Event) {

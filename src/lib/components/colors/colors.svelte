@@ -84,14 +84,14 @@
 	}
 
 	$: color = colorFromString || colorFromPicker;
-	$: w3colorResult = w3color(fixedColor);
+	$: w3colorResult = new w3color(fixedColor);
 	$: fixedColor = ["RGB", "RGBA"].includes(colorSpace) ? rgbOrRgbaWithNamespace : color;
 	$: colorSpace = color ? getColorSpace(color) : "-";
 	$: rgbOrRgbaWithNamespace = ["RGB", "RGBA"].includes(colorSpace)
 		? wrapRgbWithoutPrefix(color)
 		: color;
 	$: isValid = isValidColor(w3colorResult, color);
-	$: matchesBackground = colorMatchesBackground(result, w3color(bgColor));
+	$: matchesBackground = colorMatchesBackground(result, new w3color(bgColor));
 	$: result = isValid ? w3colorResult : null;
 	$: htmlName = result ? (result.opacity === 1 ? result.toName() || "-" : "-") : "-";
 	$: rgb = result ? (result.opacity === 1 ? result.toRgbString() : "-") : "-";

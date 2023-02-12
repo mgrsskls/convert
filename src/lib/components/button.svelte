@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 
-	export let type = "submit";
+	export let type: "submit" | "button" | "reset" = "submit";
 	export let label = "Convert";
 
 	let renderButton = true;

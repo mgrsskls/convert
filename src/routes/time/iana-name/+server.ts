@@ -28,7 +28,7 @@ export const GET = async function ({ url }) {
 				}
 			);
 
-			body = await response.json();
+			body = (await response.json()) as Response;
 			cache[location] = {
 				timezone_location: body.timezone_location,
 			};

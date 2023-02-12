@@ -110,12 +110,10 @@ export const getDatetimeParts = (string) => {
 	const arr = string
 		.split("T")
 		.flatMap((item) => {
-			item = item.split("-");
-			return item;
+			return item.split("-");
 		})
 		.flatMap((item) => {
-			item = item.split(":");
-			return item;
+			return item.split(":");
 		})
 		.map((item) => parseInt(item, 10));
 
