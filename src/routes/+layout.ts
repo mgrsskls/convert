@@ -10,3 +10,5 @@ export const load = ({ url }) => {
 		description: trans ? trans.description : i18n.description,
 	};
 };
+
+export const trailingSlash = "always";
