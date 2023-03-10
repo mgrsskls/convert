@@ -18,6 +18,7 @@
 			{#each menu as item}
 				<li>
 					<a
+						data-sveltekit-reload
 						href={item.path}
 						aria-current={current === item.alias ? "page" : "false"}
 						on:click={closeMenu}
@@ -28,6 +29,7 @@
 			{/each}
 			<li>
 				<a
+					data-sveltekit-reload
 					href="/about-convert"
 					aria-current={current === "about-convert" ? "page" : "false"}
 					on:click={closeMenu}
@@ -43,12 +45,16 @@
 	<ul>
 		{#each menu as item}
 			<li>
-				<a href={item.path} aria-current={current === item.alias ? "page" : "false"}>{item.label}</a
+				<a
+					data-sveltekit-reload
+					href={item.path}
+					aria-current={current === item.alias ? "page" : "false"}>{item.label}</a
 				>
 			</li>
 		{/each}
 		<li>
 			<a
+				data-sveltekit-reload
 				href="/about-convert"
 				aria-current={current === "about-convert" ? "page" : "false"}
 				on:click={closeMenu}

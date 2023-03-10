@@ -13,7 +13,7 @@
 <header>
 	<a class="SkipLink" href="#main">{i18n.skipToContent}</a>
 	<h1>
-		<a href="/" aria-current={!current ? "page" : "false"}
+		<a data-sveltekit-reload href="/" aria-current={!current ? "page" : "false"}
 			><span class="Convert">{i18n.title}</span></a
 		>
 		{#if title !== "Convert"}<span class="CurrentPage">{title}</span>{/if}
