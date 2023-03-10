@@ -30,7 +30,7 @@
 			<li>
 				<a
 					data-sveltekit-reload
-					href="/about-convert"
+					href="/about-convert/"
 					aria-current={current === "about-convert" ? "page" : "false"}
 					on:click={closeMenu}
 				>
@@ -55,7 +55,7 @@
 		<li>
 			<a
 				data-sveltekit-reload
-				href="/about-convert"
+				href="/about-convert/"
 				aria-current={current === "about-convert" ? "page" : "false"}
 				on:click={closeMenu}
 			>
