@@ -1,27 +1,27 @@
-<script lang="ts">
-	import { browser } from "$app/environment";
-	import { page } from "$app/stores";
-	import BigNumber from "bignumber.js";
-	import Big from "big.js";
+<script>
+	import { browser } from '$app/environment';
+	import { page } from '$app/stores';
+	import BigNumber from 'bignumber.js';
+	import Big from 'big.js';
 
-	import { ingredients } from "./lookup/index.js";
+	import { ingredients } from './lookup/index.js';
 
-	import i18n from "$lib/i18n.js";
-	import Grid from "$lib/components/grid.svelte";
-	import FromTo from "$lib/components/from-to.svelte";
-	import Input from "$lib/components/input.svelte";
-	import Result from "$lib/components/result.svelte";
-	import Multiplier from "$lib/components/multiplier.svelte";
-	import Button from "$lib/components/button.svelte";
+	import i18n from '$lib/i18n.js';
+	import Grid from '$lib/components/grid.svelte';
+	import FromTo from '$lib/components/from-to.svelte';
+	import Input from '$lib/components/input.svelte';
+	import Result from '$lib/components/result.svelte';
+	import Multiplier from '$lib/components/multiplier.svelte';
+	import Button from '$lib/components/button.svelte';
 
 	const { names, conversions } = ingredients;
-	const alias = "ingredients";
+	const alias = 'ingredients';
 
 	let shouldUpdateHistory = false;
 
 	const initialFromUnit = $page.url.searchParams.get(`${alias}[from][ingredient]`)
 		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][ingredient]`))
-		: "";
+		: '';
 	const initialFromValue = $page.url.searchParams.get(`${alias}[from][amount]`)
 		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][amount]`))
 		: null;
@@ -29,12 +29,12 @@
 		unit: initialFromUnit,
 		shouldValidateUnit: initialFromUnit ? true : false,
 		value: initialFromValue,
-		shouldValidateValue: initialFromValue ? true : false,
+		shouldValidateValue: initialFromValue ? true : false
 	};
 
 	const units = Object.entries(names).map((entry) => ({
 		value: entry[0],
-		label: `${entry[1]}: ${entry[0]}`,
+		label: `${entry[1]}: ${entry[0]}`
 	}));
 	const unitValues = units.map((unit) => unit.value);
 
@@ -43,8 +43,8 @@
 			history.replaceState(
 				null,
 				null,
-				`?type=${alias}&${alias}[from][ingredient]=${from.unit || ""}&${alias}[from][amount]=${
-					from.value || ""
+				`?type=${alias}&${alias}[from][ingredient]=${from.unit || ''}&${alias}[from][amount]=${
+					from.value || ''
 				}`
 			);
 		}
@@ -56,11 +56,11 @@
 	$: fromValueIsValid = !Number.isNaN(parseFloat(from.value));
 	$: result = fromValueIsValid && from.unit ? calcResult(from.unit, parseFloat(from.value)) : null;
 	$: useExponential = shouldUseExponential(result, rawResult, false);
-	$: rawResult = getFormattedResult(result, false) || "-";
+	$: rawResult = getFormattedResult(result, false) || '-';
 
-	function calcResult(fromUnit: string, fromValue: number) {
+	function calcResult(fromUnit, fromValue) {
 		if (!fromUnit || fromValue === null || !conversions[fromUnit]) return null;
-		let value: number;
+		let value;
 
 		if (conversions[fromUnit]) {
 			value = new Big(fromValue).times(new Big(conversions[fromUnit])).toString();
@@ -69,22 +69,26 @@
 		return value;
 	}
 
-	function getFormattedResult(result: string | number, roundResults: number | boolean) {
-		if (!["string", "number"].includes(typeof result)) return null;
+	/**
+	 * @param {string|number} result
+	 * @param {number} roundResults
+	 */
+	function getFormattedResult(result, roundResults) {
+		if (!['string', 'number'].includes(typeof result)) return null;
 
-		return roundResults && typeof roundResults === "number"
+		return roundResults && typeof roundResults === 'number'
 			? new BigNumber(result).toFormat(roundResults)
 			: new BigNumber(result).toFormat();
 	}
 
-	function shouldUseExponential(result: number, formatted: string, roundResults: boolean | number) {
+	function shouldUseExponential(result, formatted, roundResults) {
 		if (!result) return false;
 
 		if (result >= 1000000000000000000000) return true;
 
 		if (!roundResults) {
-			const arr = formatted.toString().split(".");
-			return arr.length === 2 && ["0", "-0"].includes(arr[0]) && arr[1].startsWith("000000");
+			const arr = formatted.toString().split('.');
+			return arr.length === 2 && ['0', '-0'].includes(arr[0]) && arr[1].startsWith('000000');
 		}
 
 		return false;
@@ -103,41 +107,41 @@
 					placeholder={i18n.cooking.ingredients.placeholders.ingredient}
 					options={[
 						{
-							value: "flour",
-							label: "Flour (all-purpose)",
+							value: 'flour',
+							label: 'Flour (all-purpose)'
 						},
 						{
-							value: "sugar_granulated",
-							label: "Sugar (granulated)",
+							value: 'sugar_granulated',
+							label: 'Sugar (granulated)'
 						},
 						{
-							value: "sugar_packed",
-							label: "Sugar (packed)",
+							value: 'sugar_packed',
+							label: 'Sugar (packed)'
 						},
 						{
-							value: "sugar_powdered",
-							label: "Sugar (powdered)",
+							value: 'sugar_powdered',
+							label: 'Sugar (powdered)'
 						},
 						{
-							value: "cocoa",
-							label: "Cocoa powder",
+							value: 'cocoa',
+							label: 'Cocoa powder'
 						},
 						{
-							value: "rice",
-							label: "Rice (uncooked)",
+							value: 'rice',
+							label: 'Rice (uncooked)'
 						},
 						{
-							value: "salt",
-							label: "Salt",
+							value: 'salt',
+							label: 'Salt'
 						},
 						{
-							value: "margarine",
-							label: "Margarine",
+							value: 'margarine',
+							label: 'Margarine'
 						},
 						{
-							value: "butter",
-							label: "Butter",
-						},
+							value: 'butter',
+							label: 'Butter'
+						}
 					]}
 					invalid={from.shouldValidateUnit && !fromUnitIsValid}
 					bind:value={from.unit}
@@ -171,7 +175,7 @@
 	</svelte:fragment>
 	<svelte:fragment slot="divider">
 		{#if from.unit}
-			{#if conversions[from.unit] && conversions[from.unit] && typeof conversions[from.unit] !== "function"}
+			{#if conversions[from.unit] && conversions[from.unit] && typeof conversions[from.unit] !== 'function'}
 				<Multiplier value={new BigNumber(conversions[from.unit]).toFormat()} />
 			{/if}
 		{/if}

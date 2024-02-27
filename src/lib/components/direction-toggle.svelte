@@ -1,6 +1,6 @@
 <script>
-	import { onMount } from "svelte";
-	import i18n from "$lib/i18n.js";
+	import { onMount } from 'svelte';
+	import i18n from '$lib/i18n.js';
 
 	let render = false;
 

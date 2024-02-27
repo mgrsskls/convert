@@ -1,4 +1,4 @@
-import i18n from "$lib/i18n.js";
+import i18n from '$lib/i18n.js';
 
 export const load = ({ url }) => {
 	const alias = url.pathname.slice(1);
@@ -7,8 +7,8 @@ export const load = ({ url }) => {
 	return {
 		alias,
 		title: trans ? trans.title : i18n.title,
-		description: trans ? trans.description : i18n.description,
+		description: trans ? trans.description : i18n.description
 	};
 };
 
-export const trailingSlash = "always";
+export const trailingSlash = 'always';

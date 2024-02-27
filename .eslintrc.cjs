@@ -1,25 +1,18 @@
+/** @type { import("eslint").Linter.Config } */
 module.exports = {
 	root: true,
-	parser: "@typescript-eslint/parser",
-	extends: ["plugin:svelte/recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+	extends: ['eslint:recommended', 'plugin:svelte/recommended', 'prettier'],
 	parserOptions: {
-		project: "tsconfig.json",
-		extraFileExtensions: [".svelte"],
+		sourceType: 'module',
+		ecmaVersion: 2020,
+		extraFileExtensions: ['.svelte']
 	},
-	overrides: [
-		{
-			files: ["*.svelte"],
-			parser: "svelte-eslint-parser",
-			parserOptions: {
-				parser: "@typescript-eslint/parser",
-			},
-		},
-	],
-	plugins: ["@typescript-eslint"],
-	ignorePatterns: ["*.cjs"],
 	env: {
 		browser: true,
 		es2017: true,
-		node: true,
+		node: true
 	},
+	rules: {
+		'svelte/no-at-html-tags': 0
+	}
 };

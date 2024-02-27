@@ -1,11 +1,11 @@
-<script lang="ts">
-	import i18n from "$lib/i18n.js";
-	import Box from "./box.svelte";
-	import Divider from "./divider.svelte";
+<script>
+	import i18n from '$lib/i18n.js';
+	import Box from './box.svelte';
+	import Divider from './divider.svelte';
 
-	export let action: string = null;
-	export let flex1 = "";
-	export let flex2 = "";
+	export let action = null;
+	export let flex1 = '';
+	export let flex2 = '';
 </script>
 
 <div class="FromTo">

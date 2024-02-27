@@ -1,4 +1,4 @@
-import list from "./list.js";
+import list from './list.js';
 
 /**
  * @param {string|number} datetimeValue
@@ -9,19 +9,19 @@ export const getDateObjectForGivenDatetimeAndTimeZone = (datetimeValue, timeZone
 	const timestampForDatetimeInputWithLocalTimeZone = new Date(datetimeValue).getTime();
 
 	const timestampForCurrentDatetimeWithTimeZoneFromInput =
-		list.includes(timeZoneFromValue) || timeZoneFromValue === "UTC"
+		list.includes(timeZoneFromValue) || timeZoneFromValue === 'UTC'
 			? new Date(
 					standardizeDate(
-						Intl.DateTimeFormat(["en-GB"], {
+						Intl.DateTimeFormat(['en-GB'], {
 							timeZone: timeZoneFromValue,
-							year: "numeric",
-							month: "numeric",
-							day: "numeric",
-							hour: "numeric",
-							minute: "numeric",
+							year: 'numeric',
+							month: 'numeric',
+							day: 'numeric',
+							hour: 'numeric',
+							minute: 'numeric'
 						}).format(new Date(datetimeValue))
 					)
-			  ).getTime()
+				).getTime()
 			: 0;
 
 	const differenceBetweenLocalAndInputTimeZone =
@@ -38,10 +38,10 @@ export const getDateObjectForGivenDatetimeAndTimeZone = (datetimeValue, timeZone
  */
 export const formatDateForInput = (date) => {
 	const year = date.getFullYear();
-	const month = (date.getMonth() + 1).toString().padStart(2, "0");
-	const day = date.getDate().toString().padStart(2, "0");
-	const hours = date.getHours().toString().padStart(2, "0");
-	const minutes = date.getMinutes().toString().padStart(2, "0");
+	const month = (date.getMonth() + 1).toString().padStart(2, '0');
+	const day = date.getDate().toString().padStart(2, '0');
+	const hours = date.getHours().toString().padStart(2, '0');
+	const minutes = date.getMinutes().toString().padStart(2, '0');
 
 	return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
@@ -55,16 +55,16 @@ export const getDatetimeObject = (timeZone, date) => {
 	return timeZone.length && date
 		? new Date(
 				standardizeDate(
-					new Intl.DateTimeFormat(["en-GB"], {
+					new Intl.DateTimeFormat(['en-GB'], {
 						timeZone,
-						year: "numeric",
-						month: "numeric",
-						day: "numeric",
-						hour: "numeric",
-						minute: "numeric",
+						year: 'numeric',
+						month: 'numeric',
+						day: 'numeric',
+						hour: 'numeric',
+						minute: 'numeric'
 					}).format(date)
 				)
-		  )
+			)
 		: null;
 };
 
@@ -87,7 +87,7 @@ export const getTimeZonesDifference = (from, to) => {
 
 	const difference = to ? (to.getTime() - from.getTime()) / 60 / 60 / 1000 : null;
 
-	if (typeof difference === "number") {
+	if (typeof difference === 'number') {
 		if (difference > 0) {
 			string = `+${difference}`;
 		} else if (difference === 0) {
@@ -108,12 +108,12 @@ export const getTimeZonesDifference = (from, to) => {
  */
 export const getDatetimeParts = (string) => {
 	const arr = string
-		.split("T")
+		.split('T')
 		.flatMap((item) => {
-			return item.split("-");
+			return item.split('-');
 		})
 		.flatMap((item) => {
-			return item.split(":");
+			return item.split(':');
 		})
 		.map((item) => parseInt(item, 10));
 
@@ -127,7 +127,7 @@ export const getDatetimeParts = (string) => {
  * @returns {string}
  */
 export const standardizeDate = (dateTime) => {
-	const [date, time] = dateTime.split(", ");
+	const [date, time] = dateTime.split(', ');
 
-	return `${date.split("/").reverse().join("-")}T${time}`;
+	return `${date.split('/').reverse().join('-')}T${time}`;
 };

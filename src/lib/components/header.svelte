@@ -1,22 +1,22 @@
 <script>
-	import i18n from "$lib/i18n.js";
-	import Menu from "./menu.svelte";
+	import i18n from '$lib/i18n.js';
+	import Menu from './menu.svelte';
 
 	export let title;
 	export let current;
 </script>
 
 <svelte:head>
-	<title>{title && title != "Convert" ? `${title} — ${i18n.title}` : i18n.title}</title>
+	<title>{title && title != 'Convert' ? `${title} — ${i18n.title}` : i18n.title}</title>
 </svelte:head>
 
 <header>
 	<a class="SkipLink" href="#main">{i18n.skipToContent}</a>
 	<h1>
-		<a data-sveltekit-reload href="/" aria-current={!current ? "page" : "false"}
+		<a data-sveltekit-reload href="/" aria-current={!current ? 'page' : 'false'}
 			><span class="Convert">{i18n.title}</span></a
 		>
-		{#if title !== "Convert"}<span class="CurrentPage">{title}</span>{/if}
+		{#if title !== 'Convert'}<span class="CurrentPage">{title}</span>{/if}
 	</h1>
 	<Menu {current} />
 </header>
@@ -45,7 +45,7 @@
 	}
 
 	h1 a::after {
-		content: "→";
+		content: '→';
 		padding-inline-start: var(--spacing-x);
 	}
 
@@ -58,7 +58,8 @@
 	}
 
 	.SkipLink {
-		background: var(--color-bg);
+		background: var(--color-copy);
+		color: var(--color-bg);
 		padding: var(--spacing-y) var(--spacing-x);
 		position: absolute;
 		inset-block-start: 0;
@@ -68,14 +69,7 @@
 	}
 
 	.SkipLink:not(:focus) {
-		border: 0 !important;
-		clip: rect(0 0 0 0) !important;
-		clip-path: inset(100%) !important;
-		height: 1px !important;
-		margin: -1px !important;
-		overflow: hidden !important;
-		padding: 0 !important;
-		width: 1px !important;
+		inset-block-start: -100%;
 	}
 
 	@media (max-width: 40em) {

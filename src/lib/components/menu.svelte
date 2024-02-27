@@ -1,6 +1,6 @@
 <script>
-	import menu from "$lib/menu.js";
-	import i18n from "$lib/i18n.js";
+	import menu from '$lib/menu.js';
+	import i18n from '$lib/i18n.js';
 
 	export let current;
 
@@ -19,7 +19,7 @@
 				<li>
 					<a
 						href={item.path}
-						aria-current={current === item.alias ? "page" : "false"}
+						aria-current={current === item.alias ? 'page' : 'false'}
 						on:click={closeMenu}
 					>
 						{item.label}
@@ -30,10 +30,10 @@
 				<a
 					data-sveltekit-reload
 					href="/about-convert/"
-					aria-current={current === "about-convert/" ? "page" : "false"}
+					aria-current={current === 'about-convert/' ? 'page' : 'false'}
 					on:click={closeMenu}
 				>
-					{i18n["about-convert"].title}
+					{i18n['about-convert'].title}
 				</a>
 			</li>
 		</ul>
@@ -44,7 +44,7 @@
 	<ul>
 		{#each menu as item}
 			<li>
-				<a href={item.path} aria-current={current === item.alias ? "page" : "false"}>{item.label}</a
+				<a href={item.path} aria-current={current === item.alias ? 'page' : 'false'}>{item.label}</a
 				>
 			</li>
 		{/each}
@@ -52,10 +52,10 @@
 			<a
 				data-sveltekit-reload
 				href="/about-convert/"
-				aria-current={current === "about-convert/" ? "page" : "false"}
+				aria-current={current === 'about-convert/' ? 'page' : 'false'}
 				on:click={closeMenu}
 			>
-				{i18n["about-convert"].title}
+				{i18n['about-convert'].title}
 			</a>
 		</li>
 	</ul>
@@ -81,7 +81,7 @@
 		outline-offset: -0.2rem;
 	}
 
-	a[aria-current="page"] {
+	a[aria-current='page'] {
 		font-weight: 900;
 	}
 
@@ -102,11 +102,11 @@
 		.small-menu summary::-webkit-details-marker,
 		.small-menu summary::marker {
 			display: none;
-			content: "";
+			content: '';
 		}
 
 		.small-menu summary::before {
-			content: "";
+			content: '';
 			display: block;
 			block-size: 1em;
 			inline-size: 1em;

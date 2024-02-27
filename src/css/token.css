@@ -1,4 +1,4 @@
-html {
+:global(html) {
 	--color-copy: hsl(208, var(--saturation-copy, 40%), var(--lightness-copy, 20%));
 	--color-copy-light: hsl(208, var(--saturation-copy, 30%), var(--lightness-copy-light, 40%));
 	--color-accent: hsl(312, var(--saturation-accent, 34%), var(--lightness-accent, 25%));
@@ -18,7 +18,7 @@ html {
 }
 
 @media (prefers-contrast: more) {
-	html {
+	:global(html) {
 		--contrast-border-color: currentColor;
 		--lightness-copy-light: 20%;
 		--lightness-box-bg: 100%;
@@ -27,7 +27,7 @@ html {
 }
 
 @media (prefers-contrast: less) {
-	html {
+	:global(html) {
 		--saturation-copy: 15%;
 		--lightness-copy: 50%;
 		--lightness-copy-light: 50%;
@@ -38,7 +38,7 @@ html {
 }
 
 @media (prefers-color-scheme: dark) {
-	html {
+	:global(html) {
 		--lightness-copy: 80%;
 		--saturation-copy: 20%;
 		--lightness-copy-light: 60%;
@@ -50,7 +50,7 @@ html {
 	}
 
 	@media (prefers-contrast: more) {
-		html {
+		:global(html) {
 			--lightness-copy: 90%;
 			--lightness-copy-light: 80%;
 			--lightness-accent: 90%;
@@ -59,7 +59,7 @@ html {
 	}
 
 	@media (prefers-contrast: less) {
-		html {
+		:global(html) {
 			--lightness-copy: 50%;
 			--lightness-copy-light: 40%;
 			--lightness-accent: 50%;
@@ -69,14 +69,14 @@ html {
 }
 
 @media (max-width: 48em) {
-	html {
+	:global(html) {
 		--spacing-y: 1rem;
 		--spacing-x: 2rem;
 	}
 }
 
 @media (min-width: 48.0625em) {
-	html {
+	:global(html) {
 		--spacing-y: 1.5rem;
 		--spacing-x: 3rem;
 	}

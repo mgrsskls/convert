@@ -1,66 +1,53 @@
-<script lang="ts">
-	import { onMount, createEventDispatcher } from "svelte";
-	import i18n from "$lib/i18n.js";
+<script>
+	import { onMount, createEventDispatcher } from 'svelte';
+	import i18n from '$lib/i18n.js';
 
 	const dispatch = createEventDispatcher();
 
 	let renderReset = false;
 
-	interface Option {
-		label: string;
-		value: string;
-	}
-
-	export let id: string;
-	export let label: string;
-	export let type = "text";
-	export let value: string | number = "";
-	export let placeholder: string | null = null;
-	export let list: string | null = null;
-	export let step: number | null = null;
+	/** @type {string} */
+	export let id;
+	/** @type {string} */
+	export let label;
+	export let type = 'text';
+	/** @type {string} */
+	export let value;
+	/** @type {string} */
+	export let placeholder;
+	export let list = null;
+	/** @type {number|null} */
+	export let step = null;
 	export let hasResetButton = false;
 	export let resetButtonIsVisible = false;
-	export let toggleLabel: string | null = null;
+	/** @type {string|null} */
+	export let toggleLabel = null;
 	export let viaSlot = false;
-	export let suggestion: string | null = null;
-	export let loading = false;
-	export let options: Array<Option> | null = null;
+	export let options = null;
 	export let invalid = false;
-	export let name: string = null;
-	export let inputmode:
-		| "text"
-		| "none"
-		| "search"
-		| "tel"
-		| "url"
-		| "email"
-		| "numeric"
-		| "decimal" = null;
+	export let name = null;
+	export let inputmode = null;
 	export let required = true;
 
-	function onInput(e: Event) {
-		const target = e.target as HTMLInputElement;
-		dispatch("input", type === "number" ? parseFloat(target.value) : target.value);
-	}
+	/**
+	 * @param {Event} e
+	 */
+	function onInput(e) {
+		const target = e.target;
 
-	function onChange(e: Event) {
-		const target = e.target as HTMLInputElement;
-		dispatch("change", type === "number" ? parseFloat(target.value) : target.value);
-	}
-
-	function onReset(e: Event) {
-		const target = e.target as HTMLInputElement;
-		dispatch("toggleReset", target.checked);
-	}
-
-	function onKeydown(e: KeyboardEvent) {
-		const target = e.target as HTMLInputElement;
-		if (e.key === "ArrowDown" && suggestion) {
-			const suggestionInput = target
-				.closest(".Input")
-				.querySelector(".Input-suggestion") as HTMLInputElement;
-			suggestionInput.focus();
+		if (target) {
+			dispatch('input', type === 'number' ? parseFloat(target.value) : target.value);
 		}
+	}
+
+	function onChange(e) {
+		const target = e.target;
+		dispatch('change', type === 'number' ? parseFloat(target.value) : target.value);
+	}
+
+	function onReset(e) {
+		const target = e.target;
+		dispatch('toggleReset', target.checked);
 	}
 
 	onMount(() => {
@@ -105,23 +92,7 @@
 					on:input={onInput}
 					on:change={onChange}
 					on:focus
-					on:keydown={onKeydown}
 				/>
-			{/if}
-
-			{#if suggestion}
-				<button
-					class="Input-suggestion"
-					on:click={() => {
-						value = suggestion;
-						dispatch("suggestionAccepted", suggestion);
-					}}
-					type="button">{@html suggestion}</button
-				>
-			{/if}
-
-			{#if loading}
-				<span class="Input-loading">{i18n.loadingSuggestions}</span>
 			{/if}
 		{/if}
 
@@ -162,7 +133,7 @@
 		background-position: center right;
 	}
 
-	.Input-element:where(:not([type="color"])) {
+	.Input-element:where(:not([type='color'])) {
 		padding-block-end: 0.4rem;
 		inline-size: 100%;
 		box-sizing: border-box;
@@ -170,31 +141,12 @@
 		border-block-end: 0.2rem solid currentColor;
 	}
 
-	.Input-element[aria-invalid="true"] {
+	.Input-element[aria-invalid='true'] {
 		border-block-end-color: var(--color-invalid-bg);
 	}
 
-	.Input-element[type="datetime-local"] {
+	.Input-element[type='datetime-local'] {
 		cursor: text;
-	}
-
-	.Input-suggestion,
-	.Input-loading {
-		position: absolute;
-		inset-block-start: 100%;
-		inset-inline-start: 0;
-		background: var(--color-bg);
-		padding: 0.5em;
-		display: block;
-		inline-size: 100%;
-		text-align: start;
-		font-size: 1.4rem;
-		box-sizing: border-box;
-		z-index: 1;
-	}
-
-	.Input-suggestion {
-		cursor: pointer;
 	}
 
 	.Input-toggle {
@@ -214,7 +166,7 @@
 		border-radius: 0 0 var(--box-border-radius) var(--box-border-radius);
 	}
 
-	input[type="checkbox"] {
+	input[type='checkbox'] {
 		margin: 0;
 	}
 

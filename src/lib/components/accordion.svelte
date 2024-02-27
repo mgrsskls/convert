@@ -1,9 +1,9 @@
-<script lang="ts">
-	export let id = "";
+<script>
+	export let id = '';
 	export let open = false;
 
-	function onSummaryClick(e: Event) {
-		const target = e.target as HTMLElement;
+	function onSummaryClick(e) {
+		const target = e.target;
 		target.scrollIntoView();
 	}
 </script>

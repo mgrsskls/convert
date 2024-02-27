@@ -1,10 +1,10 @@
-import Areas from "./areas.js";
-import Densities from "./densities.js";
-import Lengths from "./lengths.js";
-import Masses from "./masses.js";
-import Speeds from "./speeds.js";
-import Temperatures from "./temperatures.js";
-import Volumes from "./volumes.js";
+import Areas from './areas.js';
+import Densities from './densities.js';
+import Lengths from './lengths.js';
+import Masses from './masses.js';
+import Speeds from './speeds.js';
+import Temperatures from './temperatures.js';
+import Volumes from './volumes.js';
 
 export const areas = Areas;
 export const densities = Densities;

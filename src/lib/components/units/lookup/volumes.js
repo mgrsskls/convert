@@ -1,4 +1,4 @@
-import i18n from "$lib/i18n.js";
+import i18n from '$lib/i18n.js';
 
 export const names = {
 	cbcm: i18n.units.volumes.names.cbcm,
@@ -8,7 +8,7 @@ export const names = {
 	cbft: i18n.units.volumes.names.cbft,
 	us_gal: i18n.units.volumes.names.us_gal,
 	imp_gal: i18n.units.volumes.names.imp_gal,
-	us_brl: i18n.units.volumes.names.us_brl,
+	us_brl: i18n.units.volumes.names.us_brl
 };
 
 export const conversions = {
@@ -19,7 +19,7 @@ export const conversions = {
 		cbft: 0.000035,
 		us_gal: 0.000264,
 		imp_gal: 0.00022,
-		us_brl: 0.000006,
+		us_brl: 0.000006
 	},
 	cbm: {
 		cbcm: 1000000,
@@ -28,7 +28,7 @@ export const conversions = {
 		cbft: 35,
 		us_gal: 264,
 		imp_gal: 220,
-		us_brl: 6.29,
+		us_brl: 6.29
 	},
 	l: {
 		cbcm: 1000,
@@ -37,7 +37,7 @@ export const conversions = {
 		cbft: 0.035,
 		us_gal: 0.264201,
 		imp_gal: 0.22,
-		us_brl: 0.00629,
+		us_brl: 0.00629
 	},
 	cbin: {
 		cbcm: 16.387,
@@ -46,7 +46,7 @@ export const conversions = {
 		cbft: 0.000579,
 		us_gal: 0.004329,
 		imp_gal: 0.003605,
-		us_brl: 0.000103,
+		us_brl: 0.000103
 	},
 	cbft: {
 		cbcm: 2831685,
@@ -55,7 +55,7 @@ export const conversions = {
 		cbin: 1728,
 		us_gal: 7.481333,
 		imp_gal: 6.229712,
-		us_brl: 0.178127,
+		us_brl: 0.178127
 	},
 	us_gal: {
 		cbcm: 3785,
@@ -64,7 +64,7 @@ export const conversions = {
 		cbin: 231,
 		cbft: 0.13,
 		imp_gal: 0.832701,
-		us_brl: 0.02381,
+		us_brl: 0.02381
 	},
 	imp_gal: {
 		cbcm: 4545,
@@ -73,7 +73,7 @@ export const conversions = {
 		cbin: 277,
 		cbft: 0.16,
 		us_gal: 1.2,
-		us_brl: 0.028593,
+		us_brl: 0.028593
 	},
 	us_brl: {
 		cbcm: 158970,
@@ -82,11 +82,11 @@ export const conversions = {
 		cbin: 9701,
 		cbft: 6,
 		us_gal: 42,
-		imp_gal: 35,
-	},
+		imp_gal: 35
+	}
 };
 
 export default {
 	names,
-	conversions,
+	conversions
 };

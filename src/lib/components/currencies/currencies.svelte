@@ -1,17 +1,17 @@
-<script lang="ts">
-	import { browser } from "$app/environment";
-	import { page } from "$app/stores";
+<script>
+	import { browser } from '$app/environment';
+	import { page } from '$app/stores';
 
-	import i18n from "$lib/i18n.js";
-	import list from "./list.js";
-	import Input from "$lib/components/input.svelte";
-	import FromTo from "$lib/components/from-to.svelte";
-	import Grid from "$lib/components/grid.svelte";
-	import Result from "$lib/components/result.svelte";
-	import Multiplier from "$lib/components/multiplier.svelte";
-	import DirectionToggle from "$lib/components/direction-toggle.svelte";
-	import Button from "$lib/components/button.svelte";
-	import SupportedUnits from "$lib/components/supported-units.svelte";
+	import i18n from '$lib/i18n.js';
+	import list from './list.js';
+	import Input from '$lib/components/input.svelte';
+	import FromTo from '$lib/components/from-to.svelte';
+	import Grid from '$lib/components/grid.svelte';
+	import Result from '$lib/components/result.svelte';
+	import Multiplier from '$lib/components/multiplier.svelte';
+	import DirectionToggle from '$lib/components/direction-toggle.svelte';
+	import Button from '$lib/components/button.svelte';
+	import SupportedUnits from '$lib/components/supported-units.svelte';
 
 	const sortedCurrencies = list.sort((a, b) => {
 		if (a.id > b.id) return 1;
@@ -23,40 +23,35 @@
 	const unsupportedCurrencies = sortedCurrencies.filter((currency) => !currency.api);
 	const unsupportedCurrencyIds = unsupportedCurrencies.map((currency) => currency.id);
 
-	let fromPlaceholder = "e.g. EUR";
-	let toPlaceholder = "e.g. USD";
+	let fromPlaceholder = 'e.g. EUR';
+	let toPlaceholder = 'e.g. USD';
 	let shouldUpdateHistory = false;
 
-	const initialFromCurrency = $page.url.searchParams.get("from[currency]")
-		? decodeURIComponent($page.url.searchParams.get("from[currency]"))
+	const initialFromCurrency = $page.url.searchParams.get('from[currency]')
+		? decodeURIComponent($page.url.searchParams.get('from[currency]'))
 		: null;
-	const initialFromAmount = $page.url.searchParams.get("from[amount]")
-		? decodeURIComponent($page.url.searchParams.get("from[amount]"))
-		: "1.0";
-	const from: {
-		currency: string | null;
-		amount: string;
-		shouldValidateCurrency: boolean;
-		shouldValidateAmount: boolean;
-	} = {
+	const initialFromAmount = $page.url.searchParams.get('from[amount]')
+		? decodeURIComponent($page.url.searchParams.get('from[amount]'))
+		: '1.0';
+	const from = {
 		currency: initialFromCurrency,
 		amount: initialFromAmount,
 		shouldValidateCurrency: initialFromCurrency ? true : false,
-		shouldValidateAmount: initialFromAmount ? true : false,
+		shouldValidateAmount: initialFromAmount ? true : false
 	};
 
-	const initialToCurrency = $page.url.searchParams.get("to[currency]")
-		? decodeURIComponent($page.url.searchParams.get("to[currency]"))
+	const initialToCurrency = $page.url.searchParams.get('to[currency]')
+		? decodeURIComponent($page.url.searchParams.get('to[currency]'))
 		: null;
 	const to = {
 		currency: initialToCurrency,
-		shouldValidateCurrency: initialToCurrency ? true : false,
+		shouldValidateCurrency: initialToCurrency ? true : false
 	};
 
 	const data = $page.data.result
 		? {
-				[from.currency]: $page.data.result,
-		  }
+				[from.currency]: $page.data.result
+			}
 		: {};
 
 	$: {
@@ -64,8 +59,8 @@
 			history.replaceState(
 				null,
 				null,
-				`?from[currency]=${from.currency || ""}&from[amount]=${from.amount || ""}&to[currency]=${
-					to.currency || ""
+				`?from[currency]=${from.currency || ''}&from[amount]=${from.amount || ''}&to[currency]=${
+					to.currency || ''
 				}`
 			);
 		}
@@ -83,7 +78,7 @@
 		data[from.currency] &&
 		data[from.currency][to.currency]
 			? (parseFloat(from.amount) * data[from.currency][to.currency].value).toFixed(2)
-			: "-";
+			: '-';
 
 	function toggleDirection() {
 		const oldFrom = from.currency;
@@ -119,7 +114,7 @@
 		to.shouldValidateCurrency = true;
 	}
 
-	async function fetchCurrencies(currency: string) {
+	async function fetchCurrencies(currency) {
 		try {
 			if (!data[currency]) {
 				const response = await fetch(`/currencies/rates?currency=${currency}`);

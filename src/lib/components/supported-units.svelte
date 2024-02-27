@@ -1,15 +1,15 @@
-<script lang="ts">
-	import i18n from "$lib/i18n.js";
+<script>
+	import i18n from '$lib/i18n.js';
 
-	export let title: string;
-	export let supported: Array<string>;
-	export let unsupported: Array<string> = [];
+	export let title;
+	export let supported;
+	export let unsupported = [];
 	export let block = false;
 </script>
 
 <div class="SupportedUnits">
 	<details>
-		<summary class="SupportedUnits-title">{i18n.supported.replace("{{title}}", title)}</summary>
+		<summary class="SupportedUnits-title">{i18n.supported.replace('{{title}}', title)}</summary>
 		<ul class="SupportedUnits-list" class:SupportedUnits-list--block={block}>
 			{#each supported as unit}
 				<li class="SupportedUnits-entry">{@html unit}</li>
@@ -18,7 +18,7 @@
 	</details>
 	{#if unsupported.length > 0}
 		<details>
-			<summary class="SupportedUnits-title">{i18n.unsupported.replace("{{title}}", title)}</summary>
+			<summary class="SupportedUnits-title">{i18n.unsupported.replace('{{title}}', title)}</summary>
 			<ul class="SupportedUnits-list" class:SupportedUnits-list--block={block}>
 				{#each unsupported as unit}
 					<li class="SupportedUnits-entry">{@html unit}</li>
@@ -70,7 +70,7 @@
 
 	.SupportedUnits-list:not(.SupportedUnits-list--block)
 		.SupportedUnits-entry:not(:last-child)::after {
-		content: ",";
+		content: ',';
 	}
 
 	.SupportedUnits :global(code) {

@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+import fetch from 'node-fetch';
 
 /**
  * @param {object} options
@@ -6,7 +6,7 @@ import fetch from "node-fetch";
  * @returns {Promise<object>}
  */
 export const GET = async function ({ url }) {
-	const currency = url.searchParams.get("currency");
+	const currency = url.searchParams.get('currency');
 
 	try {
 		const response = await fetch(
@@ -15,22 +15,18 @@ export const GET = async function ({ url }) {
 			}&base_currency=${currency}`,
 			{
 				headers: {
-					Accept: "application/json",
-				},
+					Accept: 'application/json'
+				}
 			}
 		);
 
-		type Response = {
-			data: object;
-		};
-
-		const body = (await response.json()) as Response;
+		const body = await response.json();
 
 		return new Response(JSON.stringify(body.data), {
 			headers: {
-				"Content-Type": "application/json",
-				"Access-Control-Allow-Origin": import.meta.env.VITE_FRONTEND_HOST,
-			},
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': import.meta.env.VITE_FRONTEND_HOST
+			}
 		});
 	} catch (e) {
 		return new Response(e.toString(), { status: 404 });

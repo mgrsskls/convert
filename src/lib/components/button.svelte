@@ -1,8 +1,8 @@
-<script lang="ts">
-	import { onMount } from "svelte";
+<script>
+	import { onMount } from 'svelte';
 
-	export let type: "submit" | "button" | "reset" = "submit";
-	export let label = "Convert";
+	export let type;
+	export let label = 'Convert';
 
 	let renderButton = true;
 

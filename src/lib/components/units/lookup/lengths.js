@@ -1,4 +1,4 @@
-import i18n from "$lib/i18n.js";
+import i18n from '$lib/i18n.js';
 
 export const names = {
 	mm: i18n.units.lengths.names.mm,
@@ -8,7 +8,7 @@ export const names = {
 	in: i18n.units.lengths.names.in,
 	ft: i18n.units.lengths.names.ft,
 	yd: i18n.units.lengths.names.yd,
-	mi: i18n.units.lengths.names.mi,
+	mi: i18n.units.lengths.names.mi
 };
 
 export const conversions = {
@@ -19,7 +19,7 @@ export const conversions = {
 		in: 0.03937,
 		ft: 0.003281,
 		yd: 0.001094,
-		mi: 0.000000621,
+		mi: 0.000000621
 	},
 	cm: {
 		mm: 10,
@@ -28,7 +28,7 @@ export const conversions = {
 		in: 0.393701,
 		ft: 0.032808,
 		yd: 0.010936,
-		mi: 0.000006,
+		mi: 0.000006
 	},
 	m: {
 		mm: 1000,
@@ -37,7 +37,7 @@ export const conversions = {
 		in: 39.37008,
 		ft: 3.28084,
 		yd: 1.093613,
-		mi: 0.000621,
+		mi: 0.000621
 	},
 	km: {
 		mm: 1000000,
@@ -46,7 +46,7 @@ export const conversions = {
 		in: 39370.08,
 		ft: 3280.84,
 		yd: 1093.613,
-		mi: 0.621371,
+		mi: 0.621371
 	},
 	in: {
 		mm: 25.4,
@@ -55,7 +55,7 @@ export const conversions = {
 		km: 0.000025,
 		ft: 0.083333,
 		yd: 0.027778,
-		mi: 0.000016,
+		mi: 0.000016
 	},
 	ft: {
 		mm: 304.8,
@@ -64,7 +64,7 @@ export const conversions = {
 		km: 0.0003048,
 		in: 12,
 		yd: 1 / 3,
-		mi: 0.000189,
+		mi: 0.000189
 	},
 	yd: {
 		mm: 914.4,
@@ -73,7 +73,7 @@ export const conversions = {
 		km: 0.000914,
 		in: 36,
 		ft: 3,
-		mi: 0.000568,
+		mi: 0.000568
 	},
 	mi: {
 		mm: 1609344,
@@ -82,11 +82,11 @@ export const conversions = {
 		km: 1.609344,
 		in: 63360,
 		ft: 5280,
-		yd: 1760,
-	},
+		yd: 1760
+	}
 };
 
 export default {
 	names,
-	conversions,
+	conversions
 };

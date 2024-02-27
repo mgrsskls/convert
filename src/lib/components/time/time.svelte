@@ -1,24 +1,24 @@
 <script>
-	import { onDestroy } from "svelte";
-	import { page } from "$app/stores";
+	import { onDestroy } from 'svelte';
+	import { page } from '$app/stores';
 
-	import list from "./list.js";
-	import Accordion from "$lib/components/accordion.svelte";
-	import SupportedUnits from "$lib/components/supported-units.svelte";
-	import Section from "./section.svelte";
+	import list from './list.js';
+	import Accordion from '$lib/components/accordion.svelte';
+	import SupportedUnits from '$lib/components/supported-units.svelte';
+	import Section from './section.svelte';
 
-	let open = $page.url.searchParams.get("type");
+	let open = $page.url.searchParams.get('type');
 
-	import { getCurrentLocalTime } from "./utils.js";
+	import { getCurrentLocalTime } from './utils.js';
 
 	const userTimeZoneId = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 	const formattedList = list.flatMap((entry) => [
 		entry.toLowerCase(),
-		entry.toLowerCase().replace(/_/g, " "),
+		entry.toLowerCase().replace(/_/g, ' ')
 	]);
 
-	let currentLocalTime;
+	let currentLocalTime = new Date();
 	let getCurrentTime = true;
 
 	useCurrentLocalTime();
@@ -28,7 +28,7 @@
 
 		currentLocalTime = getCurrentLocalTime();
 
-		if (typeof window !== "undefined") {
+		if (typeof window !== 'undefined') {
 			window.requestAnimationFrame(useCurrentLocalTime);
 		}
 	}
@@ -38,7 +38,7 @@
 	});
 </script>
 
-<Accordion open={open === "time-zone-to-time-zone"} id="time-zone-to-time-zone">
+<Accordion open={open === 'time-zone-to-time-zone'} id="time-zone-to-time-zone">
 	<svelte:fragment slot="title">
 		Time Zone <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span
 		> Time Zone
@@ -46,19 +46,19 @@
 	<svelte:fragment slot="content">
 		<Section
 			options={{
-				alias: "time-zone-to-time-zone",
+				alias: 'time-zone-to-time-zone',
 				formattedList,
-				typeFrom: "timeZone",
-				fromTimeZone: "custom",
-				typeTo: "timeZone",
-				toTimeZone: "custom",
-				userTimeZoneId,
+				typeFrom: 'timeZone',
+				fromTimeZone: 'custom',
+				typeTo: 'timeZone',
+				toTimeZone: 'custom',
+				userTimeZoneId
 			}}
 			{currentLocalTime}
 		/>
 	</svelte:fragment>
 </Accordion>
-<Accordion open={open === "utc-to-time-zone"} id="utc-to-time-zone">
+<Accordion open={open === 'utc-to-time-zone'} id="utc-to-time-zone">
 	<svelte:fragment slot="title">
 		UTC <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span> Time
 		Zone
@@ -66,19 +66,19 @@
 	<svelte:fragment slot="content">
 		<Section
 			options={{
-				alias: "utc-to-time-zone",
+				alias: 'utc-to-time-zone',
 				formattedList,
-				typeFrom: "timeZone",
-				fromTimeZone: "utc",
-				typeTo: "timeZone",
-				toTimeZone: "custom",
-				userTimeZoneId,
+				typeFrom: 'timeZone',
+				fromTimeZone: 'utc',
+				typeTo: 'timeZone',
+				toTimeZone: 'custom',
+				userTimeZoneId
 			}}
 			{currentLocalTime}
 		/>
 	</svelte:fragment>
 </Accordion>
-<Accordion open={open === "timestamp-to-time-zone"} id="timestamp-to-time-zone">
+<Accordion open={open === 'timestamp-to-time-zone'} id="timestamp-to-time-zone">
 	<svelte:fragment slot="title">
 		UNIX Timestamp <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true"
 			>→</span
@@ -87,18 +87,18 @@
 	<svelte:fragment slot="content">
 		<Section
 			options={{
-				alias: "timestamp-to-time-zone",
+				alias: 'timestamp-to-time-zone',
 				formattedList,
-				typeFrom: "timestamp",
-				typeTo: "timeZone",
-				toTimeZone: "custom",
-				userTimeZoneId,
+				typeFrom: 'timestamp',
+				typeTo: 'timeZone',
+				toTimeZone: 'custom',
+				userTimeZoneId
 			}}
 			{currentLocalTime}
 		/>
 	</svelte:fragment>
 </Accordion>
-<Accordion open={open === "time-zone-to-utc"} id="time-zone-to-utc">
+<Accordion open={open === 'time-zone-to-utc'} id="time-zone-to-utc">
 	<svelte:fragment slot="title">
 		Time Zone <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span
 		> UTC
@@ -106,19 +106,19 @@
 	<svelte:fragment slot="content">
 		<Section
 			options={{
-				alias: "time-zone-to-utc",
+				alias: 'time-zone-to-utc',
 				formattedList,
-				typeFrom: "timeZone",
-				fromTimeZone: "custom",
-				typeTo: "timeZone",
-				toTimeZone: "utc",
-				userTimeZoneId,
+				typeFrom: 'timeZone',
+				fromTimeZone: 'custom',
+				typeTo: 'timeZone',
+				toTimeZone: 'utc',
+				userTimeZoneId
 			}}
 			{currentLocalTime}
 		/>
 	</svelte:fragment>
 </Accordion>
-<Accordion open={open === "timestamp-to-utc"} id="timestamp-to-utc">
+<Accordion open={open === 'timestamp-to-utc'} id="timestamp-to-utc">
 	<svelte:fragment slot="title">
 		UNIX Timestamp <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true"
 			>→</span
@@ -127,18 +127,18 @@
 	<svelte:fragment slot="content">
 		<Section
 			options={{
-				alias: "timestamp-to-utc",
+				alias: 'timestamp-to-utc',
 				formattedList,
-				typeFrom: "timestamp",
-				typeTo: "timeZone",
-				toTimeZone: "utc",
-				userTimeZoneId,
+				typeFrom: 'timestamp',
+				typeTo: 'timeZone',
+				toTimeZone: 'utc',
+				userTimeZoneId
 			}}
 			{currentLocalTime}
 		/>
 	</svelte:fragment>
 </Accordion>
-<Accordion open={open === "time-zone-to-timestamp"} id="time-zone-to-timestamp">
+<Accordion open={open === 'time-zone-to-timestamp'} id="time-zone-to-timestamp">
 	<svelte:fragment slot="title">
 		Time Zone <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span
 		> UNIX Timestamp
@@ -146,18 +146,18 @@
 	<svelte:fragment slot="content">
 		<Section
 			options={{
-				alias: "time-zone-to-timestamp",
+				alias: 'time-zone-to-timestamp',
 				formattedList,
-				typeFrom: "timeZone",
-				fromTimeZone: "custom",
-				typeTo: "timestamp",
-				userTimeZoneId,
+				typeFrom: 'timeZone',
+				fromTimeZone: 'custom',
+				typeTo: 'timestamp',
+				userTimeZoneId
 			}}
 			{currentLocalTime}
 		/>
 	</svelte:fragment>
 </Accordion>
-<Accordion open={open === "utc-to-timestamp"} id="utc-to-timestamp">
+<Accordion open={open === 'utc-to-timestamp'} id="utc-to-timestamp">
 	<svelte:fragment slot="title">
 		UTC <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span> UNIX
 		Timestamp
@@ -165,12 +165,12 @@
 	<svelte:fragment slot="content">
 		<Section
 			options={{
-				alias: "utc-to-timestamp",
+				alias: 'utc-to-timestamp',
 				formattedList,
-				typeFrom: "timeZone",
-				fromTimeZone: "utc",
-				typeTo: "timestamp",
-				userTimeZoneId,
+				typeFrom: 'timeZone',
+				fromTimeZone: 'utc',
+				typeTo: 'timestamp',
+				userTimeZoneId
 			}}
 			{currentLocalTime}
 		/>
@@ -183,10 +183,10 @@
 	{#each list as timeZone}
 		<option value={timeZone}>
 			{timeZone
-				.split("/")
+				.split('/')
 				.reverse()
-				.map((entry) => entry.replace(/_/g, " "))
-				.join(", ")}
+				.map((entry) => entry.replace(/_/g, ' '))
+				.join(', ')}
 		</option>
 	{/each}
 </datalist>

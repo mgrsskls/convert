@@ -1,10 +1,10 @@
-html {
+:global(html) {
 	font-size: 62.5%;
 	color-scheme: dark light;
 	accent-color: var(--color-accent);
 }
 
-body {
+:global(body) {
 	background: var(--color-bg);
 	color: var(--color-copy);
 	font-size: 1.6rem;
@@ -14,40 +14,40 @@ body {
 	margin-inline: auto;
 }
 
-a {
+:global(a) {
 	color: inherit;
 }
 
-b {
+:global(b) {
 	font-weight: 700;
 }
 
-small {
+:global(small) {
 	font-size: 0.875em;
 }
 
-:where(a, input, summary, button, select):focus:not(:focus-visible) {
+:global(:where(a, input, summary, button, select):focus:not(:focus-visible)) {
 	outline: none;
 }
 
-:where(a, input, summary, button, select):focus-visible {
+:global(:where(a, input, summary, button, select):focus-visible) {
 	outline: 0.2rem solid currentColor;
 	outline-offset: 0.4rem;
 	transition: 0.1s outline ease;
 }
 
-:where(a, input, summary, select):focus-visible {
+:global(:where(a, input, summary, select):focus-visible) {
 	outline-color: currentColor;
 }
 
-button:focus-visible {
+:global(button:focus-visible) {
 	outline-color: var(--color-copy);
 }
 
-summary {
+:global(summary) {
 	cursor: default;
 }
 
-code {
+:global(code) {
 	font-family: monospace;
 }

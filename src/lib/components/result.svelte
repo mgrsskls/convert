@@ -1,23 +1,23 @@
-<script lang="ts">
-	export let label: string;
-	export let result: string;
+<script>
+	export let label;
+	export let result;
 	export let raw = null;
 	export let wrap = false;
 	export let highlight = false;
 	export let isCode = false;
 
-	import Copy from "$lib/components/copy.svelte";
+	import Copy from '$lib/components/copy.svelte';
 </script>
 
 <dl>
 	<dt>{label}</dt>
 	<dd
 		class="Result"
-		class:is-highlighted={highlight && result != "-"}
+		class:is-highlighted={highlight && result != '-'}
 		class:can-wrap={wrap}
 		class:is-code={isCode}
 	>
-		{#if result != "-"}
+		{#if result != '-'}
 			<Copy value={result} />
 			{#if raw}
 				<div class="Result-raw"><Copy value={raw} /></div>

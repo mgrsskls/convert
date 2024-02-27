@@ -1,30 +1,30 @@
-<script lang="ts">
-	import { browser } from "$app/environment";
-	import { page } from "$app/stores";
-	import BigNumber from "bignumber.js";
-	import Big from "big.js";
+<script>
+	import { browser } from '$app/environment';
+	import { page } from '$app/stores';
+	import BigNumber from 'bignumber.js';
+	import Big from 'big.js';
 
-	import i18n from "$lib/i18n.js";
-	import Grid from "$lib/components/grid.svelte";
-	import FromTo from "$lib/components/from-to.svelte";
-	import Input from "$lib/components/input.svelte";
-	import Result from "$lib/components/result.svelte";
-	import Multiplier from "$lib/components/multiplier.svelte";
-	import DirectionToggle from "$lib/components/direction-toggle.svelte";
-	import Button from "$lib/components/button.svelte";
+	import i18n from '$lib/i18n.js';
+	import Grid from '$lib/components/grid.svelte';
+	import FromTo from '$lib/components/from-to.svelte';
+	import Input from '$lib/components/input.svelte';
+	import Result from '$lib/components/result.svelte';
+	import Multiplier from '$lib/components/multiplier.svelte';
+	import DirectionToggle from '$lib/components/direction-toggle.svelte';
+	import Button from '$lib/components/button.svelte';
 
-	export let alias: string;
-	export let names: object = {};
-	export let abbr: object | null = null;
-	export let conversions: object = {};
-	export let roundResults: boolean | number = false;
-	export let pageName: string;
+	export let alias;
+	export let names = {};
+	export let abbr = null;
+	export let conversions = {};
+	export let roundResults = false;
+	export let pageName;
 
 	let shouldUpdateHistory = false;
 
 	const initialFromUnit = $page.url.searchParams.get(`${alias}[from][unit]`)
 		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][unit]`))
-		: "";
+		: '';
 	const initialFromValue = $page.url.searchParams.get(`${alias}[from][value]`)
 		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][value]`))
 		: null;
@@ -32,20 +32,20 @@
 		unit: initialFromUnit,
 		shouldValidateUnit: initialFromUnit ? true : false,
 		value: initialFromValue,
-		shouldValidateValue: initialFromValue ? true : false,
+		shouldValidateValue: initialFromValue ? true : false
 	};
 
 	const initialToUnit = $page.url.searchParams.get(`${alias}[to][unit]`)
 		? decodeURIComponent($page.url.searchParams.get(`${alias}[to][unit]`))
-		: "";
+		: '';
 	const to = {
 		unit: initialToUnit,
-		shouldValidateUnit: initialToUnit ? true : false,
+		shouldValidateUnit: initialToUnit ? true : false
 	};
 
 	const units = Object.entries(names).map((entry) => ({
 		value: entry[0],
-		label: `${entry[1]}${abbr ? ` (${abbr[entry[0]]})` : ""}`,
+		label: `${entry[1]}${abbr ? ` (${abbr[entry[0]]})` : ''}`
 	}));
 	const unitValues = units.map((unit) => unit.value);
 
@@ -54,9 +54,9 @@
 			history.replaceState(
 				null,
 				null,
-				`?type=${alias}&${alias}[from][unit]=${from.unit || ""}&${alias}[from][value]=${
-					from.value || ""
-				}&${alias}[to][unit]=${to.unit || ""}`
+				`?type=${alias}&${alias}[from][unit]=${from.unit || ''}&${alias}[from][value]=${
+					from.value || ''
+				}&${alias}[to][unit]=${to.unit || ''}`
 			);
 		}
 
@@ -71,7 +71,7 @@
 			? calcResult(from.unit, parseFloat(from.value), to.unit)
 			: null;
 	$: useExponential = shouldUseExponential(result, rawResult, roundResults);
-	$: rawResult = getFormattedResult(result, roundResults) || "-";
+	$: rawResult = getFormattedResult(result, roundResults) || '-';
 
 	function toggleDirection() {
 		const oldFrom = from.unit;
@@ -80,7 +80,7 @@
 		to.unit = oldFrom;
 	}
 
-	function calcResult(fromUnit: string, fromValue: number, toUnit: string) {
+	function calcResult(fromUnit, fromValue, toUnit) {
 		if (
 			!fromUnit ||
 			fromValue === null ||
@@ -90,12 +90,12 @@
 		)
 			return null;
 
-		let value: number;
+		let value;
 
 		if (fromUnit === toUnit) {
 			value = fromValue;
 		} else if (conversions[fromUnit]) {
-			if (typeof conversions[fromUnit][toUnit] === "function") {
+			if (typeof conversions[fromUnit][toUnit] === 'function') {
 				value = conversions[fromUnit][toUnit](fromValue);
 			} else {
 				value = new Big(fromValue).times(new Big(conversions[fromUnit][toUnit])).toString();
@@ -105,22 +105,22 @@
 		return value;
 	}
 
-	function getFormattedResult(result: string | number, roundResults: number | boolean) {
-		if (!["string", "number"].includes(typeof result)) return null;
+	function getFormattedResult(result, roundResults) {
+		if (!['string', 'number'].includes(typeof result)) return null;
 
-		return roundResults && typeof roundResults === "number"
+		return roundResults && typeof roundResults === 'number'
 			? new BigNumber(result).toFormat(roundResults)
 			: new BigNumber(result).toFormat();
 	}
 
-	function shouldUseExponential(result: number, formatted: string, roundResults: boolean | number) {
+	function shouldUseExponential(result, formatted, roundResults) {
 		if (!result) return false;
 
 		if (result >= 1000000000000000000000) return true;
 
 		if (!roundResults) {
-			const arr = formatted.toString().split(".");
-			return arr.length === 2 && ["0", "-0"].includes(arr[0]) && arr[1].startsWith("000000");
+			const arr = formatted.toString().split('.');
+			return arr.length === 2 && ['0', '-0'].includes(arr[0]) && arr[1].startsWith('000000');
 		}
 
 		return false;
@@ -172,7 +172,7 @@
 	</svelte:fragment>
 	<svelte:fragment slot="divider">
 		{#if from.unit && to.unit}
-			{#if conversions[from.unit] && conversions[from.unit][to.unit] && typeof conversions[from.unit][to.unit] !== "function"}
+			{#if conversions[from.unit] && conversions[from.unit][to.unit] && typeof conversions[from.unit][to.unit] !== 'function'}
 				<Multiplier value={new BigNumber(conversions[from.unit][to.unit]).toFormat()} />
 			{/if}
 			<DirectionToggle on:click={toggleDirection} />

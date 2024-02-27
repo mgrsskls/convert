@@ -1,4 +1,4 @@
-import i18n from "$lib/i18n.js";
+import i18n from '$lib/i18n.js';
 
 export const names = {
 	imp_qt: i18n.cooking.volumes.names.imp_qt,
@@ -9,7 +9,7 @@ export const names = {
 	us_cup: i18n.cooking.volumes.names.us_cup,
 	us_qt: i18n.cooking.volumes.names.us_qt,
 	us_tbsp: i18n.cooking.volumes.names.us_tbsp,
-	us_tsp: i18n.cooking.volumes.names.us_tsp,
+	us_tsp: i18n.cooking.volumes.names.us_tsp
 };
 
 export const conversions = {
@@ -21,7 +21,7 @@ export const conversions = {
 		us_cup: 4.8038016902,
 		us_qt: 1.2009504226,
 		us_tbsp: 76.8608267483,
-		us_tsp: 230.582482017,
+		us_tsp: 230.582482017
 	},
 	imp_tbsp: {
 		imp_qt: 0.015625,
@@ -31,7 +31,7 @@ export const conversions = {
 		us_cup: 0.0750594016,
 		us_qt: 0.0187648503,
 		us_tbsp: 1.2009504226,
-		us_tsp: 3.6028512633,
+		us_tsp: 3.6028512633
 	},
 	imp_tsp: {
 		imp_qt: 0.0052083333,
@@ -41,7 +41,7 @@ export const conversions = {
 		us_cup: 0.0250198005,
 		us_qt: 0.0062549501,
 		us_tbsp: 0.4003168075,
-		us_tsp: 1.2009504226,
+		us_tsp: 1.2009504226
 	},
 	l: {
 		imp_qt: 0.8798766295,
@@ -51,7 +51,7 @@ export const conversions = {
 		us_cup: 4.2267528377,
 		us_qt: 1.0566882094,
 		us_tbsp: 67.6280453179,
-		us_tsp: 202.8841363654,
+		us_tsp: 202.8841363654
 	},
 	ml: {
 		imp_qt: 0.0008798766295,
@@ -61,7 +61,7 @@ export const conversions = {
 		us_cup: 0.0042267528377,
 		us_qt: 0.0010566882094,
 		us_tbsp: 0.0676280453179,
-		us_tsp: 0.2028841363654,
+		us_tsp: 0.2028841363654
 	},
 	us_cup: {
 		imp_qt: 0.20816846,
@@ -71,7 +71,7 @@ export const conversions = {
 		ml: 236.5882365,
 		us_qt: 0.25,
 		us_tbsp: 16,
-		us_tsp: 48,
+		us_tsp: 48
 	},
 	us_qt: {
 		imp_qt: 0.83267384,
@@ -81,7 +81,7 @@ export const conversions = {
 		ml: 946.352946,
 		us_cup: 4,
 		us_tbsp: 64,
-		us_tsp: 192,
+		us_tsp: 192
 	},
 	us_tbsp: {
 		imp_qt: 0.0130105288,
@@ -91,7 +91,7 @@ export const conversions = {
 		ml: 14.7867648,
 		us_cup: 0.0625,
 		us_qt: 0.015625,
-		us_tsp: 3,
+		us_tsp: 3
 	},
 	us_tsp: {
 		imp_qt: 0.0043368429,
@@ -101,11 +101,11 @@ export const conversions = {
 		ml: 4.9289215938,
 		us_cup: 0.0208333333,
 		us_qt: 0.0052083333,
-		us_tbsp: 1 / 3,
-	},
+		us_tbsp: 1 / 3
+	}
 };
 
 export default {
 	names,
-	conversions,
+	conversions
 };

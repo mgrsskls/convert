@@ -1,9 +1,9 @@
-<script lang="ts">
-	import { fade } from "svelte/transition";
+<script>
+	import { fade } from 'svelte/transition';
 
 	let copied = false;
 
-	export let value: string;
+	export let value;
 
 	function copy() {
 		navigator.clipboard.writeText(value).then(
@@ -15,7 +15,7 @@
 				}, 1000);
 			},
 			function (err) {
-				console.error("Async: Could not copy text: ", err);
+				console.error('Async: Could not copy text: ', err);
 			}
 		);
 	}
@@ -40,8 +40,8 @@
 	{#if copied}
 		<span
 			class="Tooltip"
-			in:fade={{ delay: 0, duration: 100 }}
-			out:fade={{ delay: 0, duration: 500 }}>Copied!</span
+			in:fade|global={{ delay: 0, duration: 100 }}
+			out:fade|global={{ delay: 0, duration: 500 }}>Copied!</span
 		>
 	{/if}
 </span>
@@ -107,7 +107,7 @@
 	.Tooltip::after {
 		width: 0;
 		height: 0;
-		content: "";
+		content: '';
 		display: block;
 		border: 0.25em solid transparent;
 		border-block-start-color: var(--bg-color);

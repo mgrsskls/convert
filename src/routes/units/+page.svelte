@@ -1,5 +1,5 @@
 <script>
-	import Units from "$lib/components/units/units.svelte";
+	import Units from '$lib/components/units/units.svelte';
 </script>
 
 <Units />

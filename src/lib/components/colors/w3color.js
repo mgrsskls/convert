@@ -1,6 +1,6 @@
 /* w3color.js ver.1.18 by w3schools.com (Do not remove this line)*/
 
-import htmlNames from "./html-names";
+import htmlNames from './html-names';
 
 class w3color {
 	black;
@@ -23,15 +23,15 @@ class w3color {
 	}
 
 	toRgbString() {
-		return "rgb(" + this.red + ", " + this.green + ", " + this.blue + ")";
+		return 'rgb(' + this.red + ', ' + this.green + ', ' + this.blue + ')';
 	}
 
 	toRgbaString() {
-		return "rgba(" + this.red + ", " + this.green + ", " + this.blue + ", " + this.opacity + ")";
+		return 'rgba(' + this.red + ', ' + this.green + ', ' + this.blue + ', ' + this.opacity + ')';
 	}
 
 	toHwbString() {
-		const opacityString = this.opacity < 1 ? ` / ${this.opacity}` : "";
+		const opacityString = this.opacity < 1 ? ` / ${this.opacity}` : '';
 
 		return `hwb(${this.hue} ${Math.round(this.whiteness * 100)}% ${Math.round(
 			this.blackness * 100
@@ -41,64 +41,64 @@ class w3color {
 	toHslString() {
 		const sat = this.sat * 100;
 		return (
-			"hsl(" +
+			'hsl(' +
 			this.hue +
-			", " +
-			(sat.toString().includes(".") ? sat.toFixed(1) : sat) +
-			"%, " +
+			', ' +
+			(sat.toString().includes('.') ? sat.toFixed(1) : sat) +
+			'%, ' +
 			Math.round(this.lightness * 100) +
-			"%)"
+			'%)'
 		);
 	}
 
 	toHslaString() {
 		const sat = this.sat * 100;
 		return (
-			"hsla(" +
+			'hsla(' +
 			this.hue +
-			", " +
-			(sat.toString().includes(".") ? sat.toFixed(1) : sat) +
-			"%, " +
+			', ' +
+			(sat.toString().includes('.') ? sat.toFixed(1) : sat) +
+			'%, ' +
 			Math.round(this.lightness * 100) +
-			"%, " +
+			'%, ' +
 			this.opacity +
-			")"
+			')'
 		);
 	}
 
 	toCmykString() {
 		return (
-			"cmyk(" +
+			'cmyk(' +
 			Math.round(this.cyan * 100) +
-			"%, " +
+			'%, ' +
 			Math.round(this.magenta * 100) +
-			"%, " +
+			'%, ' +
 			Math.round(this.yellow * 100) +
-			"%, " +
+			'%, ' +
 			Math.round(this.black * 100) +
-			"%)"
+			'%)'
 		);
 	}
 
 	toName() {
 		let r, g, b;
-		const colorhexs = getColorArr("hexs");
+		const colorhexs = getColorArr('hexs');
 		for (let i = 0; i < colorhexs.length; i++) {
 			r = parseInt(colorhexs[i].substr(0, 2), 16);
 			g = parseInt(colorhexs[i].substr(2, 2), 16);
 			b = parseInt(colorhexs[i].substr(4, 2), 16);
 			if (this.red == r && this.green == g && this.blue == b) {
-				return getColorArr("names")[i];
+				return getColorArr('names')[i];
 			}
 		}
-		return "";
+		return '';
 	}
 
 	toHexString() {
 		const r = toHex(this.red);
 		const g = toHex(this.green);
 		const b = toHex(this.blue);
-		return "#" + r + g + b;
+		return '#' + r + g + b;
 	}
 
 	toRgb() {
@@ -157,13 +157,13 @@ function toColorObject(c) {
 	a = 1;
 
 	if (
-		c.substr(0, 3) == "rgb" ||
-		c.substr(0, 3) == "hsl" ||
-		c.substr(0, 3) == "hwb" ||
-		c.substr(0, 4) == "cmyk"
+		c.substr(0, 3) == 'rgb' ||
+		c.substr(0, 3) == 'hsl' ||
+		c.substr(0, 3) == 'hwb' ||
+		c.substr(0, 4) == 'cmyk'
 	) {
-		if (c.substr(0, 4) == "cmyk") {
-			typ = "cmyk";
+		if (c.substr(0, 4) == 'cmyk') {
+			typ = 'cmyk';
 			c = c.substr(4);
 		} else {
 			typ = c.substr(0, 3);
@@ -171,30 +171,30 @@ function toColorObject(c) {
 		}
 		arrlength = 3;
 		opacity = false;
-		if (c.substr(0, 1).toLowerCase() == "a") {
+		if (c.substr(0, 1).toLowerCase() == 'a') {
 			arrlength = 4;
 			opacity = true;
 			c = c.substr(1);
-		} else if (typ == "cmyk") {
+		} else if (typ == 'cmyk') {
 			arrlength = 4;
-			if (c.split(",").length == 5) {
+			if (c.split(',').length == 5) {
 				arrlength = 5;
 				opacity = true;
 			}
 		}
-		c = c.replace("(", "");
-		c = c.replace(")", "");
-		arr = c.includes(",") ? c.split(",") : c.split(" ");
-		if (typ == "rgb") {
+		c = c.replace('(', '');
+		c = c.replace(')', '');
+		arr = c.includes(',') ? c.split(',') : c.split(' ');
+		if (typ == 'rgb') {
 			if (arr.length != arrlength) {
 				return emptyObject();
 			}
 			for (i = 0; i < arrlength; i++) {
-				if (arr[i] == "" || arr[i] == " ") {
-					arr[i] = "0";
+				if (arr[i] == '' || arr[i] == ' ') {
+					arr[i] = '0';
 				}
-				if (arr[i].indexOf("%") > -1) {
-					arr[i] = arr[i].replace("%", "");
+				if (arr[i].indexOf('%') > -1) {
+					arr[i] = arr[i].replace('%', '');
 					arr[i] = Number(arr[i] / 100);
 					if (i < 3) {
 						arr[i] = Math.round(arr[i] * 255);
@@ -218,18 +218,18 @@ function toColorObject(c) {
 				a = Number(arr[3]);
 			}
 		}
-		if (typ == "hsl" || typ == "hwb") {
+		if (typ == 'hsl' || typ == 'hwb') {
 			while (arr.length < arrlength) {
-				arr.push("0");
+				arr.push('0');
 			}
-			if (typ == "hsl" || typ == "hwb") {
+			if (typ == 'hsl' || typ == 'hwb') {
 				if (parseInt(arr[0]) >= 360) {
 					arr[0] = 0;
 				}
 			}
 			for (i = 1; i < arrlength; i++) {
-				if (arr[i].indexOf("%") > -1) {
-					arr[i] = arr[i].replace("%", "");
+				if (arr[i].indexOf('%') > -1) {
+					arr[i] = arr[i].replace('%', '');
 					arr[i] = Number(arr[i]);
 					if (Number.isNaN(arr[i])) {
 						return emptyObject();
@@ -245,25 +245,25 @@ function toColorObject(c) {
 					arr[i] = 0;
 				}
 			}
-			if (typ == "hsl") {
+			if (typ == 'hsl') {
 				rgb = hslToRgb(arr[0], arr[1], arr[2]);
 				hue = Number(arr[0]);
 				sat = Number(arr[1]);
 			}
-			if (typ == "hwb") {
+			if (typ == 'hwb') {
 				rgb = hwbToRgb(arr[0], arr[1], arr[2]);
 			}
 			if (opacity == true) {
 				a = Number(arr[3]);
 			}
 		}
-		if (typ == "cmyk") {
+		if (typ == 'cmyk') {
 			while (arr.length < arrlength) {
-				arr.push("0");
+				arr.push('0');
 			}
 			for (i = 0; i < arrlength; i++) {
-				if (arr[i].indexOf("%") > -1) {
-					arr[i] = arr[i].replace("%", "");
+				if (arr[i].indexOf('%') > -1) {
+					arr[i] = arr[i].replace('%', '');
 					arr[i] = Number(arr[i]);
 					if (Number.isNaN(arr[i])) {
 						return emptyObject();
@@ -286,21 +286,21 @@ function toColorObject(c) {
 		}
 	} else {
 		match = false;
-		colornames = getColorArr("names");
+		colornames = getColorArr('names');
 		for (i = 0; i < colornames.length; i++) {
 			if (c.toLowerCase() == colornames[i].toLowerCase()) {
-				colorhexs = getColorArr("hexs");
+				colorhexs = getColorArr('hexs');
 				match = true;
 				rgb = {
 					r: parseInt(colorhexs[i].substr(0, 2), 16),
 					g: parseInt(colorhexs[i].substr(2, 2), 16),
-					b: parseInt(colorhexs[i].substr(4, 2), 16),
+					b: parseInt(colorhexs[i].substr(4, 2), 16)
 				};
 				break;
 			}
 		}
 		if (match == false) {
-			c = c.replace("#", "");
+			c = c.replace('#', '');
 			if (c.length == 3) {
 				c =
 					c.substr(0, 1) +
@@ -327,7 +327,7 @@ function toColorObject(c) {
 			rgb = {
 				r: arr[0],
 				g: arr[1],
-				b: arr[2],
+				b: arr[2]
 			};
 		}
 	}
@@ -361,7 +361,7 @@ function colorObject(rgb, a, h, s) {
 		yellow: cmyk.y,
 		black: cmyk.k,
 		opacity: a,
-		valid: true,
+		valid: true
 	};
 	color = roundDecimals(color);
 	return color;
@@ -381,163 +381,163 @@ function emptyObject() {
 		yellow: null,
 		black: null,
 		opacity: null,
-		valid: false,
+		valid: false
 	};
 }
 function getColorArr(x) {
-	if (x == "names") {
+	if (x == 'names') {
 		return htmlNames;
 	}
-	if (x == "hexs") {
+	if (x == 'hexs') {
 		return [
-			"f0f8ff",
-			"faebd7",
-			"00ffff",
-			"7fffd4",
-			"f0ffff",
-			"f5f5dc",
-			"ffe4c4",
-			"000000",
-			"ffebcd",
-			"0000ff",
-			"8a2be2",
-			"a52a2a",
-			"deb887",
-			"5f9ea0",
-			"7fff00",
-			"d2691e",
-			"ff7f50",
-			"6495ed",
-			"fff8dc",
-			"dc143c",
-			"00ffff",
-			"00008b",
-			"008b8b",
-			"b8860b",
-			"a9a9a9",
-			"a9a9a9",
-			"006400",
-			"bdb76b",
-			"8b008b",
-			"556b2f",
-			"ff8c00",
-			"9932cc",
-			"8b0000",
-			"e9967a",
-			"8fbc8f",
-			"483d8b",
-			"2f4f4f",
-			"2f4f4f",
-			"00ced1",
-			"9400d3",
-			"ff1493",
-			"00bfff",
-			"696969",
-			"696969",
-			"1e90ff",
-			"b22222",
-			"fffaf0",
-			"228b22",
-			"ff00ff",
-			"dcdcdc",
-			"f8f8ff",
-			"ffd700",
-			"daa520",
-			"808080",
-			"808080",
-			"008000",
-			"adff2f",
-			"f0fff0",
-			"ff69b4",
-			"cd5c5c",
-			"4b0082",
-			"fffff0",
-			"f0e68c",
-			"e6e6fa",
-			"fff0f5",
-			"7cfc00",
-			"fffacd",
-			"add8e6",
-			"f08080",
-			"e0ffff",
-			"fafad2",
-			"d3d3d3",
-			"d3d3d3",
-			"90ee90",
-			"ffb6c1",
-			"ffa07a",
-			"20b2aa",
-			"87cefa",
-			"778899",
-			"778899",
-			"b0c4de",
-			"ffffe0",
-			"00ff00",
-			"32cd32",
-			"faf0e6",
-			"ff00ff",
-			"800000",
-			"66cdaa",
-			"0000cd",
-			"ba55d3",
-			"9370db",
-			"3cb371",
-			"7b68ee",
-			"00fa9a",
-			"48d1cc",
-			"c71585",
-			"191970",
-			"f5fffa",
-			"ffe4e1",
-			"ffe4b5",
-			"ffdead",
-			"000080",
-			"fdf5e6",
-			"808000",
-			"6b8e23",
-			"ffa500",
-			"ff4500",
-			"da70d6",
-			"eee8aa",
-			"98fb98",
-			"afeeee",
-			"db7093",
-			"ffefd5",
-			"ffdab9",
-			"cd853f",
-			"ffc0cb",
-			"dda0dd",
-			"b0e0e6",
-			"800080",
-			"663399",
-			"ff0000",
-			"bc8f8f",
-			"4169e1",
-			"8b4513",
-			"fa8072",
-			"f4a460",
-			"2e8b57",
-			"fff5ee",
-			"a0522d",
-			"c0c0c0",
-			"87ceeb",
-			"6a5acd",
-			"708090",
-			"708090",
-			"fffafa",
-			"00ff7f",
-			"4682b4",
-			"d2b48c",
-			"008080",
-			"d8bfd8",
-			"ff6347",
-			"40e0d0",
-			"ee82ee",
-			"f5deb3",
-			"ffffff",
-			"f5f5f5",
-			"ffff00",
-			"9acd32",
+			'f0f8ff',
+			'faebd7',
+			'00ffff',
+			'7fffd4',
+			'f0ffff',
+			'f5f5dc',
+			'ffe4c4',
+			'000000',
+			'ffebcd',
+			'0000ff',
+			'8a2be2',
+			'a52a2a',
+			'deb887',
+			'5f9ea0',
+			'7fff00',
+			'd2691e',
+			'ff7f50',
+			'6495ed',
+			'fff8dc',
+			'dc143c',
+			'00ffff',
+			'00008b',
+			'008b8b',
+			'b8860b',
+			'a9a9a9',
+			'a9a9a9',
+			'006400',
+			'bdb76b',
+			'8b008b',
+			'556b2f',
+			'ff8c00',
+			'9932cc',
+			'8b0000',
+			'e9967a',
+			'8fbc8f',
+			'483d8b',
+			'2f4f4f',
+			'2f4f4f',
+			'00ced1',
+			'9400d3',
+			'ff1493',
+			'00bfff',
+			'696969',
+			'696969',
+			'1e90ff',
+			'b22222',
+			'fffaf0',
+			'228b22',
+			'ff00ff',
+			'dcdcdc',
+			'f8f8ff',
+			'ffd700',
+			'daa520',
+			'808080',
+			'808080',
+			'008000',
+			'adff2f',
+			'f0fff0',
+			'ff69b4',
+			'cd5c5c',
+			'4b0082',
+			'fffff0',
+			'f0e68c',
+			'e6e6fa',
+			'fff0f5',
+			'7cfc00',
+			'fffacd',
+			'add8e6',
+			'f08080',
+			'e0ffff',
+			'fafad2',
+			'd3d3d3',
+			'd3d3d3',
+			'90ee90',
+			'ffb6c1',
+			'ffa07a',
+			'20b2aa',
+			'87cefa',
+			'778899',
+			'778899',
+			'b0c4de',
+			'ffffe0',
+			'00ff00',
+			'32cd32',
+			'faf0e6',
+			'ff00ff',
+			'800000',
+			'66cdaa',
+			'0000cd',
+			'ba55d3',
+			'9370db',
+			'3cb371',
+			'7b68ee',
+			'00fa9a',
+			'48d1cc',
+			'c71585',
+			'191970',
+			'f5fffa',
+			'ffe4e1',
+			'ffe4b5',
+			'ffdead',
+			'000080',
+			'fdf5e6',
+			'808000',
+			'6b8e23',
+			'ffa500',
+			'ff4500',
+			'da70d6',
+			'eee8aa',
+			'98fb98',
+			'afeeee',
+			'db7093',
+			'ffefd5',
+			'ffdab9',
+			'cd853f',
+			'ffc0cb',
+			'dda0dd',
+			'b0e0e6',
+			'800080',
+			'663399',
+			'ff0000',
+			'bc8f8f',
+			'4169e1',
+			'8b4513',
+			'fa8072',
+			'f4a460',
+			'2e8b57',
+			'fff5ee',
+			'a0522d',
+			'c0c0c0',
+			'87ceeb',
+			'6a5acd',
+			'708090',
+			'708090',
+			'fffafa',
+			'00ff7f',
+			'4682b4',
+			'd2b48c',
+			'008080',
+			'd8bfd8',
+			'ff6347',
+			'40e0d0',
+			'ee82ee',
+			'f5deb3',
+			'ffffff',
+			'f5f5f5',
+			'ffff00',
+			'9acd32'
 		];
 	}
 }
@@ -692,15 +692,15 @@ function rgbToCmyk(r, g, b) {
 function toHex(n) {
 	let hex = n.toString(16);
 	while (hex.length < 2) {
-		hex = "0" + hex;
+		hex = '0' + hex;
 	}
 	return hex;
 }
 function w3trim(x) {
-	return x.replace(/^\s+|\s+$/g, "");
+	return x.replace(/^\s+|\s+$/g, '');
 }
 function isHex(x) {
-	return "0123456789ABCDEFabcdef".indexOf(x) > -1;
+	return '0123456789ABCDEFabcdef'.indexOf(x) > -1;
 }
 
 export default w3color;

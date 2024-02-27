@@ -1,9 +1,9 @@
-<script lang="ts">
-	export let tag: string;
-	export let title: string;
+<script>
+	export let tag;
+	export let title;
 </script>
 
-{#if tag === "fieldset"}
+{#if tag === 'fieldset'}
 	<fieldset class="Box">
 		<legend class="Box-title">{title}</legend>
 		<div class="Box-inner">

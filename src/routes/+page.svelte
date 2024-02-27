@@ -1,5 +1,5 @@
 <script>
-	import menu from "$lib/menu.js";
+	import menu from '$lib/menu.js';
 </script>
 
 <ul>
@@ -43,7 +43,7 @@
 
 	a::after {
 		color: var(--color-copy);
-		content: "→";
+		content: '→';
 		display: block;
 		transition: 0.1s all ease;
 		opacity: 0.5;

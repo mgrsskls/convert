@@ -1,79 +1,75 @@
-<script lang="ts">
-	import { browser } from "$app/environment";
-	import { page } from "$app/stores";
-	import { onMount } from "svelte";
+<script>
+	import { browser } from '$app/environment';
+	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
 
-	import htmlNames from "./html-names.js";
-	import i18n from "$lib/i18n.js";
-	import FromTo from "$lib/components/from-to.svelte";
-	import Input from "$lib/components/input.svelte";
-	import Button from "$lib/components/button.svelte";
-	import Result from "$lib/components/result.svelte";
-	import SupportedUnits from "$lib/components/supported-units.svelte";
-	import w3color from "./w3color.js";
+	import htmlNames from './html-names.js';
+	import i18n from '$lib/i18n.js';
+	import FromTo from '$lib/components/from-to.svelte';
+	import Input from '$lib/components/input.svelte';
+	import Button from '$lib/components/button.svelte';
+	import Result from '$lib/components/result.svelte';
+	import SupportedUnits from '$lib/components/supported-units.svelte';
+	import w3color from './w3color.js';
 
-	const initialStringColor = $page.url.searchParams.get("string")
-		? decodeURIComponent($page.url.searchParams.get("string"))
-		: "";
+	const initialStringColor = $page.url.searchParams.get('string')
+		? decodeURIComponent($page.url.searchParams.get('string'))
+		: '';
 
-	const initialPickerColor = $page.url.searchParams.get("picker")
-		? decodeURIComponent($page.url.searchParams.get("picker"))
-		: "";
+	const initialPickerColor = $page.url.searchParams.get('picker')
+		? decodeURIComponent($page.url.searchParams.get('picker'))
+		: '';
 
-	let color = initialStringColor || initialPickerColor || "";
+	let color = initialStringColor || initialPickerColor || '';
 
 	let colorFromString = initialStringColor;
 	let colorFromPicker = initialPickerColor;
 	let shouldValidate = color ? true : false;
 	let shouldUpdateHistory = false;
-	let bgColor = "";
+	let bgColor = '';
 
 	const lowercaseHtmlNames = htmlNames.map((name) => name.toLowerCase());
 
-	interface w3colorResultInterface {
-		valid: boolean;
-	}
-
 	$: types = [
 		{
-			label: "HTML Name",
-			value: htmlName,
+			label: 'HTML Name',
+			value: htmlName
 		},
 		{
-			label: "RGB",
-			value: rgb,
+			label: 'RGB',
+			value: rgb
 		},
 		{
-			label: "RGBA",
-			value: rgba,
+			label: 'RGBA',
+			value: rgba
 		},
 		{
-			label: "Hex",
-			value: hex,
+			label: 'Hex',
+			value: hex
 		},
 		{
-			label: "HSL",
-			value: hsl,
+			label: 'HSL',
+			value: hsl
 		},
 		{
-			label: "HSLA",
-			value: hsla,
+			label: 'HSLA',
+			value: hsla
 		},
 		{
-			label: "HWB",
-			value: hwb,
+			label: 'HWB',
+			value: hwb
 		},
 		{
-			label: "CMYK",
-			value: cmyk,
-		},
+			label: 'CMYK',
+			value: cmyk
+		}
 	];
 
 	$: {
 		if (browser && shouldUpdateHistory) {
 			history.replaceState(
 				null,
-				null,
+				'',
 				`?string=${encodeURIComponent(colorFromString)}&picker=${encodeURIComponent(
 					colorFromPicker
 				)}`
@@ -85,59 +81,68 @@
 
 	$: color = colorFromString || colorFromPicker;
 	$: w3colorResult = new w3color(fixedColor);
-	$: fixedColor = ["RGB", "RGBA"].includes(colorSpace) ? rgbOrRgbaWithNamespace : color;
-	$: colorSpace = color ? getColorSpace(color) : "-";
-	$: rgbOrRgbaWithNamespace = ["RGB", "RGBA"].includes(colorSpace)
+	$: fixedColor = ['RGB', 'RGBA'].includes(colorSpace) ? rgbOrRgbaWithNamespace : color;
+	$: colorSpace = color ? getColorSpace(color) : '-';
+	$: rgbOrRgbaWithNamespace = ['RGB', 'RGBA'].includes(colorSpace)
 		? wrapRgbWithoutPrefix(color)
 		: color;
 	$: isValid = isValidColor(w3colorResult, color);
 	$: matchesBackground = colorMatchesBackground(result, new w3color(bgColor));
 	$: result = isValid ? w3colorResult : null;
-	$: htmlName = result ? (result.opacity === 1 ? result.toName() || "-" : "-") : "-";
-	$: rgb = result ? (result.opacity === 1 ? result.toRgbString() : "-") : "-";
-	$: rgba = result ? result.toRgbaString() : "-";
-	$: hex = result ? (result.opacity === 1 ? result.toHexString() : "-") : "-";
-	$: hsl = result ? (result.opacity === 1 ? result.toHslString() : "-") : "-";
-	$: hsla = result ? result.toHslaString() : "-";
-	$: hwb = result ? result.toHwbString() : "-";
-	$: cmyk = result ? (result.opacity === 1 ? result.toCmykString() : "-") : "-";
+	$: htmlName = result ? (result.opacity === 1 ? result.toName() || '-' : '-') : '-';
+	$: rgb = result ? (result.opacity === 1 ? result.toRgbString() : '-') : '-';
+	$: rgba = result ? result.toRgbaString() : '-';
+	$: hex = result ? (result.opacity === 1 ? result.toHexString() : '-') : '-';
+	$: hsl = result ? (result.opacity === 1 ? result.toHslString() : '-') : '-';
+	$: hsla = result ? result.toHslaString() : '-';
+	$: hwb = result ? result.toHwbString() : '-';
+	$: cmyk = result ? (result.opacity === 1 ? result.toCmykString() : '-') : '-';
 
 	onMount(() => {
-		bgColor = window.getComputedStyle(document.documentElement).getPropertyValue("--color-bg");
+		bgColor = window.getComputedStyle(document.documentElement).getPropertyValue('--color-bg');
 	});
 
-	function wrapRgbWithoutPrefix(color: string) {
+	/**
+	 * @param {string} color
+	 */
+	function wrapRgbWithoutPrefix(color) {
 		if (!color) return color;
 
 		const lowercase = color.toLowerCase().trim();
 
-		if (lowercase.startsWith("rgb(") || lowercase.startsWith("rgba(")) return color;
+		if (lowercase.startsWith('rgb(') || lowercase.startsWith('rgba(')) return color;
 
 		const parts = getRgbOrRgbaParts(color.trim());
 
-		return parts.length > 3 ? `rgba(${parts.join(",")})` : `rgb(${parts.join(",")})`;
+		return parts.length > 3 ? `rgba(${parts.join(',')})` : `rgb(${parts.join(',')})`;
 	}
 
-	function getColorSpace(color: string) {
+	/**
+	 * @param {string} color
+	 */
+	function getColorSpace(color) {
 		const lowercase = color.toLowerCase().trim();
 
-		if (lowercase.startsWith("rgba")) return "RGBA";
-		if (lowercase.startsWith("rgb")) return "RGB";
-		if (lowercase.startsWith("hsla")) return "HSLA";
-		if (lowercase.startsWith("hsl")) return "HSL";
-		if (lowercase.startsWith("hwb")) return "HWB";
-		if (lowercase.startsWith("cmyk")) return "CMYK";
-		if (lowercase.startsWith("#")) return "Hex";
-		if (lowercaseHtmlNames.filter((name) => name.startsWith(lowercase)).length > 0) return "HTML";
+		if (lowercase.startsWith('rgba')) return 'RGBA';
+		if (lowercase.startsWith('rgb')) return 'RGB';
+		if (lowercase.startsWith('hsla')) return 'HSLA';
+		if (lowercase.startsWith('hsl')) return 'HSL';
+		if (lowercase.startsWith('hwb')) return 'HWB';
+		if (lowercase.startsWith('cmyk')) return 'CMYK';
+		if (lowercase.startsWith('#')) return 'Hex';
+		if (lowercaseHtmlNames.filter((name) => name.startsWith(lowercase)).length > 0) return 'HTML';
 
 		const isRgbOrRgba = isRgbOrRgbaWithoutExplicitNamespace(color);
 
-		if (isRgbOrRgba) return getRgbOrRgbaParts(color).length >= 4 ? "RGBA" : "RGB";
+		if (isRgbOrRgba) return getRgbOrRgbaParts(color).length >= 4 ? 'RGBA' : 'RGB';
 
-		return "-";
+		return '-';
 	}
 
-	function isRgbOrRgbaWithoutExplicitNamespace(color: string) {
+	/**
+	 * @param {string} color
+	 */
+	function isRgbOrRgbaWithoutExplicitNamespace(color) {
 		const regex = /^([0-9.]*[0-9]+)$/;
 		const parts = getRgbOrRgbaParts(color);
 
@@ -146,15 +151,18 @@
 		return false;
 	}
 
-	function getRgbOrRgbaParts(color: string) {
+	/**
+	 * @param {string} color
+	 */
+	function getRgbOrRgbaParts(color) {
 		const trimmedColor = color.trim();
-		const separators = [",", " ", "/"];
+		const separators = [',', ' ', '/'];
 
 		for (let i = 0; i < separators.length; i += 1) {
 			const split = trimmedColor
 				.split(separators[i])
 				.map((str) => str.trim())
-				.filter((str) => str !== "" && str !== ",");
+				.filter((str) => str !== '' && str !== ',');
 
 			if (split.length > 1) return split;
 		}
@@ -162,18 +170,27 @@
 		return [];
 	}
 
-	function isValidColor(w3colorResult: w3colorResultInterface, color: string) {
-		if (color == "" || !w3colorResult.valid) {
+	/**
+	 * @param {object} w3colorResult
+	 * @param {boolean} w3colorResult.valid
+	 * @param {string} color
+	 */
+	function isValidColor(w3colorResult, color) {
+		if (color == '' || !w3colorResult.valid) {
 			return false;
 		}
 
 		return true;
 	}
 
-	function colorMatchesBackground(selectedColor: object, backgroundColor: object) {
+	/**
+	 * @param {object} selectedColor
+	 * @param {object} backgroundColor
+	 */
+	function colorMatchesBackground(selectedColor, backgroundColor) {
 		if (!selectedColor || !backgroundColor) return;
 
-		const matches = ["red", "green", "blue"].map((color) => {
+		const matches = ['red', 'green', 'blue'].map((color) => {
 			const diff = selectedColor[color] - backgroundColor[color];
 
 			return diff >= -20 && diff <= 20;
@@ -197,7 +214,7 @@
 				on:input={({ detail }) => {
 					shouldValidate = false;
 					colorFromString = detail;
-					colorFromPicker = "";
+					colorFromPicker = '';
 				}}
 				on:change={() => {
 					shouldValidate = true;
@@ -217,7 +234,7 @@
 				required={false}
 				bind:value={colorFromPicker}
 				on:input={({ detail }) => {
-					colorFromString = "";
+					colorFromString = '';
 					colorFromPicker = detail;
 				}}
 			/>
@@ -247,14 +264,14 @@
 			title="colors"
 			block={true}
 			supported={[
-				"<b>HTML names</b> like <code>rebeccapurple</code>",
-				"<b>RGB</b> like <code>rgb(0,0,0)</code>, <code>rgb(0 0 0)</code>, <code>0,0,0</code>, <code>0/0/0</code>, <code>0 0 0</code>",
-				"<b>RGBA</b> like <code>rgb(0,0,0, .5)</code>, <code>rgb(0 0 0 .5)</code>, <code>0,0,0,.5</code>, <code>0/0/0/.5</code>, <code>0 0 0 .5</code>",
-				"<b>HEX</b> Code like <code>#000</code> or <code>#000000</code>",
-				"<b>HSL</b> like <code>hsl(0, 0%, 0%)</code>",
-				"<b>HSLA</b> like <code>hsla(0, 0%, 0%, .5)</code>",
-				"<b>HWB</b> like <code>hwb(0 0% 100%)</code> or <code>hwb(0, 0%, 100%)</code>",
-				"<b>CMYK</b> like <code>cmyk(0%, 0%, 0%, 100%)</code>",
+				'<b>HTML names</b> like <code>rebeccapurple</code>',
+				'<b>RGB</b> like <code>rgb(0,0,0)</code>, <code>rgb(0 0 0)</code>, <code>0,0,0</code>, <code>0/0/0</code>, <code>0 0 0</code>',
+				'<b>RGBA</b> like <code>rgb(0,0,0, .5)</code>, <code>rgb(0 0 0 .5)</code>, <code>0,0,0,.5</code>, <code>0/0/0/.5</code>, <code>0 0 0 .5</code>',
+				'<b>HEX</b> Code like <code>#000</code> or <code>#000000</code>',
+				'<b>HSL</b> like <code>hsl(0, 0%, 0%)</code>',
+				'<b>HSLA</b> like <code>hsla(0, 0%, 0%, .5)</code>',
+				'<b>HWB</b> like <code>hwb(0 0% 100%)</code> or <code>hwb(0, 0%, 100%)</code>',
+				'<b>CMYK</b> like <code>cmyk(0%, 0%, 0%, 100%)</code>'
 			]}
 		/>
 	</svelte:fragment>
@@ -280,7 +297,7 @@
 
 	.ColorSpace dt::after {
 		display: inline;
-		content: ":";
+		content: ':';
 		padding-inline-end: 0.5em;
 	}
 
@@ -314,7 +331,7 @@
 	}
 
 	.ColorDisplay::before {
-		content: "";
+		content: '';
 		display: block;
 		height: 1em;
 		width: 1em;

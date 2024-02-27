@@ -1,7 +1,7 @@
 <script>
-	import i18n from "$lib/i18n.js";
+	import i18n from '$lib/i18n.js';
 
-	const copy = i18n["about-convert"];
+	const copy = i18n['about-convert'];
 </script>
 
 <dl>
@@ -29,11 +29,6 @@
 					<a href="https://kit.svelte.dev/" target="_blank" rel="noopener noreferrer">Svelte Kit</a>
 				</li>
 				<li><a href="https://vitejs.dev/" target="_blank" rel="noopener noreferrer">Vite</a></li>
-				<li>
-					<a href="https://www.typescriptlang.org/" target="_blank" rel="noopener noreferrer"
-						>TypeScript</a
-					>
-				</li>
 			</ul>
 		</dd>
 	</div>
