@@ -29,7 +29,7 @@
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.35.1",
 		"install": "^0.13.0",
-		"npm": "^10.4.0",
+		"npm": "^10.5.0",
 		"pre-commit": "^1.2.2",
 		"prettier": "^3.2.5",
 		"prettier-plugin-svelte": "^3.2.2",
