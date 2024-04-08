@@ -26,8 +26,6 @@
 		"@tsconfig/svelte": "^5.0.4",
 		"chromedriver": "^123.0.1",
 		"eslint": "^9.0.0",
-		"eslint-config-prettier": "^9.1.0",
-		"eslint-plugin-svelte": "^2.36.0",
 		"install": "^0.13.0",
 		"pre-commit": "^1.2.2",
 		"prettier": "^3.2.5",

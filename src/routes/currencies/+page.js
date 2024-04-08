@@ -11,10 +11,11 @@ export async function load({ fetch, url }) {
 					result: response.ok && json
 				};
 			} catch (e) {
-				console.log(e);
+				console.error(e);
 				return {};
 			}
 		} catch (e) {
+			console.error(e);
 			return {};
 		}
 	}
