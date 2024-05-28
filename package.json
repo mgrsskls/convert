@@ -24,7 +24,7 @@
 		"@sveltejs/kit": "2.5.10",
 		"@sveltejs/vite-plugin-svelte": "^3.1.0",
 		"@tsconfig/svelte": "^5.0.4",
-		"chromedriver": "^125.0.0",
+		"chromedriver": "^125.0.2",
 		"eslint": "^9.3.0",
 		"install": "^0.13.0",
 		"pre-commit": "^1.2.2",
