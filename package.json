@@ -39,7 +39,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"big.js": "^6.2.1",
+		"big.js": "^6.2.2",
 		"bignumber.js": "^9.1.2",
 		"node-fetch": "^3.3.2"
 	}
