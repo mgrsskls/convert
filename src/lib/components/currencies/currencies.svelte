@@ -131,7 +131,7 @@
 <FromTo>
 	<svelte:fragment slot="from">
 		<Grid>
-			<svelte:fragment slot="1">
+			<svelte:fragment slot="one">
 				<Input
 					list="currencyList"
 					id="currencies-from_currency"
@@ -144,7 +144,7 @@
 					on:change={onFromCurrencyChange}
 				/>
 			</svelte:fragment>
-			<svelte:fragment slot="2">
+			<svelte:fragment slot="two">
 				<Input
 					name="from[amount]"
 					type="text"
@@ -173,7 +173,7 @@
 	</svelte:fragment>
 	<svelte:fragment slot="to">
 		<Grid>
-			<svelte:fragment slot="1">
+			<svelte:fragment slot="one">
 				<Input
 					name="to[currency]"
 					list="currencyList"
@@ -187,7 +187,7 @@
 				/>
 				<Button />
 			</svelte:fragment>
-			<svelte:fragment slot="2">
+			<svelte:fragment slot="two">
 				<Result label={i18n.currencies.labels.amount} result={convertedAmount} highlight={true} />
 			</svelte:fragment>
 		</Grid>

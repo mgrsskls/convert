@@ -1,9 +1,9 @@
 <div class="Grid">
 	<div class="Grid-item">
-		<slot name="1" />
+		<slot name="one" />
 	</div>
 	<div class="Grid-item">
-		<slot name="2" />
+		<slot name="two" />
 	</div>
 </div>
 

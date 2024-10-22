@@ -172,7 +172,7 @@
 	<svelte:fragment slot="from">
 		<input type="hidden" name="type" value={alias} />
 		<Grid>
-			<svelte:fragment slot="1">
+			<svelte:fragment slot="one">
 				{#if typeFrom === 'timeZone'}
 					{#if fromTimeZone === 'custom'}
 						<Input
@@ -225,7 +225,7 @@
 					/>
 				{/if}
 			</svelte:fragment>
-			<svelte:fragment slot="2">
+			<svelte:fragment slot="two">
 				{#if typeFrom !== 'timestamp'}
 					<Input
 						label={i18n.time.labels.dateTime}
@@ -259,7 +259,7 @@
 	</svelte:fragment>
 	<svelte:fragment slot="to">
 		<Grid>
-			<svelte:fragment slot="1">
+			<svelte:fragment slot="one">
 				{#if typeTo === 'timeZone'}
 					{#if toTimeZone === 'custom'}
 						<Input
@@ -285,7 +285,7 @@
 					/>
 				{/if}
 			</svelte:fragment>
-			<svelte:fragment slot="2">
+			<svelte:fragment slot="two">
 				{#if typeTo === 'timeZone'}
 					<Result label={i18n.time.labels.dateTime} result={timeZoneResult} highlight={true} />
 				{/if}

@@ -131,7 +131,7 @@
 	<svelte:fragment slot="from">
 		<input type="hidden" name="type" value={alias} />
 		<Grid>
-			<svelte:fragment slot="1">
+			<svelte:fragment slot="one">
 				<Input
 					name={`${alias}[from][unit]`}
 					label={i18n[pageName].labels.unit}
@@ -149,7 +149,7 @@
 					}}
 				/>
 			</svelte:fragment>
-			<svelte:fragment slot="2">
+			<svelte:fragment slot="two">
 				<Input
 					name={`${alias}[from][value]`}
 					type="text"
@@ -180,7 +180,7 @@
 	</svelte:fragment><svelte:fragment />
 	<svelte:fragment slot="to">
 		<Grid>
-			<svelte:fragment slot="1">
+			<svelte:fragment slot="one">
 				<Input
 					name={`${alias}[to][unit]`}
 					label={i18n[pageName].labels.unit}
@@ -195,7 +195,7 @@
 				/>
 				<Button />
 			</svelte:fragment>
-			<svelte:fragment slot="2">
+			<svelte:fragment slot="two">
 				<Result
 					wrap={true}
 					label={i18n[pageName].labels.value}

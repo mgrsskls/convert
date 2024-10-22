@@ -99,7 +99,7 @@
 	<svelte:fragment slot="from">
 		<input type="hidden" name="type" value={alias} />
 		<Grid>
-			<svelte:fragment slot="1">
+			<svelte:fragment slot="one">
 				<Input
 					name={`${alias}[from][ingredient]`}
 					label={i18n.cooking.ingredients.labels.ingredient}
@@ -151,7 +151,7 @@
 					}}
 				/>
 			</svelte:fragment>
-			<svelte:fragment slot="2">
+			<svelte:fragment slot="two">
 				<Input
 					name={`${alias}[from][amount]`}
 					type="text"
@@ -182,7 +182,7 @@
 	</svelte:fragment><svelte:fragment />
 	<svelte:fragment slot="to">
 		<Grid>
-			<svelte:fragment slot="1">
+			<svelte:fragment slot="one">
 				<Result
 					wrap={true}
 					label={i18n.cooking.ingredients.labels.result}
@@ -191,7 +191,7 @@
 					highlight={true}
 				/>
 			</svelte:fragment>
-			<svelte:fragment slot="2" />
+			<svelte:fragment slot="two" />
 		</Grid>
 	</svelte:fragment>
 </FromTo>
