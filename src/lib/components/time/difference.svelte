@@ -1,5 +1,5 @@
 <script>
-	export let diff;
+	let { diff } = $props();
 </script>
 
 <span class="Difference"><span>{diff}</span> hours</span>

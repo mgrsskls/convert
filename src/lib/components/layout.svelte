@@ -3,9 +3,7 @@
 	import Header from './header.svelte';
 	import Introduction from './introduction.svelte';
 
-	export let alias;
-	export let title;
-	export let description;
+	let { alias, title, description, children } = $props();
 
 	const metaDescription = (description || i18n.description).replace(/<[^>]*>?/gm, '');
 </script>
@@ -19,7 +17,7 @@
 	{#if title || description}
 		<Introduction {title} {description} />
 	{/if}
-	<slot />
+	{@render children?.()}
 </main>
 
 <style>

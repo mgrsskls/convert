@@ -1,10 +1,16 @@
 <script>
 	import i18n from '$lib/i18n.js';
 
-	export let title;
-	export let supported;
-	export let unsupported = [];
-	export let block = false;
+	/**
+	 * @typedef {Object} Props
+	 * @property {any} title
+	 * @property {any} supported
+	 * @property {any} [unsupported]
+	 * @property {boolean} [block]
+	 */
+
+	/** @type {Props} */
+	let { title, supported, unsupported = [], block = false } = $props();
 </script>
 
 <div class="SupportedUnits">

@@ -13,8 +13,10 @@
 </script>
 
 <Accordion open={open === 'areas'} id="areas">
-	<svelte:fragment slot="title">{@html i18n.units.areas.title}</svelte:fragment>
-	<svelte:fragment slot="content">
+	{#snippet title()}
+		{@html i18n.units.areas.title}
+	{/snippet}
+	{#snippet content()}
 		<Section
 			names={areas.names}
 			abbr={i18n.units.areas.abbr}
@@ -22,26 +24,32 @@
 			alias="areas"
 			{pageName}
 		/>
-	</svelte:fragment>
+	{/snippet}
 </Accordion>
 
 <Accordion open={open === 'lengths'} id="lengths">
-	<svelte:fragment slot="title">{@html i18n.units.lengths.title}</svelte:fragment>
-	<svelte:fragment slot="content">
+	{#snippet title()}
+		{@html i18n.units.lengths.title}
+	{/snippet}
+	{#snippet content()}
 		<Section names={lengths.names} conversions={lengths.conversions} alias="lengths" {pageName} />
-	</svelte:fragment>
+	{/snippet}
 </Accordion>
 
 <Accordion open={open === 'masses'} id="masses">
-	<svelte:fragment slot="title">{@html i18n.units.masses.title}</svelte:fragment>
-	<svelte:fragment slot="content">
+	{#snippet title()}
+		{@html i18n.units.masses.title}
+	{/snippet}
+	{#snippet content()}
 		<Section names={masses.names} conversions={masses.conversions} alias="masses" {pageName} />
-	</svelte:fragment>
+	{/snippet}
 </Accordion>
 
 <Accordion open={open === 'speeds'} id="speeds">
-	<svelte:fragment slot="title">{@html i18n.units.speeds.title}</svelte:fragment>
-	<svelte:fragment slot="content">
+	{#snippet title()}
+		{@html i18n.units.speeds.title}
+	{/snippet}
+	{#snippet content()}
 		<Section
 			names={speeds.names}
 			abbr={i18n.units.speeds.abbr}
@@ -49,12 +57,14 @@
 			alias="speeds"
 			{pageName}
 		/>
-	</svelte:fragment>
+	{/snippet}
 </Accordion>
 
 <Accordion open={open === 'temperatures'} id="temperatures">
-	<svelte:fragment slot="title">{@html i18n.units.temperatures.title}</svelte:fragment>
-	<svelte:fragment slot="content">
+	{#snippet title()}
+		{@html i18n.units.temperatures.title}
+	{/snippet}
+	{#snippet content()}
 		<Section
 			names={temperatures.names}
 			abbr={i18n.units.temperatures.abbr}
@@ -63,12 +73,14 @@
 			alias="temperatures"
 			{pageName}
 		/>
-	</svelte:fragment>
+	{/snippet}
 </Accordion>
 
 <Accordion open={open === 'volumes'} id="volumes">
-	<svelte:fragment slot="title">{@html i18n.units.volumes.title}</svelte:fragment>
-	<svelte:fragment slot="content">
+	{#snippet title()}
+		{@html i18n.units.volumes.title}
+	{/snippet}
+	{#snippet content()}
 		<Section
 			names={volumes.names}
 			abbr={i18n.units.volumes.abbr}
@@ -76,5 +88,5 @@
 			alias="volumes"
 			{pageName}
 		/>
-	</svelte:fragment>
+	{/snippet}
 </Accordion>

@@ -1,13 +1,12 @@
 <script>
-	export let tag;
-	export let title;
+	let { tag, title, children } = $props();
 </script>
 
 {#if tag === 'fieldset'}
 	<fieldset class="Box">
 		<legend class="Box-title">{title}</legend>
 		<div class="Box-inner">
-			<slot />
+			{@render children?.()}
 		</div>
 	</fieldset>
 {:else}
@@ -15,7 +14,7 @@
 		<div class="Box-title">
 			{@html title}
 		</div>
-		<slot />
+		{@render children?.()}
 	</div>
 {/if}
 

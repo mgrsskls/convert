@@ -2,8 +2,7 @@
 	import i18n from '$lib/i18n.js';
 	import Menu from './menu.svelte';
 
-	export let title;
-	export let current;
+	let { title, current } = $props();
 </script>
 
 <svelte:head>

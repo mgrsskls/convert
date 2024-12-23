@@ -1,6 +1,5 @@
 <script>
-	export let title;
-	export let description;
+	let { title, description } = $props();
 </script>
 
 <div class="Introduction">

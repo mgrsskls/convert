@@ -1,5 +1,4 @@
 <script>
-	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
 	import i18n from '$lib/i18n.js';
 	import Grid from '$lib/components/grid.svelte';
@@ -15,13 +14,10 @@
 		getTimeZonesDifference
 	} from './utils.js';
 
-	export let options;
-	export let currentLocalTime;
+	let { options, currentLocalTime } = $props();
 
 	const { alias, formattedList, typeFrom, fromTimeZone, typeTo, toTimeZone, userTimeZoneId } =
 		options;
-
-	let shouldUpdateHistory = false;
 
 	const initialFromTimeZone = $page.url.searchParams.get(`${alias}[from][time_zone]`)
 		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][time_zone]`))
@@ -33,7 +29,7 @@
 		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][timestamp]`))
 		: null;
 
-	const from = {
+	const stateFrom = $state({
 		timeZone: {
 			value: null,
 			shouldValidate: initialFromTimeZone ? true : false
@@ -48,19 +44,20 @@
 			changed: !!initialFromTimestamp,
 			shouldValidate: initialFromTimestamp ? true : false
 		}
-	};
+	});
 
 	if (typeFrom === 'timeZone') {
-		from.timeZone.value = fromTimeZone === 'utc' ? 'UTC' : initialFromTimeZone || userTimeZoneId;
-		from.datetime.value = initialFromDatetime || formatDateForInput(currentLocalTime);
+		stateFrom.timeZone.value =
+			fromTimeZone === 'utc' ? 'UTC' : initialFromTimeZone || userTimeZoneId;
+		stateFrom.datetime.value = initialFromDatetime || formatDateForInput(currentLocalTime);
 	} else {
-		from.timestamp.value = parseInt(initialFromTimestamp, 10);
+		stateFrom.timestamp.value = parseInt(initialFromTimestamp, 10);
 	}
 
 	const initialToTimeZone = $page.url.searchParams.get(`${alias}[to][time_zone]`)
 		? decodeURIComponent($page.url.searchParams.get(`${alias}[to][time_zone]`))
 		: null;
-	const to = {
+	const stateTo = $state({
 		timeZone: {
 			value:
 				toTimeZone === 'utc'
@@ -70,62 +67,7 @@
 						: '',
 			shouldValidate: initialToTimeZone ? true : false
 		}
-	};
-
-	$: {
-		if (browser && shouldUpdateHistory) {
-			history.replaceState(
-				null,
-				null,
-				`?type=${alias}&${alias}[from][time_zone]=${
-					from.timeZone.value || ''
-				}&${alias}[from][datetime]=${from.datetime.value || ''}&${alias}[from][timestamp]=${
-					from.timestamp.value || ''
-				}&${alias}[to][time_zone]=${to.timeZone.value || ''}`
-			);
-		}
-
-		shouldUpdateHistory = true;
-	}
-
-	$: fromValue = typeFrom === 'timestamp' ? fromTimestamp : fromDatetime;
-	$: fromTimestamp = from.timestamp.changed ? from.timestamp.value : currentLocalTime.getTime();
-	$: fromDatetime = from.datetime.value;
-	$: fromTimeZoneIsValid = from.timeZone.value ? timeZoneIsValid(from.timeZone.value) : false;
-	$: fromDatetimeIsValid =
-		typeFrom === 'timestamp' ? timestampIsValid(fromTimestamp) : datetimeIsValid(fromDatetime);
-	$: toTimeZoneIsValid = to.timeZone.value ? timeZoneIsValid(to.timeZone.value) : false;
-	$: fromDatetimeFormatted = from.datetime.changed
-		? fromValue
-		: formatDateForInput(currentLocalTime);
-	$: userChangedFromTimeZone =
-		from.timeZone.value && userTimeZoneId ? from.timeZone.value !== userTimeZoneId : false;
-	$: fromDatetimeTimeZoneObject =
-		fromTimeZoneIsValid && fromDatetimeIsValid
-			? getDateObjectForGivenDatetimeAndTimeZone(fromDatetimeFormatted, from.timeZone.value)
-			: null;
-	$: fromDatetimeObject = fromTimeZoneIsValid
-		? from.timeZone.value
-			? getDatetimeObject(from.timeZone.value, fromDatetimeTimeZoneObject)
-			: null
-		: null;
-	$: toDatetimeObject =
-		toTimeZoneIsValid && to.timeZone.value
-			? getDatetimeObject(
-					to.timeZone.value,
-					typeFrom === 'timestamp'
-						? typeof fromValue === 'number'
-							? fromValue
-							: parseInt(fromValue, 10)
-						: fromDatetimeTimeZoneObject
-				)
-			: null;
-	$: differenceInHours =
-		fromDatetimeObject && toDatetimeObject
-			? getTimeZonesDifference(fromDatetimeObject, toDatetimeObject)
-			: null;
-	$: timeZoneResult = toDatetimeObject ? toDatetimeObject.toLocaleString() : '-';
-	$: timestampResult = fromDatetimeTimeZoneObject ? fromDatetimeTimeZoneObject.getTime() : '-';
+	});
 
 	function timestampIsValid(value) {
 		return typeof value === 'number';
@@ -146,7 +88,7 @@
 
 		if (formattedList.filter((entry) => entry.includes(lowercaseValue)).length > 0) {
 			if (timeZoneIsValid(value)) {
-				from.timeZone.value = value;
+				stateFrom.timeZone.value = value;
 			}
 		}
 	}
@@ -158,21 +100,74 @@
 
 		if (formattedList.filter((entry) => entry.includes(lowercaseValue)).length > 0) {
 			if (timeZoneIsValid(value)) {
-				to.timeZone.value = value;
+				stateTo.timeZone.value = value;
 			}
 		}
 	}
 
 	function resetFromTimeZone() {
-		from.timeZone.value = userTimeZoneId;
+		stateFrom.timeZone.value = userTimeZoneId;
 	}
+	let fromTimestamp = $derived(
+		stateFrom.timestamp.changed ? stateFrom.timestamp.value : currentLocalTime.getTime()
+	);
+	let fromDatetime = $derived(stateFrom.datetime.value);
+	let fromValue = $derived(typeFrom === 'timestamp' ? fromTimestamp : fromDatetime);
+	let fromTimeZoneIsValid = $derived(
+		stateFrom.timeZone.value ? timeZoneIsValid(stateFrom.timeZone.value) : false
+	);
+	let fromDatetimeIsValid = $derived(
+		typeFrom === 'timestamp' ? timestampIsValid(fromTimestamp) : datetimeIsValid(fromDatetime)
+	);
+	let toTimeZoneIsValid = $derived(
+		stateTo.timeZone.value ? timeZoneIsValid(stateTo.timeZone.value) : false
+	);
+	let fromDatetimeFormatted = $derived(
+		stateFrom.datetime.changed ? fromValue : formatDateForInput(currentLocalTime)
+	);
+	let userChangedFromTimeZone = $derived(
+		stateFrom.timeZone.value && userTimeZoneId ? stateFrom.timeZone.value !== userTimeZoneId : false
+	);
+	let fromDatetimeTimeZoneObject = $derived(
+		fromTimeZoneIsValid && fromDatetimeIsValid
+			? getDateObjectForGivenDatetimeAndTimeZone(fromDatetimeFormatted, stateFrom.timeZone.value)
+			: null
+	);
+	let fromDatetimeObject = $derived(
+		fromTimeZoneIsValid
+			? stateFrom.timeZone.value
+				? getDatetimeObject(stateFrom.timeZone.value, fromDatetimeTimeZoneObject)
+				: null
+			: null
+	);
+	let toDatetimeObject = $derived(
+		toTimeZoneIsValid && stateTo.timeZone.value
+			? getDatetimeObject(
+					stateTo.timeZone.value,
+					typeFrom === 'timestamp'
+						? typeof fromValue === 'number'
+							? fromValue
+							: parseInt(fromValue, 10)
+						: fromDatetimeTimeZoneObject
+				)
+			: null
+	);
+	let differenceInHours = $derived(
+		fromDatetimeObject && toDatetimeObject
+			? getTimeZonesDifference(fromDatetimeObject, toDatetimeObject)
+			: null
+	);
+	let timeZoneResult = $derived(toDatetimeObject ? toDatetimeObject.toLocaleString() : '-');
+	let timestampResult = $derived(
+		fromDatetimeTimeZoneObject ? fromDatetimeTimeZoneObject.getTime() : '-'
+	);
 </script>
 
 <FromTo action={`#${alias}`}>
-	<svelte:fragment slot="from">
+	{#snippet from()}
 		<input type="hidden" name="type" value={alias} />
 		<Grid>
-			<svelte:fragment slot="one">
+			{#snippet one()}
 				{#if typeFrom === 'timeZone'}
 					{#if fromTimeZone === 'custom'}
 						<Input
@@ -184,9 +179,9 @@
 							placeholder={i18n.time.placeholders.timeZone.from}
 							list="time-zones"
 							resetButtonIsVisible={userChangedFromTimeZone}
-							value={from.timeZone.value}
+							value={stateFrom.timeZone.value}
 							toggleLabel={i18n.time.toggle.timeZone}
-							invalid={from.timeZone.shouldValidate && !fromTimeZoneIsValid}
+							invalid={stateFrom.timeZone.shouldValidate && !fromTimeZoneIsValid}
 							on:toggleReset={({ detail: checked }) => {
 								if (checked) resetFromTimeZone();
 							}}
@@ -204,28 +199,28 @@
 						name={`${alias}[from][timestamp]`}
 						type="number"
 						hasResetButton={true}
-						resetButtonIsVisible={from.timestamp.changed}
+						resetButtonIsVisible={stateFrom.timestamp.changed}
 						placeholder={i18n.time.placeholders.unixTimestamp}
 						value={fromValue}
 						toggleLabel={i18n.time.toggle.timestamp}
 						on:toggleReset={({ detail: checked }) => {
-							from.timestamp.changed = !checked;
-							from.timestamp.value =
+							stateFrom.timestamp.changed = !checked;
+							stateFrom.timestamp.value =
 								typeof fromValue === 'string' ? parseInt(fromValue, 10) : fromValue;
 						}}
 						on:input={({ detail }) => {
-							from.timestamp.value = parseInt(detail, 10);
-							from.timestamp.changed = true;
+							stateFrom.timestamp.value = parseInt(detail, 10);
+							stateFrom.timestamp.changed = true;
 						}}
 						on:focus={() => {
-							from.timestamp.changed = true;
-							from.timestamp.value =
+							stateFrom.timestamp.changed = true;
+							stateFrom.timestamp.value =
 								typeof fromValue === 'string' ? parseInt(fromValue, 10) : fromValue;
 						}}
 					/>
 				{/if}
-			</svelte:fragment>
-			<svelte:fragment slot="two">
+			{/snippet}
+			{#snippet two()}
 				{#if typeFrom !== 'timestamp'}
 					<Input
 						label={i18n.time.labels.dateTime}
@@ -233,33 +228,33 @@
 						id={`${alias}_to_datetime`}
 						type="datetime-local"
 						hasResetButton={true}
-						resetButtonIsVisible={from.datetime.changed}
+						resetButtonIsVisible={stateFrom.datetime.changed}
 						value={fromDatetimeFormatted}
 						toggleLabel={i18n.time.toggle.datetime}
 						on:toggleReset={({ detail: checked }) => {
-							from.datetime.changed = !checked;
-							from.datetime.value = fromDatetimeFormatted.toString();
+							stateFrom.datetime.changed = !checked;
+							stateFrom.datetime.value = fromDatetimeFormatted.toString();
 						}}
 						on:input={({ detail }) => {
-							from.datetime.changed = true;
-							from.datetime.value = detail;
+							stateFrom.datetime.changed = true;
+							stateFrom.datetime.value = detail;
 						}}
 					/>
 				{/if}
-			</svelte:fragment>
+			{/snippet}
 		</Grid>
 		{#if toTimeZone !== 'custom'}
 			<Button />
 		{/if}
-	</svelte:fragment>
-	<svelte:fragment slot="divider">
+	{/snippet}
+	{#snippet divider()}
 		{#if differenceInHours && typeFrom === 'timeZone' && typeTo === 'timeZone'}
 			<Difference diff={differenceInHours} />
 		{/if}
-	</svelte:fragment>
-	<svelte:fragment slot="to">
+	{/snippet}
+	{#snippet to()}
 		<Grid>
-			<svelte:fragment slot="one">
+			{#snippet one()}
 				{#if typeTo === 'timeZone'}
 					{#if toTimeZone === 'custom'}
 						<Input
@@ -269,8 +264,8 @@
 							type="text"
 							list="time-zones"
 							placeholder={i18n.time.placeholders.timeZone.to}
-							value={to.timeZone.value}
-							invalid={to.timeZone.shouldValidate && !toTimeZoneIsValid}
+							value={stateTo.timeZone.value}
+							invalid={stateTo.timeZone.shouldValidate && !toTimeZoneIsValid}
 							on:input={({ detail }) => setToTimeZone(detail)}
 						/>
 						<Button />
@@ -284,12 +279,12 @@
 						highlight={true}
 					/>
 				{/if}
-			</svelte:fragment>
-			<svelte:fragment slot="two">
+			{/snippet}
+			{#snippet two()}
 				{#if typeTo === 'timeZone'}
 					<Result label={i18n.time.labels.dateTime} result={timeZoneResult} highlight={true} />
 				{/if}
-			</svelte:fragment>
+			{/snippet}
 		</Grid>
-	</svelte:fragment>
+	{/snippet}
 </FromTo>

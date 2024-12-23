@@ -1,5 +1,5 @@
 <script>
-	export let value;
+	let { value } = $props();
 </script>
 
 <div class="Multiplier" class:is-large={value.toString().length > 8}>

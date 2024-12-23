@@ -1,33 +1,55 @@
 <script>
+	import { createBubbler } from 'svelte/legacy';
+
+	const bubble = createBubbler();
 	import { onMount, createEventDispatcher } from 'svelte';
 	import i18n from '$lib/i18n.js';
 
 	const dispatch = createEventDispatcher();
 
-	let renderReset = false;
+	let renderReset = $state(false);
 
-	/** @type {string} */
-	export let id;
-	/** @type {string} */
-	export let label;
-	export let type = 'text';
-	/** @type {string} */
-	export let value;
-	/** @type {string} */
-	export let placeholder;
-	export let list = null;
-	/** @type {number|null} */
-	export let step = null;
-	export let hasResetButton = false;
-	export let resetButtonIsVisible = false;
-	/** @type {string|null} */
-	export let toggleLabel = null;
-	export let viaSlot = false;
-	export let options = null;
-	export let invalid = false;
-	export let name = null;
-	export let inputmode = null;
-	export let required = true;
+	/**
+	 * @typedef {Object} Props
+	 * @property {string} id
+	 * @property {string} label
+	 * @property {string} [type]
+	 * @property {string} value
+	 * @property {string} placeholder
+	 * @property {any} [list]
+	 * @property {number|null} [step]
+	 * @property {boolean} [hasResetButton]
+	 * @property {boolean} [resetButtonIsVisible]
+	 * @property {string|null} [toggleLabel]
+	 * @property {boolean} [viaSlot]
+	 * @property {any} [options]
+	 * @property {boolean} [invalid]
+	 * @property {any} [name]
+	 * @property {any} [inputmode]
+	 * @property {boolean} [required]
+	 * @property {import('svelte').Snippet} [children]
+	 */
+
+	/** @type {Props} */
+	let {
+		id,
+		label,
+		type = 'text',
+		value,
+		placeholder,
+		list = null,
+		step = null,
+		hasResetButton = false,
+		resetButtonIsVisible = false,
+		toggleLabel = null,
+		viaSlot = false,
+		options = null,
+		invalid = false,
+		name = null,
+		inputmode = null,
+		required = true,
+		children
+	} = $props();
 
 	/**
 	 * @param {Event} e
@@ -59,7 +81,7 @@
 	<div class="Input-container">
 		<label class="Input-label" for={!viaSlot ? id : null}>
 			{label}
-			<slot />
+			{@render children?.()}
 		</label>
 		{#if !viaSlot}
 			{#if options}
@@ -69,7 +91,7 @@
 					class="Input-element"
 					{id}
 					aria-invalid={invalid}
-					on:change={onChange}
+					onchange={onChange}
 				>
 					<option value="" disabled hidden>Please choose</option>
 					{#each options as option}
@@ -89,9 +111,9 @@
 					{inputmode}
 					{required}
 					aria-invalid={invalid}
-					on:input={onInput}
-					on:change={onChange}
-					on:focus
+					oninput={onInput}
+					onchange={onChange}
+					onfocus={bubble('focus')}
 				/>
 			{/if}
 		{/if}
@@ -103,7 +125,7 @@
 
 	{#if hasResetButton && renderReset}
 		<label class="Input-toggle">
-			<input type="checkbox" checked={!resetButtonIsVisible} on:change={onReset} />
+			<input type="checkbox" checked={!resetButtonIsVisible} onchange={onReset} />
 			{toggleLabel}
 		</label>
 	{/if}
@@ -133,7 +155,7 @@
 		background-position: center right;
 	}
 
-	.Input-element:where(:not([type='color'])) {
+	.Input-element:where(:global(:not([type='color']))) {
 		padding-block-end: 0.4rem;
 		inline-size: 100%;
 		box-sizing: border-box;

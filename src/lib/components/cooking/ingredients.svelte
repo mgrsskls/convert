@@ -1,5 +1,4 @@
 <script>
-	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
 	import BigNumber from 'bignumber.js';
 	import Big from 'big.js';
@@ -17,46 +16,24 @@
 	const { names, conversions } = ingredients;
 	const alias = 'ingredients';
 
-	let shouldUpdateHistory = false;
-
 	const initialFromUnit = $page.url.searchParams.get(`${alias}[from][ingredient]`)
 		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][ingredient]`))
 		: '';
 	const initialFromValue = $page.url.searchParams.get(`${alias}[from][amount]`)
 		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][amount]`))
 		: null;
-	const from = {
+	const stateFrom = $state({
 		unit: initialFromUnit,
 		shouldValidateUnit: initialFromUnit ? true : false,
 		value: initialFromValue,
 		shouldValidateValue: initialFromValue ? true : false
-	};
+	});
 
 	const units = Object.entries(names).map((entry) => ({
 		value: entry[0],
 		label: `${entry[1]}: ${entry[0]}`
 	}));
 	const unitValues = units.map((unit) => unit.value);
-
-	$: {
-		if (browser && shouldUpdateHistory) {
-			history.replaceState(
-				null,
-				null,
-				`?type=${alias}&${alias}[from][ingredient]=${from.unit || ''}&${alias}[from][amount]=${
-					from.value || ''
-				}`
-			);
-		}
-
-		shouldUpdateHistory = true;
-	}
-
-	$: fromUnitIsValid = unitValues.includes(from.unit);
-	$: fromValueIsValid = !Number.isNaN(parseFloat(from.value));
-	$: result = fromValueIsValid && from.unit ? calcResult(from.unit, parseFloat(from.value)) : null;
-	$: useExponential = shouldUseExponential(result, rawResult, false);
-	$: rawResult = getFormattedResult(result, false) || '-';
 
 	function calcResult(fromUnit, fromValue) {
 		if (!fromUnit || fromValue === null || !conversions[fromUnit]) return null;
@@ -93,13 +70,23 @@
 
 		return false;
 	}
+
+	let fromUnitIsValid = $derived(unitValues.includes(stateFrom.unit));
+	let fromValueIsValid = $derived(!Number.isNaN(parseFloat(stateFrom.value)));
+	let result = $derived(
+		fromValueIsValid && stateFrom.unit
+			? calcResult(stateFrom.unit, parseFloat(stateFrom.value))
+			: null
+	);
+	let rawResult = $derived(getFormattedResult(result, false) || '-');
+	let useExponential = $derived(shouldUseExponential(result, rawResult, false));
 </script>
 
 <FromTo action={`#${alias}`}>
-	<svelte:fragment slot="from">
+	{#snippet from()}
 		<input type="hidden" name="type" value={alias} />
 		<Grid>
-			<svelte:fragment slot="one">
+			{#snippet one()}
 				<Input
 					name={`${alias}[from][ingredient]`}
 					label={i18n.cooking.ingredients.labels.ingredient}
@@ -143,15 +130,15 @@
 							label: 'Butter'
 						}
 					]}
-					invalid={from.shouldValidateUnit && !fromUnitIsValid}
-					bind:value={from.unit}
+					invalid={stateFrom.shouldValidateUnit && !fromUnitIsValid}
+					bind:value={stateFrom.unit}
 					on:change={({ detail }) => {
-						from.unit = detail;
-						from.shouldValidateUnit = detail.length > 0 ? true : false;
+						stateFrom.unit = detail;
+						stateFrom.shouldValidateUnit = detail.length > 0 ? true : false;
 					}}
 				/>
-			</svelte:fragment>
-			<svelte:fragment slot="two">
+			{/snippet}
+			{#snippet two()}
 				<Input
 					name={`${alias}[from][amount]`}
 					type="text"
@@ -159,30 +146,30 @@
 					id={`${alias}-from-value`}
 					placeholder={i18n.cooking.ingredients.placeholders.amount}
 					label={i18n.cooking.ingredients.labels.amount}
-					value={from.value}
-					invalid={from.shouldValidateValue && !fromValueIsValid}
+					value={stateFrom.value}
+					invalid={stateFrom.shouldValidateValue && !fromValueIsValid}
 					on:input={({ detail }) => {
-						from.shouldValidateValue = false;
-						from.value = detail;
+						stateFrom.shouldValidateValue = false;
+						stateFrom.value = detail;
 					}}
 					on:change={() => {
-						from.shouldValidateValue = true;
+						stateFrom.shouldValidateValue = true;
 					}}
 				/>
-			</svelte:fragment>
+			{/snippet}
 		</Grid>
 		<Button />
-	</svelte:fragment>
-	<svelte:fragment slot="divider">
-		{#if from.unit}
-			{#if conversions[from.unit] && conversions[from.unit] && typeof conversions[from.unit] !== 'function'}
-				<Multiplier value={new BigNumber(conversions[from.unit]).toFormat()} />
+	{/snippet}
+	{#snippet divider()}
+		{#if stateFrom.unit}
+			{#if conversions[stateFrom.unit] && conversions[stateFrom.unit] && typeof conversions[stateFrom.unit] !== 'function'}
+				<Multiplier value={new BigNumber(conversions[stateFrom.unit]).toFormat()} />
 			{/if}
 		{/if}
-	</svelte:fragment><svelte:fragment />
-	<svelte:fragment slot="to">
+	{/snippet}
+	{#snippet to()}
 		<Grid>
-			<svelte:fragment slot="one">
+			{#snippet one()}
 				<Result
 					wrap={true}
 					label={i18n.cooking.ingredients.labels.result}
@@ -190,10 +177,10 @@
 					raw={useExponential ? rawResult : null}
 					highlight={true}
 				/>
-			</svelte:fragment>
-			<svelte:fragment slot="two" />
+			{/snippet}
+			{#snippet two()}{/snippet}
 		</Grid>
-	</svelte:fragment>
+	{/snippet}
 </FromTo>
 
 <datalist id={`${alias}-list`}>

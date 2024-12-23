@@ -1,5 +1,4 @@
 <script>
-	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
 
 	import i18n from '$lib/i18n.js';
@@ -25,7 +24,6 @@
 
 	let fromPlaceholder = 'e.g. EUR';
 	let toPlaceholder = 'e.g. USD';
-	let shouldUpdateHistory = false;
 
 	const initialFromCurrency = $page.url.searchParams.get('from[currency]')
 		? decodeURIComponent($page.url.searchParams.get('from[currency]'))
@@ -33,85 +31,74 @@
 	const initialFromAmount = $page.url.searchParams.get('from[amount]')
 		? decodeURIComponent($page.url.searchParams.get('from[amount]'))
 		: '1.0';
-	const from = {
+	const stateFrom = $state({
 		currency: initialFromCurrency,
 		amount: initialFromAmount,
 		shouldValidateCurrency: initialFromCurrency ? true : false,
 		shouldValidateAmount: initialFromAmount ? true : false
-	};
+	});
 
 	const initialToCurrency = $page.url.searchParams.get('to[currency]')
 		? decodeURIComponent($page.url.searchParams.get('to[currency]'))
 		: null;
-	const to = {
+	const stateTo = $state({
 		currency: initialToCurrency,
 		shouldValidateCurrency: initialToCurrency ? true : false
-	};
+	});
 
-	const data = $page.data.result
-		? {
-				[from.currency]: $page.data.result
-			}
-		: {};
+	const data = $state(
+		$page.data.result
+			? {
+					[stateFrom.currency]: $page.data.result
+				}
+			: {}
+	);
 
-	$: {
-		if (browser && shouldUpdateHistory) {
-			history.replaceState(
-				null,
-				null,
-				`?from[currency]=${from.currency || ''}&from[amount]=${from.amount || ''}&to[currency]=${
-					to.currency || ''
-				}`
-			);
-		}
-
-		shouldUpdateHistory = true;
-	}
-
-	$: fromCurrencyIsValid = supportedCurrencyIds.includes(from.currency);
-	$: fromAmountIsValid = !Number.isNaN(parseFloat(from.amount));
-	$: toCurrencyIsValid = supportedCurrencyIds.includes(to.currency);
-	$: convertedAmount =
+	let fromCurrencyIsValid = $derived(supportedCurrencyIds.includes(stateFrom.currency));
+	let fromAmountIsValid = $derived(!Number.isNaN(parseFloat(stateFrom.amount)));
+	let toCurrencyIsValid = $derived(supportedCurrencyIds.includes(stateTo.currency));
+	let convertedAmount = $derived(
 		fromCurrencyIsValid &&
-		fromAmountIsValid &&
-		toCurrencyIsValid &&
-		data[from.currency] &&
-		data[from.currency][to.currency]
-			? (parseFloat(from.amount) * data[from.currency][to.currency].value).toFixed(2)
-			: '-';
+			fromAmountIsValid &&
+			toCurrencyIsValid &&
+			data[stateFrom.currency] &&
+			data[stateFrom.currency][stateTo.currency]
+			? (parseFloat(stateFrom.amount) * data[stateFrom.currency][stateTo.currency].value).toFixed(2)
+			: '-'
+	);
 
 	function toggleDirection() {
-		const oldFrom = from.currency;
+		const oldFrom = stateFrom.currency;
 
-		from.currency = to.currency;
-		to.currency = oldFrom;
+		stateFrom.currency = stateTo.currency;
+		stateTo.currency = oldFrom;
 
-		if (supportedCurrencyIds.includes(from.currency)) {
-			fetchCurrencies(from.currency);
+		if (supportedCurrencyIds.includes(stateFrom.currency)) {
+			fetchCurrencies(stateFrom.currency);
 		}
 	}
 
 	async function onFromCurrencySelect({ detail }) {
-		from.currency = detail.toUpperCase();
+		stateFrom.currency = detail.toUpperCase();
 
-		if (supportedCurrencyIds.includes(from.currency)) {
-			fetchCurrencies(from.currency);
+		if (supportedCurrencyIds.includes(stateFrom.currency)) {
+			fetchCurrencies(stateFrom.currency);
 		}
 
-		from.shouldValidateCurrency = false;
+		stateFrom.shouldValidateCurrency = false;
 	}
 
 	function onFromCurrencyChange() {
-		from.shouldValidateCurrency = true;
+		stateFrom.shouldValidateCurrency = true;
 	}
 
 	function onToCurrencySelect({ detail }) {
-		to.currency = detail.toUpperCase();
-		to.shouldValidateCurrency = false;
+		stateTo.currency = detail.toUpperCase();
+		stateTo.shouldValidateCurrency = false;
 	}
 
 	function onToCurrencyChange() {
-		to.shouldValidateCurrency = true;
+		stateTo.shouldValidateCurrency = true;
 	}
 
 	async function fetchCurrencies(currency) {
@@ -129,22 +116,22 @@
 </script>
 
 <FromTo>
-	<svelte:fragment slot="from">
+	{#snippet from()}
 		<Grid>
-			<svelte:fragment slot="one">
+			{#snippet one()}
 				<Input
 					list="currencyList"
 					id="currencies-from_currency"
 					name="from[currency]"
 					placeholder={fromPlaceholder}
 					label={i18n.currencies.labels.currency}
-					invalid={from.shouldValidateCurrency && !fromCurrencyIsValid}
-					bind:value={from.currency}
+					invalid={stateFrom.shouldValidateCurrency && !fromCurrencyIsValid}
+					bind:value={stateFrom.currency}
 					on:input={onFromCurrencySelect}
 					on:change={onFromCurrencyChange}
 				/>
-			</svelte:fragment>
-			<svelte:fragment slot="two">
+			{/snippet}
+			{#snippet two()}
 				<Input
 					name="from[amount]"
 					type="text"
@@ -152,46 +139,46 @@
 					id="currencies-from_amount"
 					placeholder="e.g. 12.99"
 					label={i18n.currencies.labels.amount}
-					invalid={from.shouldValidateAmount && !fromAmountIsValid}
-					bind:value={from.amount}
+					invalid={stateFrom.shouldValidateAmount && !fromAmountIsValid}
+					bind:value={stateFrom.amount}
 					on:input={({ detail }) => {
-						from.amount = detail;
-						from.shouldValidateAmount = false;
+						stateFrom.amount = detail;
+						stateFrom.shouldValidateAmount = false;
 					}}
-					on:change={() => (from.shouldValidateAmount = true)}
+					on:change={() => (stateFrom.shouldValidateAmount = true)}
 				/>
-			</svelte:fragment>
+			{/snippet}
 		</Grid>
-	</svelte:fragment>
-	<svelte:fragment slot="divider">
+	{/snippet}
+	{#snippet divider()}
 		{#if fromCurrencyIsValid && toCurrencyIsValid}
-			{#if data[from.currency] && data[from.currency][to.currency]}
-				<Multiplier value={data[from.currency][to.currency].value.toFixed(4)} />
+			{#if data[stateFrom.currency] && data[stateFrom.currency][stateTo.currency]}
+				<Multiplier value={data[stateFrom.currency][stateTo.currency].value.toFixed(4)} />
 				<DirectionToggle on:click={toggleDirection} />
 			{/if}
 		{/if}
-	</svelte:fragment>
-	<svelte:fragment slot="to">
+	{/snippet}
+	{#snippet to()}
 		<Grid>
-			<svelte:fragment slot="one">
+			{#snippet one()}
 				<Input
 					name="to[currency]"
 					list="currencyList"
 					id="currencies-to_currency"
 					placeholder={toPlaceholder}
 					label={i18n.currencies.labels.currency}
-					invalid={to.shouldValidateCurrency && !toCurrencyIsValid}
-					bind:value={to.currency}
+					invalid={stateTo.shouldValidateCurrency && !toCurrencyIsValid}
+					bind:value={stateTo.currency}
 					on:input={onToCurrencySelect}
 					on:change={onToCurrencyChange}
 				/>
 				<Button />
-			</svelte:fragment>
-			<svelte:fragment slot="two">
+			{/snippet}
+			{#snippet two()}
 				<Result label={i18n.currencies.labels.amount} result={convertedAmount} highlight={true} />
-			</svelte:fragment>
+			{/snippet}
 		</Grid>
-	</svelte:fragment>
+	{/snippet}
 </FromTo>
 
 <SupportedUnits

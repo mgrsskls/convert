@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
 	import i18n from '$lib/i18n.js';
 
 	export const load = ({ url }) => {
@@ -16,8 +16,15 @@
 <script>
 	import { page } from '$app/stores';
 	import Layout from '$lib/components/layout.svelte';
+	/**
+	 * @typedef {Object} Props
+	 * @property {import('svelte').Snippet} [children]
+	 */
+
+	/** @type {Props} */
+	let { children } = $props();
 </script>
 
 <Layout alias={$page.data.alias} title={$page.data.title} description={$page.data.description}>
-	<slot />
+	{@render children?.()}
 </Layout>

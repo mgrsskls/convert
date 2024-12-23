@@ -1,10 +1,16 @@
 <script>
 	import { onMount } from 'svelte';
 
-	export let type;
-	export let label = 'Convert';
+	/**
+	 * @typedef {Object} Props
+	 * @property {any} type
+	 * @property {string} [label]
+	 */
 
-	let renderButton = true;
+	/** @type {Props} */
+	let { type, label = 'Convert' } = $props();
+
+	let renderButton = $state(true);
 
 	onMount(() => {
 		renderButton = false;

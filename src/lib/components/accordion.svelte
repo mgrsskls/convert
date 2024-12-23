@@ -1,6 +1,14 @@
 <script>
-	export let id = '';
-	export let open = false;
+	/**
+	 * @typedef {Object} Props
+	 * @property {string} [id]
+	 * @property {boolean} [open]
+	 * @property {import('svelte').Snippet} [title]
+	 * @property {import('svelte').Snippet} [content]
+	 */
+
+	/** @type {Props} */
+	let { id = '', open = false, title, content } = $props();
 
 	function onSummaryClick(e) {
 		const target = e.target;
@@ -9,8 +17,8 @@
 </script>
 
 <details {id} {open}>
-	<summary on:click={onSummaryClick}><slot name="title" /></summary>
-	<slot name="content" />
+	<summary onclick={onSummaryClick}>{@render title?.()}</summary>
+	{@render content?.()}
 </details>
 
 <style>

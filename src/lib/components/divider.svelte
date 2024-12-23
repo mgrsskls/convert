@@ -1,8 +1,18 @@
+<script>
+	/**
+	 * @typedef {Object} Props
+	 * @property {import('svelte').Snippet} [children]
+	 */
+
+	/** @type {Props} */
+	let { children } = $props();
+</script>
+
 <div class="Divider">
 	<span class="Divider-arrow Divider-arrow--right" aria-hidden="true">→</span>
 	<span class="Divider-arrow Divider-arrow--down" aria-hidden="true">↓</span>
 	<div class="Divider-content">
-		<slot />
+		{@render children?.()}
 	</div>
 </div>
 

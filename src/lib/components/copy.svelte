@@ -1,9 +1,9 @@
 <script>
 	import { fade } from 'svelte/transition';
 
-	let copied = false;
+	let copied = $state(false);
 
-	export let value;
+	let { value } = $props();
 
 	function copy() {
 		navigator.clipboard.writeText(value).then(
@@ -22,7 +22,7 @@
 </script>
 
 <span class="Copy">
-	<button aria-label="Copy the value to clipboard" type="button" on:click={copy}>
+	<button aria-label="Copy the value to clipboard" type="button" onclick={copy}>
 		{@html value}
 		<svg
 			class:is-copied={copied}
@@ -133,7 +133,7 @@
 			transition: 0.1s opacity ease;
 		}
 
-		button:where(:hover, :focus-visible) .Copy-icon {
+		button:where(:global(:hover, :focus-visible)) .Copy-icon {
 			opacity: 1;
 		}
 	}

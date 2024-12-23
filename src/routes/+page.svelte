@@ -48,7 +48,7 @@
 		transition: 0.1s all ease;
 		opacity: 0.5;
 	}
-	a:where(:hover, :focus)::after {
+	a:where(:global(:hover, :focus))::after {
 		transition: 0.25s all ease;
 		color: var(--color-accent);
 		opacity: 1;
@@ -59,7 +59,7 @@
 		transition: 0.1s all ease;
 	}
 
-	a:where(:hover, :focus) span {
+	a:where(:global(:hover, :focus)) span {
 		transform: translateX(0.5rem);
 		transition: 0.25s all ease;
 	}

@@ -1,12 +1,17 @@
 <script>
-	export let label;
-	export let result;
-	export let raw = null;
-	export let wrap = false;
-	export let highlight = false;
-	export let isCode = false;
-
 	import Copy from '$lib/components/copy.svelte';
+	/**
+	 * @typedef {Object} Props
+	 * @property {any} label
+	 * @property {any} result
+	 * @property {any} [raw]
+	 * @property {boolean} [wrap]
+	 * @property {boolean} [highlight]
+	 * @property {boolean} [isCode]
+	 */
+
+	/** @type {Props} */
+	let { label, result, raw = null, wrap = false, highlight = false, isCode = false } = $props();
 </script>
 
 <dl>

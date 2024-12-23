@@ -1,5 +1,5 @@
 <script>
-	import { browser } from '$app/environment';
+	import { run } from 'svelte/legacy';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
@@ -12,91 +12,18 @@
 	import SupportedUnits from '$lib/components/supported-units.svelte';
 	import w3color from './w3color.js';
 
-	const initialStringColor = $page.url.searchParams.get('string')
-		? decodeURIComponent($page.url.searchParams.get('string'))
-		: '';
+	const initialStringColor = '';
 
-	const initialPickerColor = $page.url.searchParams.get('picker')
-		? decodeURIComponent($page.url.searchParams.get('picker'))
-		: '';
+	const initialPickerColor = '';
 
-	let color = initialStringColor || initialPickerColor || '';
+	let color = $state('');
 
-	let colorFromString = initialStringColor;
-	let colorFromPicker = initialPickerColor;
-	let shouldValidate = color ? true : false;
-	let shouldUpdateHistory = false;
-	let bgColor = '';
+	let colorFromString = $state(initialStringColor);
+	let colorFromPicker = $state(initialPickerColor);
+	let shouldValidate = $state(false);
+	let bgColor = $state('');
 
 	const lowercaseHtmlNames = htmlNames.map((name) => name.toLowerCase());
-
-	$: types = [
-		{
-			label: 'HTML Name',
-			value: htmlName
-		},
-		{
-			label: 'RGB',
-			value: rgb
-		},
-		{
-			label: 'RGBA',
-			value: rgba
-		},
-		{
-			label: 'Hex',
-			value: hex
-		},
-		{
-			label: 'HSL',
-			value: hsl
-		},
-		{
-			label: 'HSLA',
-			value: hsla
-		},
-		{
-			label: 'HWB',
-			value: hwb
-		},
-		{
-			label: 'CMYK',
-			value: cmyk
-		}
-	];
-
-	$: {
-		if (browser && shouldUpdateHistory) {
-			history.replaceState(
-				null,
-				'',
-				`?string=${encodeURIComponent(colorFromString)}&picker=${encodeURIComponent(
-					colorFromPicker
-				)}`
-			);
-		}
-
-		shouldUpdateHistory = true;
-	}
-
-	$: color = colorFromString || colorFromPicker;
-	$: w3colorResult = new w3color(fixedColor);
-	$: fixedColor = ['RGB', 'RGBA'].includes(colorSpace) ? rgbOrRgbaWithNamespace : color;
-	$: colorSpace = color ? getColorSpace(color) : '-';
-	$: rgbOrRgbaWithNamespace = ['RGB', 'RGBA'].includes(colorSpace)
-		? wrapRgbWithoutPrefix(color)
-		: color;
-	$: isValid = isValidColor(w3colorResult, color);
-	$: matchesBackground = colorMatchesBackground(result, new w3color(bgColor));
-	$: result = isValid ? w3colorResult : null;
-	$: htmlName = result ? (result.opacity === 1 ? result.toName() || '-' : '-') : '-';
-	$: rgb = result ? (result.opacity === 1 ? result.toRgbString() : '-') : '-';
-	$: rgba = result ? result.toRgbaString() : '-';
-	$: hex = result ? (result.opacity === 1 ? result.toHexString() : '-') : '-';
-	$: hsl = result ? (result.opacity === 1 ? result.toHslString() : '-') : '-';
-	$: hsla = result ? result.toHslaString() : '-';
-	$: hwb = result ? result.toHwbString() : '-';
-	$: cmyk = result ? (result.opacity === 1 ? result.toCmykString() : '-') : '-';
 
 	onMount(() => {
 		bgColor = window.getComputedStyle(document.documentElement).getPropertyValue('--color-bg');
@@ -198,10 +125,64 @@
 
 		return matches.every((entry) => entry === true);
 	}
+	$effect.pre(() => {
+		color = colorFromString || colorFromPicker;
+	});
+	let colorSpace = $derived(color ? getColorSpace(color) : '-');
+	let rgbOrRgbaWithNamespace = $derived(
+		['RGB', 'RGBA'].includes(colorSpace) ? wrapRgbWithoutPrefix(color) : color
+	);
+	let fixedColor = $derived(['RGB', 'RGBA'].includes(colorSpace) ? rgbOrRgbaWithNamespace : color);
+	let w3colorResult = $derived(new w3color(fixedColor));
+	let isValid = $derived(isValidColor(w3colorResult, color));
+	let result = $derived(isValid ? w3colorResult : null);
+	let htmlName = $derived(result ? (result.opacity === 1 ? result.toName() || '-' : '-') : '-');
+	let rgb = $derived(result ? (result.opacity === 1 ? result.toRgbString() : '-') : '-');
+	let rgba = $derived(result ? result.toRgbaString() : '-');
+	let hex = $derived(result ? (result.opacity === 1 ? result.toHexString() : '-') : '-');
+	let hsl = $derived(result ? (result.opacity === 1 ? result.toHslString() : '-') : '-');
+	let hsla = $derived(result ? result.toHslaString() : '-');
+	let hwb = $derived(result ? result.toHwbString() : '-');
+	let cmyk = $derived(result ? (result.opacity === 1 ? result.toCmykString() : '-') : '-');
+	let types = $derived([
+		{
+			label: 'HTML Name',
+			value: htmlName
+		},
+		{
+			label: 'RGB',
+			value: rgb
+		},
+		{
+			label: 'RGBA',
+			value: rgba
+		},
+		{
+			label: 'Hex',
+			value: hex
+		},
+		{
+			label: 'HSL',
+			value: hsl
+		},
+		{
+			label: 'HSLA',
+			value: hsla
+		},
+		{
+			label: 'HWB',
+			value: hwb
+		},
+		{
+			label: 'CMYK',
+			value: cmyk
+		}
+	]);
+	let matchesBackground = $derived(colorMatchesBackground(result, new w3color(bgColor)));
 </script>
 
 <FromTo flex1="0 0 25rem">
-	<svelte:fragment slot="from">
+	{#snippet from()}
 		<div class="ColorInput">
 			<Input
 				id="color-from-string"
@@ -240,8 +221,8 @@
 			/>
 		</div>
 		<Button />
-	</svelte:fragment>
-	<svelte:fragment slot="divider">
+	{/snippet}
+	{#snippet divider()}
 		<span
 			class="ColorDisplay"
 			class:matches-background={matchesBackground}
@@ -249,8 +230,8 @@
 		>
 			AaBbCc
 		</span>
-	</svelte:fragment>
-	<svelte:fragment slot="to">
+	{/snippet}
+	{#snippet to()}
 		<div class="Values">
 			{#each types as { label, value }}
 				<div class="Values-entry">
@@ -258,8 +239,8 @@
 				</div>
 			{/each}
 		</div>
-	</svelte:fragment>
-	<svelte:fragment slot="support">
+	{/snippet}
+	{#snippet support()}
 		<SupportedUnits
 			title="colors"
 			block={true}
@@ -274,12 +255,12 @@
 				'<b>CMYK</b> like <code>cmyk(0%, 0%, 0%, 100%)</code>'
 			]}
 		/>
-	</svelte:fragment>
+	{/snippet}
 </FromTo>
 
 <datalist id="htmlNames">
 	{#each htmlNames as name}
-		<option value={name} />
+		<option value={name}></option>
 	{/each}
 </datalist>
 

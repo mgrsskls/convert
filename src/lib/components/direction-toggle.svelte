@@ -1,8 +1,11 @@
 <script>
+	import { createBubbler } from 'svelte/legacy';
+
+	const bubble = createBubbler();
 	import { onMount } from 'svelte';
 	import i18n from '$lib/i18n.js';
 
-	let render = false;
+	let render = $state(false);
 
 	onMount(() => {
 		render = true;
@@ -10,7 +13,7 @@
 </script>
 
 {#if render}
-	<button type="button" class="ToggleDirection" on:click
+	<button type="button" class="ToggleDirection" onclick={bubble('click')}
 		>{i18n.changeDirection}
 		<span class="ToggleDirection-arrow ToggleDirection-arrow--horizontal" aria-hidden="true">⇄</span
 		>

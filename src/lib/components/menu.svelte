@@ -2,9 +2,9 @@
 	import menu from '$lib/menu.js';
 	import i18n from '$lib/i18n.js';
 
-	export let current;
+	let { current } = $props();
 
-	let menuElement;
+	let menuElement = $state();
 
 	function closeMenu() {
 		menuElement.open = false;
@@ -20,7 +20,7 @@
 					<a
 						href={item.path}
 						aria-current={current === item.alias ? 'page' : 'false'}
-						on:click={closeMenu}
+						onclick={closeMenu}
 					>
 						{item.label}
 					</a>
@@ -31,7 +31,7 @@
 					data-sveltekit-reload
 					href="/about-convert/"
 					aria-current={current === 'about-convert/' ? 'page' : 'false'}
-					on:click={closeMenu}
+					onclick={closeMenu}
 				>
 					{i18n['about-convert'].title}
 				</a>
@@ -53,7 +53,7 @@
 				data-sveltekit-reload
 				href="/about-convert/"
 				aria-current={current === 'about-convert/' ? 'page' : 'false'}
-				on:click={closeMenu}
+				onclick={closeMenu}
 			>
 				{i18n['about-convert'].title}
 			</a>

@@ -1,5 +1,5 @@
 <script>
-	import { browser } from '$app/environment';
+	// import { replaceState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import BigNumber from 'bignumber.js';
 	import Big from 'big.js';
@@ -13,14 +13,25 @@
 	import DirectionToggle from '$lib/components/direction-toggle.svelte';
 	import Button from '$lib/components/button.svelte';
 
-	export let alias;
-	export let names = {};
-	export let abbr = null;
-	export let conversions = {};
-	export let roundResults = false;
-	export let pageName;
+	/**
+	 * @typedef {Object} Props
+	 * @property {any} alias
+	 * @property {any} [names]
+	 * @property {any} [abbr]
+	 * @property {any} [conversions]
+	 * @property {boolean} [roundResults]
+	 * @property {any} pageName
+	 */
 
-	let shouldUpdateHistory = false;
+	/** @type {Props} */
+	let {
+		alias,
+		names = {},
+		abbr = null,
+		conversions = {},
+		roundResults = false,
+		pageName
+	} = $props();
 
 	const initialFromUnit = $page.url.searchParams.get(`${alias}[from][unit]`)
 		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][unit]`))
@@ -28,20 +39,20 @@
 	const initialFromValue = $page.url.searchParams.get(`${alias}[from][value]`)
 		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][value]`))
 		: null;
-	const from = {
+	const stateFrom = $state({
 		unit: initialFromUnit,
 		shouldValidateUnit: initialFromUnit ? true : false,
 		value: initialFromValue,
 		shouldValidateValue: initialFromValue ? true : false
-	};
+	});
 
 	const initialToUnit = $page.url.searchParams.get(`${alias}[to][unit]`)
 		? decodeURIComponent($page.url.searchParams.get(`${alias}[to][unit]`))
 		: '';
-	const to = {
+	const stateTo = $state({
 		unit: initialToUnit,
 		shouldValidateUnit: initialToUnit ? true : false
-	};
+	});
 
 	const units = Object.entries(names).map((entry) => ({
 		value: entry[0],
@@ -49,35 +60,11 @@
 	}));
 	const unitValues = units.map((unit) => unit.value);
 
-	$: {
-		if (browser && shouldUpdateHistory) {
-			history.replaceState(
-				null,
-				null,
-				`?type=${alias}&${alias}[from][unit]=${from.unit || ''}&${alias}[from][value]=${
-					from.value || ''
-				}&${alias}[to][unit]=${to.unit || ''}`
-			);
-		}
-
-		shouldUpdateHistory = true;
-	}
-
-	$: fromUnitIsValid = unitValues.includes(from.unit);
-	$: fromValueIsValid = !Number.isNaN(parseFloat(from.value));
-	$: toUnitIsValid = unitValues.includes(to.unit);
-	$: result =
-		fromValueIsValid && from.unit && to.unit
-			? calcResult(from.unit, parseFloat(from.value), to.unit)
-			: null;
-	$: useExponential = shouldUseExponential(result, rawResult, roundResults);
-	$: rawResult = getFormattedResult(result, roundResults) || '-';
-
 	function toggleDirection() {
-		const oldFrom = from.unit;
+		const oldFrom = stateFrom.unit;
 
-		from.unit = to.unit;
-		to.unit = oldFrom;
+		stateFrom.unit = stateTo.unit;
+		stateTo.unit = oldFrom;
 	}
 
 	function calcResult(fromUnit, fromValue, toUnit) {
@@ -125,31 +112,41 @@
 
 		return false;
 	}
+	let fromUnitIsValid = $derived(unitValues.includes(stateFrom.unit));
+	let fromValueIsValid = $derived(!Number.isNaN(parseFloat(stateFrom.value)));
+	let toUnitIsValid = $derived(unitValues.includes(stateTo.unit));
+	let result = $derived(
+		fromValueIsValid && stateFrom.unit && stateTo.unit
+			? calcResult(stateFrom.unit, parseFloat(stateFrom.value), stateTo.unit)
+			: null
+	);
+	let rawResult = $derived(getFormattedResult(result, roundResults) || '-');
+	let useExponential = $derived(shouldUseExponential(result, rawResult, roundResults));
 </script>
 
 <FromTo action={`#${alias}`}>
-	<svelte:fragment slot="from">
+	{#snippet from()}
 		<input type="hidden" name="type" value={alias} />
 		<Grid>
-			<svelte:fragment slot="one">
+			{#snippet one()}
 				<Input
 					name={`${alias}[from][unit]`}
 					label={i18n[pageName].labels.unit}
 					id={`${alias}-from-unit`}
 					options={units}
-					invalid={from.shouldValidateUnit && !fromUnitIsValid}
-					bind:value={from.unit}
+					invalid={stateFrom.shouldValidateUnit && !fromUnitIsValid}
+					bind:value={stateFrom.unit}
 					on:change={({ detail }) => {
-						from.unit = detail;
-						from.shouldValidateUnit = true;
+						stateFrom.unit = detail;
+						stateFrom.shouldValidateUnit = true;
 
 						if (units.length === 2) {
-							to.unit = units.find((unit) => unit.value != detail).value;
+							stateTo.unit = units.find((unit) => unit.value != detail).value;
 						}
 					}}
 				/>
-			</svelte:fragment>
-			<svelte:fragment slot="two">
+			{/snippet}
+			{#snippet two()}
 				<Input
 					name={`${alias}[from][value]`}
 					type="text"
@@ -157,45 +154,45 @@
 					id={`${alias}-from-value`}
 					placeholder={i18n[pageName][alias].placeholders.value}
 					label={i18n[pageName].labels.value}
-					value={from.value}
-					invalid={from.shouldValidateValue && !fromValueIsValid}
+					value={stateFrom.value}
+					invalid={stateFrom.shouldValidateValue && !fromValueIsValid}
 					on:input={({ detail }) => {
-						from.value = detail;
-						from.shouldValidateValue = false;
+						stateFrom.value = detail;
+						stateFrom.shouldValidateValue = false;
 					}}
 					on:change={() => {
-						from.shouldValidateValue = true;
+						stateFrom.shouldValidateValue = true;
 					}}
 				/>
-			</svelte:fragment>
+			{/snippet}
 		</Grid>
-	</svelte:fragment>
-	<svelte:fragment slot="divider">
-		{#if from.unit && to.unit}
-			{#if conversions[from.unit] && conversions[from.unit][to.unit] && typeof conversions[from.unit][to.unit] !== 'function'}
-				<Multiplier value={new BigNumber(conversions[from.unit][to.unit]).toFormat()} />
+	{/snippet}
+	{#snippet divider()}
+		{#if stateFrom.unit && stateTo.unit}
+			{#if conversions[stateFrom.unit] && conversions[stateFrom.unit][stateTo.unit] && typeof conversions[stateFrom.unit][stateTo.unit] !== 'function'}
+				<Multiplier value={new BigNumber(conversions[stateFrom.unit][stateTo.unit]).toFormat()} />
 			{/if}
 			<DirectionToggle on:click={toggleDirection} />
 		{/if}
-	</svelte:fragment><svelte:fragment />
-	<svelte:fragment slot="to">
+	{/snippet}
+	{#snippet to()}
 		<Grid>
-			<svelte:fragment slot="one">
+			{#snippet one()}
 				<Input
 					name={`${alias}[to][unit]`}
 					label={i18n[pageName].labels.unit}
 					id={`${alias}-to-unit`}
 					options={units}
-					invalid={to.shouldValidateUnit && !toUnitIsValid}
-					bind:value={to.unit}
+					invalid={stateTo.shouldValidateUnit && !toUnitIsValid}
+					bind:value={stateTo.unit}
 					on:change={({ detail }) => {
-						to.unit = detail;
-						to.shouldValidateUnit = true;
+						stateTo.unit = detail;
+						stateTo.shouldValidateUnit = true;
 					}}
 				/>
 				<Button />
-			</svelte:fragment>
-			<svelte:fragment slot="two">
+			{/snippet}
+			{#snippet two()}
 				<Result
 					wrap={true}
 					label={i18n[pageName].labels.value}
@@ -203,7 +200,7 @@
 					raw={useExponential ? rawResult : null}
 					highlight={true}
 				/>
-			</svelte:fragment>
+			{/snippet}
 		</Grid>
-	</svelte:fragment>
+	{/snippet}
 </FromTo>

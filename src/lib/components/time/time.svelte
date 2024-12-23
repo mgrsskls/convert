@@ -18,7 +18,7 @@
 		entry.toLowerCase().replace(/_/g, ' ')
 	]);
 
-	let currentLocalTime = new Date();
+	let currentLocalTime = $state(new Date());
 	let getCurrentTime = true;
 
 	useCurrentLocalTime();
@@ -39,11 +39,11 @@
 </script>
 
 <Accordion open={open === 'time-zone-to-time-zone'} id="time-zone-to-time-zone">
-	<svelte:fragment slot="title">
+	{#snippet title()}
 		Time Zone <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span
 		> Time Zone
-	</svelte:fragment>
-	<svelte:fragment slot="content">
+	{/snippet}
+	{#snippet content()}
 		<Section
 			options={{
 				alias: 'time-zone-to-time-zone',
@@ -56,14 +56,14 @@
 			}}
 			{currentLocalTime}
 		/>
-	</svelte:fragment>
+	{/snippet}
 </Accordion>
 <Accordion open={open === 'utc-to-time-zone'} id="utc-to-time-zone">
-	<svelte:fragment slot="title">
+	{#snippet title()}
 		UTC <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span> Time
 		Zone
-	</svelte:fragment>
-	<svelte:fragment slot="content">
+	{/snippet}
+	{#snippet content()}
 		<Section
 			options={{
 				alias: 'utc-to-time-zone',
@@ -76,15 +76,15 @@
 			}}
 			{currentLocalTime}
 		/>
-	</svelte:fragment>
+	{/snippet}
 </Accordion>
 <Accordion open={open === 'timestamp-to-time-zone'} id="timestamp-to-time-zone">
-	<svelte:fragment slot="title">
+	{#snippet title()}
 		UNIX Timestamp <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true"
 			>→</span
 		> Time Zone
-	</svelte:fragment>
-	<svelte:fragment slot="content">
+	{/snippet}
+	{#snippet content()}
 		<Section
 			options={{
 				alias: 'timestamp-to-time-zone',
@@ -96,14 +96,14 @@
 			}}
 			{currentLocalTime}
 		/>
-	</svelte:fragment>
+	{/snippet}
 </Accordion>
 <Accordion open={open === 'time-zone-to-utc'} id="time-zone-to-utc">
-	<svelte:fragment slot="title">
+	{#snippet title()}
 		Time Zone <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span
 		> UTC
-	</svelte:fragment>
-	<svelte:fragment slot="content">
+	{/snippet}
+	{#snippet content()}
 		<Section
 			options={{
 				alias: 'time-zone-to-utc',
@@ -116,15 +116,15 @@
 			}}
 			{currentLocalTime}
 		/>
-	</svelte:fragment>
+	{/snippet}
 </Accordion>
 <Accordion open={open === 'timestamp-to-utc'} id="timestamp-to-utc">
-	<svelte:fragment slot="title">
+	{#snippet title()}
 		UNIX Timestamp <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true"
 			>→</span
 		> UTC
-	</svelte:fragment>
-	<svelte:fragment slot="content">
+	{/snippet}
+	{#snippet content()}
 		<Section
 			options={{
 				alias: 'timestamp-to-utc',
@@ -136,14 +136,14 @@
 			}}
 			{currentLocalTime}
 		/>
-	</svelte:fragment>
+	{/snippet}
 </Accordion>
 <Accordion open={open === 'time-zone-to-timestamp'} id="time-zone-to-timestamp">
-	<svelte:fragment slot="title">
+	{#snippet title()}
 		Time Zone <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span
 		> UNIX Timestamp
-	</svelte:fragment>
-	<svelte:fragment slot="content">
+	{/snippet}
+	{#snippet content()}
 		<Section
 			options={{
 				alias: 'time-zone-to-timestamp',
@@ -155,14 +155,14 @@
 			}}
 			{currentLocalTime}
 		/>
-	</svelte:fragment>
+	{/snippet}
 </Accordion>
 <Accordion open={open === 'utc-to-timestamp'} id="utc-to-timestamp">
-	<svelte:fragment slot="title">
+	{#snippet title()}
 		UTC <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span> UNIX
 		Timestamp
-	</svelte:fragment>
-	<svelte:fragment slot="content">
+	{/snippet}
+	{#snippet content()}
 		<Section
 			options={{
 				alias: 'utc-to-timestamp',
@@ -174,7 +174,7 @@
 			}}
 			{currentLocalTime}
 		/>
-	</svelte:fragment>
+	{/snippet}
 </Accordion>
 
 <SupportedUnits supported={list} title="IANA time zone names" />

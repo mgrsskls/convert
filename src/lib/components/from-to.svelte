@@ -3,25 +3,35 @@
 	import Box from './box.svelte';
 	import Divider from './divider.svelte';
 
-	export let action = null;
-	export let flex1 = '';
-	export let flex2 = '';
+	/**
+	 * @typedef {Object} Props
+	 * @property {any} [action]
+	 * @property {string} [flex1]
+	 * @property {string} [flex2]
+	 * @property {import('svelte').Snippet} [from]
+	 * @property {import('svelte').Snippet} [divider]
+	 * @property {import('svelte').Snippet} [to]
+	 * @property {import('svelte').Snippet} [support]
+	 */
+
+	/** @type {Props} */
+	let { action = null, flex1 = '', flex2 = '', from, divider, to, support } = $props();
 </script>
 
 <div class="FromTo">
 	<form {action} class="FromTo-form" style:--flex-1={flex1} style:--flex-2={flex2}>
 		<Box tag="fieldset" title={i18n.from}>
-			<slot name="from" />
+			{@render from?.()}
 		</Box>
 		<Divider>
-			<slot name="divider" />
+			{@render divider?.()}
 		</Divider>
 		<Box tag="fieldset" title={i18n.to}>
-			<slot name="to" />
+			{@render to?.()}
 		</Box>
 	</form>
 	<div class="FromTo-supported">
-		<slot name="support" />
+		{@render support?.()}
 	</div>
 </div>
 
