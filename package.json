@@ -21,7 +21,7 @@
 	"devDependencies": {
 		"@axe-core/cli": "^4.10.2",
 		"@sveltejs/adapter-netlify": "^5.0.2",
-		"@sveltejs/kit": "2.22.0",
+		"@sveltejs/kit": "2.22.2",
 		"@sveltejs/vite-plugin-svelte": "^5.1.0",
 		"@tsconfig/svelte": "^5.0.4",
 		"chromedriver": "^137.0.4",
