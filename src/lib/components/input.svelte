@@ -93,7 +93,7 @@
 					aria-invalid={invalid}
 					onchange={onChange}
 				>
-					<option value="" disabled hidden>Please choose</option>
+					<option value="">Please choose</option>
 					{#each options as option}
 						<option value={option.value} selected={value === option.value}>{option.label}</option>
 					{/each}
