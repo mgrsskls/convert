@@ -132,9 +132,9 @@
 					]}
 					invalid={stateFrom.shouldValidateUnit && !fromUnitIsValid}
 					bind:value={stateFrom.unit}
-					on:change={({ detail }) => {
-						stateFrom.unit = detail;
-						stateFrom.shouldValidateUnit = detail.length > 0 ? true : false;
+					change={(value) => {
+						stateFrom.unit = value;
+						stateFrom.shouldValidateUnit = value.length > 0 ? true : false;
 					}}
 				/>
 			{/snippet}
@@ -148,11 +148,11 @@
 					label={i18n.cooking.ingredients.labels.amount}
 					value={stateFrom.value}
 					invalid={stateFrom.shouldValidateValue && !fromValueIsValid}
-					on:input={({ detail }) => {
+					input={(value) => {
 						stateFrom.shouldValidateValue = false;
-						stateFrom.value = detail;
+						stateFrom.value = value;
 					}}
-					on:change={() => {
+					change={() => {
 						stateFrom.shouldValidateValue = true;
 					}}
 				/>

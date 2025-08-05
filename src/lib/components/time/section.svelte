@@ -182,11 +182,11 @@
 							value={stateFrom.timeZone.value}
 							toggleLabel={i18n.time.toggle.timeZone}
 							invalid={stateFrom.timeZone.shouldValidate && !fromTimeZoneIsValid}
-							on:toggleReset={({ detail: checked }) => {
+							toggleReset={(checked) => {
 								if (checked) resetFromTimeZone();
 							}}
-							on:input={({ detail }) => {
-								setFromTimeZone(detail);
+							input={(value) => {
+								setFromTimeZone(value);
 							}}
 						/>
 					{:else}
@@ -203,19 +203,23 @@
 						placeholder={i18n.time.placeholders.unixTimestamp}
 						value={fromValue}
 						toggleLabel={i18n.time.toggle.timestamp}
-						on:toggleReset={({ detail: checked }) => {
+						toggleReset={(checked) => {
 							stateFrom.timestamp.changed = !checked;
 							stateFrom.timestamp.value =
 								typeof fromValue === 'string' ? parseInt(fromValue, 10) : fromValue;
 						}}
-						on:input={({ detail }) => {
-							stateFrom.timestamp.value = parseInt(detail, 10);
+						input={(value) => {
+							stateFrom.timestamp.value = parseInt(value, 10);
 							stateFrom.timestamp.changed = true;
 						}}
-						on:focus={() => {
+						focus={() => {
 							stateFrom.timestamp.changed = true;
-							stateFrom.timestamp.value =
-								typeof fromValue === 'string' ? parseInt(fromValue, 10) : fromValue;
+							if (fromValue) {
+								stateFrom.timestamp.value =
+									typeof fromValue === 'string' ? parseInt(fromValue, 10) : fromValue;
+							} else {
+								stateFrom.timestamp.value = Date.now();
+							}
 						}}
 					/>
 				{/if}
@@ -231,13 +235,13 @@
 						resetButtonIsVisible={stateFrom.datetime.changed}
 						value={fromDatetimeFormatted}
 						toggleLabel={i18n.time.toggle.datetime}
-						on:toggleReset={({ detail: checked }) => {
+						toggleReset={(checked) => {
 							stateFrom.datetime.changed = !checked;
 							stateFrom.datetime.value = fromDatetimeFormatted.toString();
 						}}
-						on:input={({ detail }) => {
+						input={(value) => {
 							stateFrom.datetime.changed = true;
-							stateFrom.datetime.value = detail;
+							stateFrom.datetime.value = value;
 						}}
 					/>
 				{/if}
@@ -266,7 +270,7 @@
 							placeholder={i18n.time.placeholders.timeZone.to}
 							value={stateTo.timeZone.value}
 							invalid={stateTo.timeZone.shouldValidate && !toTimeZoneIsValid}
-							on:input={({ detail }) => setToTimeZone(detail)}
+							input={(value) => setToTimeZone(value)}
 						/>
 						<Button />
 					{:else}

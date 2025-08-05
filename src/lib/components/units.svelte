@@ -136,12 +136,12 @@
 					options={units}
 					invalid={stateFrom.shouldValidateUnit && !fromUnitIsValid}
 					bind:value={stateFrom.unit}
-					on:change={({ detail }) => {
-						stateFrom.unit = detail;
+					change={(unitValue) => {
+						stateFrom.unit = unitValue;
 						stateFrom.shouldValidateUnit = true;
 
 						if (units.length === 2) {
-							stateTo.unit = units.find((unit) => unit.value != detail).value;
+							stateTo.unit = units.find((unit) => unit.value != unitValue).value;
 						}
 					}}
 				/>
@@ -156,11 +156,11 @@
 					label={i18n[pageName].labels.value}
 					value={stateFrom.value}
 					invalid={stateFrom.shouldValidateValue && !fromValueIsValid}
-					on:input={({ detail }) => {
-						stateFrom.value = detail;
+					input={(value) => {
+						stateFrom.value = value;
 						stateFrom.shouldValidateValue = false;
 					}}
-					on:change={() => {
+					change={() => {
 						stateFrom.shouldValidateValue = true;
 					}}
 				/>
@@ -185,8 +185,8 @@
 					options={units}
 					invalid={stateTo.shouldValidateUnit && !toUnitIsValid}
 					bind:value={stateTo.unit}
-					on:change={({ detail }) => {
-						stateTo.unit = detail;
+					change={(unit) => {
+						stateTo.unit = unit;
 						stateTo.shouldValidateUnit = true;
 					}}
 				/>

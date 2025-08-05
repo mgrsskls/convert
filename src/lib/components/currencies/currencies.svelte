@@ -78,8 +78,8 @@
 		}
 	}
 
-	async function onFromCurrencySelect({ detail }) {
-		stateFrom.currency = detail.toUpperCase();
+	async function onFromCurrencySelect(value) {
+		stateFrom.currency = value.toUpperCase();
 
 		if (supportedCurrencyIds.includes(stateFrom.currency)) {
 			fetchCurrencies(stateFrom.currency);
@@ -92,8 +92,8 @@
 		stateFrom.shouldValidateCurrency = true;
 	}
 
-	function onToCurrencySelect({ detail }) {
-		stateTo.currency = detail.toUpperCase();
+	function onToCurrencySelect(value) {
+		stateTo.currency = value.toUpperCase();
 		stateTo.shouldValidateCurrency = false;
 	}
 
@@ -127,8 +127,8 @@
 					label={i18n.currencies.labels.currency}
 					invalid={stateFrom.shouldValidateCurrency && !fromCurrencyIsValid}
 					bind:value={stateFrom.currency}
-					on:input={onFromCurrencySelect}
-					on:change={onFromCurrencyChange}
+					input={onFromCurrencySelect}
+					change={onFromCurrencyChange}
 				/>
 			{/snippet}
 			{#snippet two()}
@@ -141,11 +141,11 @@
 					label={i18n.currencies.labels.amount}
 					invalid={stateFrom.shouldValidateAmount && !fromAmountIsValid}
 					bind:value={stateFrom.amount}
-					on:input={({ detail }) => {
-						stateFrom.amount = detail;
+					input={(value) => {
+						stateFrom.amount = value;
 						stateFrom.shouldValidateAmount = false;
 					}}
-					on:change={() => (stateFrom.shouldValidateAmount = true)}
+					change={() => (stateFrom.shouldValidateAmount = true)}
 				/>
 			{/snippet}
 		</Grid>
@@ -169,8 +169,8 @@
 					label={i18n.currencies.labels.currency}
 					invalid={stateTo.shouldValidateCurrency && !toCurrencyIsValid}
 					bind:value={stateTo.currency}
-					on:input={onToCurrencySelect}
-					on:change={onToCurrencyChange}
+					input={onToCurrencySelect}
+					change={onToCurrencyChange}
 				/>
 				<Button />
 			{/snippet}

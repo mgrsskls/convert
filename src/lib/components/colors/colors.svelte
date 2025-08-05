@@ -192,12 +192,12 @@
 				name="string"
 				invalid={shouldValidate && color.length > 0 && !isValid}
 				value={colorFromString}
-				on:input={({ detail }) => {
+				input={(value) => {
 					shouldValidate = false;
-					colorFromString = detail;
+					colorFromString = value;
 					colorFromPicker = '';
 				}}
-				on:change={() => {
+				change={() => {
 					shouldValidate = true;
 				}}
 			/>
@@ -214,9 +214,9 @@
 				type="color"
 				required={false}
 				bind:value={colorFromPicker}
-				on:input={({ detail }) => {
+				input={(value) => {
 					colorFromString = '';
-					colorFromPicker = detail;
+					colorFromPicker = value;
 				}}
 			/>
 		</div>

@@ -2,10 +2,8 @@
 	import { createBubbler } from 'svelte/legacy';
 
 	const bubble = createBubbler();
-	import { onMount, createEventDispatcher } from 'svelte';
+	import { onMount } from 'svelte';
 	import i18n from '$lib/i18n.js';
-
-	const dispatch = createEventDispatcher();
 
 	let renderReset = $state(false);
 
@@ -48,6 +46,10 @@
 		name = null,
 		inputmode = null,
 		required = true,
+		input,
+		change,
+		toggleReset,
+		focus,
 		children
 	} = $props();
 
@@ -55,21 +57,32 @@
 	 * @param {Event} e
 	 */
 	function onInput(e) {
+		if (typeof input != 'function') return;
+
 		const target = e.target;
 
 		if (target) {
-			dispatch('input', type === 'number' ? parseFloat(target.value) : target.value);
+			input(type === 'number' ? parseFloat(target.value) : target.value);
 		}
 	}
 
 	function onChange(e) {
+		if (typeof change != 'function') return;
 		const target = e.target;
-		dispatch('change', type === 'number' ? parseFloat(target.value) : target.value);
+		change(type === 'number' ? parseFloat(target.value) : target.value);
+	}
+
+	function onFocus(e) {
+		if (typeof focus != 'function') return;
+
+		focus(e);
 	}
 
 	function onReset(e) {
+		if (typeof toggleReset != 'function') return;
+
 		const target = e.target;
-		dispatch('toggleReset', target.checked);
+		toggleReset(target.checked);
 	}
 
 	onMount(() => {
@@ -113,7 +126,7 @@
 					aria-invalid={invalid}
 					oninput={onInput}
 					onchange={onChange}
-					onfocus={bubble('focus')}
+					onfocus={onFocus}
 				/>
 			{/if}
 		{/if}
