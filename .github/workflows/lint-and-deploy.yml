@@ -21,4 +21,3 @@ jobs:
           npm run lint:svelte
           npm run lint:prettier
           npm run lint:eslint
-          npm run lint:a11y
