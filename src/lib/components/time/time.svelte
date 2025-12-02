@@ -60,8 +60,7 @@
 </Accordion>
 <Accordion open={open === 'utc-to-time-zone'} id="utc-to-time-zone">
 	{#snippet title()}
-		UTC <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span> Time
-		Zone
+		UTC <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span> Time Zone
 	{/snippet}
 	{#snippet content()}
 		<Section
@@ -159,8 +158,7 @@
 </Accordion>
 <Accordion open={open === 'utc-to-timestamp'} id="utc-to-timestamp">
 	{#snippet title()}
-		UTC <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span> UNIX
-		Timestamp
+		UTC <span class="u-hiddenVisually">to</span><span class="Arrow" aria-hidden="true">→</span> UNIX Timestamp
 	{/snippet}
 	{#snippet content()}
 		<Section
