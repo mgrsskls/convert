@@ -22,7 +22,7 @@
 		"@axe-core/cli": "^4.11.1",
 		"@eslint/js": "^10.0.1",
 		"@sveltejs/adapter-netlify": "^6.0.0",
-		"@sveltejs/kit": "2.51.0",
+		"@sveltejs/kit": "2.52.0",
 		"@sveltejs/vite-plugin-svelte": "^6.2.4",
 		"@tsconfig/svelte": "^5.0.7",
 		"chromedriver": "^145.0.3",
