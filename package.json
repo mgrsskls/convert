@@ -29,7 +29,7 @@
 		"eslint": "^10.1.0",
 		"install": "^0.13.0",
 		"pre-commit": "^1.2.2",
-		"prettier": "^3.8.1",
+		"prettier": "^3.8.2",
 		"prettier-plugin-svelte": "^3.5.1",
 		"selenium-webdriver": "4.41.0",
 		"svelte": "^5.55.1",
