@@ -19,7 +19,7 @@
 		"lint:a11y"
 	],
 	"devDependencies": {
-		"@axe-core/cli": "^4.11.1",
+		"@axe-core/cli": "^4.11.2",
 		"@eslint/js": "^10.0.1",
 		"@sveltejs/adapter-netlify": "^6.0.4",
 		"@sveltejs/kit": "2.57.1",
