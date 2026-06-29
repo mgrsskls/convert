@@ -28,7 +28,7 @@
 		"chromedriver": "^148.0.3",
 		"eslint": "^10.1.0",
 		"install": "^0.13.0",
-		"pre-commit": "^1.2.2",
+		"pre-commit": "^2.0.0",
 		"prettier": "^3.8.4",
 		"prettier-plugin-svelte": "^3.5.1",
 		"selenium-webdriver": "4.44.0",
