@@ -1,26 +1,26 @@
 <script>
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import BigNumber from 'bignumber.js';
 	import Big from 'big.js';
 
 	import { ingredients } from './lookup/index.js';
 
-	import i18n from '$lib/i18n.js';
-	import Grid from '$lib/components/grid.svelte';
-	import FromTo from '$lib/components/from-to.svelte';
-	import Input from '$lib/components/input.svelte';
-	import Result from '$lib/components/result.svelte';
-	import Multiplier from '$lib/components/multiplier.svelte';
-	import Button from '$lib/components/button.svelte';
+	import i18n from '#lib/i18n.js';
+	import Grid from '#lib/components/grid.svelte';
+	import FromTo from '#lib/components/from-to.svelte';
+	import Input from '#lib/components/input.svelte';
+	import Result from '#lib/components/result.svelte';
+	import Multiplier from '#lib/components/multiplier.svelte';
+	import Button from '#lib/components/button.svelte';
 
 	const { names, conversions } = ingredients;
 	const alias = 'ingredients';
 
-	const initialFromUnit = $page.url.searchParams.get(`${alias}[from][ingredient]`)
-		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][ingredient]`))
+	const initialFromUnit = page.url.searchParams.get(`${alias}[from][ingredient]`)
+		? decodeURIComponent(page.url.searchParams.get(`${alias}[from][ingredient]`))
 		: '';
-	const initialFromValue = $page.url.searchParams.get(`${alias}[from][amount]`)
-		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][amount]`))
+	const initialFromValue = page.url.searchParams.get(`${alias}[from][amount]`)
+		? decodeURIComponent(page.url.searchParams.get(`${alias}[from][amount]`))
 		: null;
 	const stateFrom = $state({
 		unit: initialFromUnit,

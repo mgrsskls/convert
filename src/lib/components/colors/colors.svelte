@@ -1,15 +1,15 @@
 <script>
 	import { run } from 'svelte/legacy';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 
 	import htmlNames from './html-names.js';
-	import i18n from '$lib/i18n.js';
-	import FromTo from '$lib/components/from-to.svelte';
-	import Input from '$lib/components/input.svelte';
-	import Button from '$lib/components/button.svelte';
-	import Result from '$lib/components/result.svelte';
-	import SupportedUnits from '$lib/components/supported-units.svelte';
+	import i18n from '#lib/i18n.js';
+	import FromTo from '#lib/components/from-to.svelte';
+	import Input from '#lib/components/input.svelte';
+	import Button from '#lib/components/button.svelte';
+	import Result from '#lib/components/result.svelte';
+	import SupportedUnits from '#lib/components/supported-units.svelte';
 	import w3color from './w3color.js';
 
 	const initialStringColor = '';

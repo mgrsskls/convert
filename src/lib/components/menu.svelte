@@ -1,6 +1,6 @@
 <script>
-	import menu from '$lib/menu.js';
-	import i18n from '$lib/i18n.js';
+	import menu from '#lib/menu.js';
+	import i18n from '#lib/i18n.js';
 
 	let { current } = $props();
 

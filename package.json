@@ -18,6 +18,10 @@
 		"lint:eslint",
 		"lint:a11y"
 	],
+	"imports": {
+		"#lib": "./src/lib/index.js",
+		"#lib/*": "./src/lib/*"
+	},
 	"devDependencies": {
 		"@axe-core/cli": "^4.14.0",
 		"@eslint/js": "^10.0.1",

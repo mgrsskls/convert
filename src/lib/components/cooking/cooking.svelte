@@ -1,14 +1,14 @@
 <script>
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
-	import i18n from '$lib/i18n.js';
+	import i18n from '#lib/i18n.js';
 	import { liquids, temperatures, volumes, weights } from './lookup/index.js';
 
-	import Accordion from '$lib/components/accordion.svelte';
+	import Accordion from '#lib/components/accordion.svelte';
 	import Section from '../units.svelte';
 	import Ingredients from './ingredients.svelte';
 
-	let open = $page.url.searchParams.get('type');
+	let open = page.url.searchParams.get('type');
 
 	const pageName = 'cooking';
 </script>

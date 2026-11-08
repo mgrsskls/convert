@@ -1,5 +1,5 @@
 <script>
-	import i18n from '$lib/i18n.js';
+	import i18n from '#lib/i18n.js';
 	import Box from './box.svelte';
 	import Divider from './divider.svelte';
 

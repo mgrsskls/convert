@@ -1,4 +1,4 @@
-import i18n from '$lib/i18n.js';
+import i18n from '#lib/i18n.js';
 
 export const names = {
 	us_oz: i18n.cooking.liquids.names.us_oz,

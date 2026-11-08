@@ -1,7 +1,7 @@
 <script>
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 </script>
 
-{#if $page.error?.message}
-	<p>{$page.error.message}</p>
+{#if page.error?.message}
+	<p>{page.error.message}</p>
 {/if}

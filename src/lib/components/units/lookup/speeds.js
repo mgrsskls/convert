@@ -1,4 +1,4 @@
-import i18n from '$lib/i18n.js';
+import i18n from '#lib/i18n.js';
 
 export const names = {
 	m_s: i18n.units.speeds.names.m_s,

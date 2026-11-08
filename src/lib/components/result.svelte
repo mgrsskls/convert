@@ -1,5 +1,5 @@
 <script>
-	import Copy from '$lib/components/copy.svelte';
+	import Copy from '#lib/components/copy.svelte';
 	/**
 	 * @typedef {Object} Props
 	 * @property {any} label
