@@ -1,5 +1,5 @@
 <script>
-	import menu from '$lib/menu.js';
+	import menu from '#lib/menu.js';
 </script>
 
 <ul>

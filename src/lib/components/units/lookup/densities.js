@@ -1,4 +1,4 @@
-import i18n from '$lib/i18n.js';
+import i18n from '#lib/i18n.js';
 
 export const names = {
 	g_ml: i18n.units.densities.names.g_ml,

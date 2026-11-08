@@ -1,17 +1,17 @@
 <script>
 	// import { replaceState } from '$app/navigation';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import BigNumber from 'bignumber.js';
 	import Big from 'big.js';
 
-	import i18n from '$lib/i18n.js';
-	import Grid from '$lib/components/grid.svelte';
-	import FromTo from '$lib/components/from-to.svelte';
-	import Input from '$lib/components/input.svelte';
-	import Result from '$lib/components/result.svelte';
-	import Multiplier from '$lib/components/multiplier.svelte';
-	import DirectionToggle from '$lib/components/direction-toggle.svelte';
-	import Button from '$lib/components/button.svelte';
+	import i18n from '#lib/i18n.js';
+	import Grid from '#lib/components/grid.svelte';
+	import FromTo from '#lib/components/from-to.svelte';
+	import Input from '#lib/components/input.svelte';
+	import Result from '#lib/components/result.svelte';
+	import Multiplier from '#lib/components/multiplier.svelte';
+	import DirectionToggle from '#lib/components/direction-toggle.svelte';
+	import Button from '#lib/components/button.svelte';
 
 	/**
 	 * @typedef {Object} Props
@@ -33,11 +33,11 @@
 		pageName
 	} = $props();
 
-	const initialFromUnit = $page.url.searchParams.get(`${alias}[from][unit]`)
-		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][unit]`))
+	const initialFromUnit = page.url.searchParams.get(`${alias}[from][unit]`)
+		? decodeURIComponent(page.url.searchParams.get(`${alias}[from][unit]`))
 		: '';
-	const initialFromValue = $page.url.searchParams.get(`${alias}[from][value]`)
-		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][value]`))
+	const initialFromValue = page.url.searchParams.get(`${alias}[from][value]`)
+		? decodeURIComponent(page.url.searchParams.get(`${alias}[from][value]`))
 		: null;
 	const stateFrom = $state({
 		unit: initialFromUnit,
@@ -46,8 +46,8 @@
 		shouldValidateValue: initialFromValue ? true : false
 	});
 
-	const initialToUnit = $page.url.searchParams.get(`${alias}[to][unit]`)
-		? decodeURIComponent($page.url.searchParams.get(`${alias}[to][unit]`))
+	const initialToUnit = page.url.searchParams.get(`${alias}[to][unit]`)
+		? decodeURIComponent(page.url.searchParams.get(`${alias}[to][unit]`))
 		: '';
 	const stateTo = $state({
 		unit: initialToUnit,

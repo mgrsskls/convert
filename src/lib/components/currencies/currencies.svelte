@@ -1,16 +1,16 @@
 <script>
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
-	import i18n from '$lib/i18n.js';
+	import i18n from '#lib/i18n.js';
 	import list from './list.js';
-	import Input from '$lib/components/input.svelte';
-	import FromTo from '$lib/components/from-to.svelte';
-	import Grid from '$lib/components/grid.svelte';
-	import Result from '$lib/components/result.svelte';
-	import Multiplier from '$lib/components/multiplier.svelte';
-	import DirectionToggle from '$lib/components/direction-toggle.svelte';
-	import Button from '$lib/components/button.svelte';
-	import SupportedUnits from '$lib/components/supported-units.svelte';
+	import Input from '#lib/components/input.svelte';
+	import FromTo from '#lib/components/from-to.svelte';
+	import Grid from '#lib/components/grid.svelte';
+	import Result from '#lib/components/result.svelte';
+	import Multiplier from '#lib/components/multiplier.svelte';
+	import DirectionToggle from '#lib/components/direction-toggle.svelte';
+	import Button from '#lib/components/button.svelte';
+	import SupportedUnits from '#lib/components/supported-units.svelte';
 
 	const sortedCurrencies = list.sort((a, b) => {
 		if (a.id > b.id) return 1;
@@ -25,11 +25,11 @@
 	let fromPlaceholder = 'e.g. EUR';
 	let toPlaceholder = 'e.g. USD';
 
-	const initialFromCurrency = $page.url.searchParams.get('from[currency]')
-		? decodeURIComponent($page.url.searchParams.get('from[currency]'))
+	const initialFromCurrency = page.url.searchParams.get('from[currency]')
+		? decodeURIComponent(page.url.searchParams.get('from[currency]'))
 		: null;
-	const initialFromAmount = $page.url.searchParams.get('from[amount]')
-		? decodeURIComponent($page.url.searchParams.get('from[amount]'))
+	const initialFromAmount = page.url.searchParams.get('from[amount]')
+		? decodeURIComponent(page.url.searchParams.get('from[amount]'))
 		: '1.0';
 	const stateFrom = $state({
 		currency: initialFromCurrency,
@@ -38,8 +38,8 @@
 		shouldValidateAmount: initialFromAmount ? true : false
 	});
 
-	const initialToCurrency = $page.url.searchParams.get('to[currency]')
-		? decodeURIComponent($page.url.searchParams.get('to[currency]'))
+	const initialToCurrency = page.url.searchParams.get('to[currency]')
+		? decodeURIComponent(page.url.searchParams.get('to[currency]'))
 		: null;
 	const stateTo = $state({
 		currency: initialToCurrency,
@@ -47,9 +47,9 @@
 	});
 
 	const data = $state(
-		$page.data.result
+		page.data.result
 			? {
-					[stateFrom.currency]: $page.data.result
+					[stateFrom.currency]: page.data.result
 				}
 			: {}
 	);
@@ -184,7 +184,7 @@
 <SupportedUnits
 	supported={supportedCurrencyIds}
 	unsupported={unsupportedCurrencyIds}
-	title={$page.data.title.toLowerCase()}
+	title={page.data.title.toLowerCase()}
 />
 
 <p>

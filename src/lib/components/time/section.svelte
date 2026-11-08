@@ -1,12 +1,12 @@
 <script>
-	import { page } from '$app/stores';
-	import i18n from '$lib/i18n.js';
-	import Grid from '$lib/components/grid.svelte';
-	import FromTo from '$lib/components/from-to.svelte';
-	import Input from '$lib/components/input.svelte';
-	import Result from '$lib/components/result.svelte';
+	import { page } from '$app/state';
+	import i18n from '#lib/i18n.js';
+	import Grid from '#lib/components/grid.svelte';
+	import FromTo from '#lib/components/from-to.svelte';
+	import Input from '#lib/components/input.svelte';
+	import Result from '#lib/components/result.svelte';
 	import Difference from './difference.svelte';
-	import Button from '$lib/components/button.svelte';
+	import Button from '#lib/components/button.svelte';
 	import {
 		formatDateForInput,
 		getDateObjectForGivenDatetimeAndTimeZone,
@@ -19,14 +19,14 @@
 	const { alias, formattedList, typeFrom, fromTimeZone, typeTo, toTimeZone, userTimeZoneId } =
 		options;
 
-	const initialFromTimeZone = $page.url.searchParams.get(`${alias}[from][time_zone]`)
-		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][time_zone]`))
+	const initialFromTimeZone = page.url.searchParams.get(`${alias}[from][time_zone]`)
+		? decodeURIComponent(page.url.searchParams.get(`${alias}[from][time_zone]`))
 		: null;
-	const initialFromDatetime = $page.url.searchParams.get(`${alias}[from][datetime]`)
-		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][datetime]`))
+	const initialFromDatetime = page.url.searchParams.get(`${alias}[from][datetime]`)
+		? decodeURIComponent(page.url.searchParams.get(`${alias}[from][datetime]`))
 		: null;
-	const initialFromTimestamp = $page.url.searchParams.get(`${alias}[from][timestamp]`)
-		? decodeURIComponent($page.url.searchParams.get(`${alias}[from][timestamp]`))
+	const initialFromTimestamp = page.url.searchParams.get(`${alias}[from][timestamp]`)
+		? decodeURIComponent(page.url.searchParams.get(`${alias}[from][timestamp]`))
 		: null;
 
 	const stateFrom = $state({
@@ -54,16 +54,16 @@
 		stateFrom.timestamp.value = parseInt(initialFromTimestamp, 10);
 	}
 
-	const initialToTimeZone = $page.url.searchParams.get(`${alias}[to][time_zone]`)
-		? decodeURIComponent($page.url.searchParams.get(`${alias}[to][time_zone]`))
+	const initialToTimeZone = page.url.searchParams.get(`${alias}[to][time_zone]`)
+		? decodeURIComponent(page.url.searchParams.get(`${alias}[to][time_zone]`))
 		: null;
 	const stateTo = $state({
 		timeZone: {
 			value:
 				toTimeZone === 'utc'
 					? 'UTC'
-					: $page.url.searchParams.get(`${alias}[to][time_zone]`)
-						? decodeURIComponent($page.url.searchParams.get(`${alias}[to][time_zone]`))
+					: page.url.searchParams.get(`${alias}[to][time_zone]`)
+						? decodeURIComponent(page.url.searchParams.get(`${alias}[to][time_zone]`))
 						: '',
 			shouldValidate: initialToTimeZone ? true : false
 		}

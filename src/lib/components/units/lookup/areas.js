@@ -1,4 +1,4 @@
-import i18n from '$lib/i18n.js';
+import i18n from '#lib/i18n.js';
 
 export const names = {
 	sq_mm: i18n.units.areas.names.sq_mm,

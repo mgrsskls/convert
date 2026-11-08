@@ -1,4 +1,4 @@
-import i18n from '$lib/i18n.js';
+import i18n from '#lib/i18n.js';
 
 export const names = {
 	imp_qt: i18n.cooking.volumes.names.imp_qt,

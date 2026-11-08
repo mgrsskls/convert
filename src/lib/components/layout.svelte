@@ -1,5 +1,5 @@
 <script>
-	import i18n from '$lib/i18n.js';
+	import i18n from '#lib/i18n.js';
 	import Header from './header.svelte';
 	import Introduction from './introduction.svelte';
 

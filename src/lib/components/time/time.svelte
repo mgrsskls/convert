@@ -1,13 +1,13 @@
 <script>
 	import { onDestroy } from 'svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
 	import list from './list.js';
-	import Accordion from '$lib/components/accordion.svelte';
-	import SupportedUnits from '$lib/components/supported-units.svelte';
+	import Accordion from '#lib/components/accordion.svelte';
+	import SupportedUnits from '#lib/components/supported-units.svelte';
 	import Section from './section.svelte';
 
-	let open = $page.url.searchParams.get('type');
+	let open = page.url.searchParams.get('type');
 
 	import { getCurrentLocalTime } from './utils.js';
 
